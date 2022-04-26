@@ -3,6 +3,9 @@ import Profile from '../img/avatar.png'
 import { MdShoppingCart } from 'react-icons/md'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import {useDispatch} from 'react-redux'
+import * as actionTypes from '../context/actionTypes'
 
 const Header = () => {
     const classes = {

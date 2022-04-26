@@ -3,9 +3,8 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { StateProvider } from './context/StateProvider';
-import reducer from './context/reducer'
-import {initalState} from './context/initalState'
+import { Provider } from 'react-redux'
+import Store from './Store'
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -13,9 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode> 
     <Router>
-      <StateProvider initalState={initalState} reducer={reducer}>
+      <Provider store={Store}>
       <App />
-      </StateProvider>
+      </Provider>
     </Router>
     </React.StrictMode>
 );

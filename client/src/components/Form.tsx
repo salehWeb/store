@@ -1,14 +1,27 @@
 import { GoogleLogin } from 'react-google-login';
-import {Client_ID} from './Secret';
+import { Client_ID } from './Secret';
+import * as actionTypes from '../context/actionTypes';
+import { useDispatch } from 'react-redux';
 
 const Form = () => {
-    const handelSuccess = async (res: any) => {
-        await console.log(res);
-        // const {profileObj} = res
-        // const {tokenId} = res
-        // await console.log(profileObj, tokenId)
+    const dispatch = useDispatch()
+
+    let user;
+    const isUser: Boolean = localStorage.getItem('user') ? true : false;
+    if (isUser) {
+        user = JSON.parse(localStorage.getItem('user') || '{}')
+    } else {
+        user = {}
     }
-    const handelFailure = (error: any) => {
+
+    const handelSuccess = async (res: any) => {
+        const { profileObj } = res
+        const { tokenId } = res
+        const user: any = { user: { profile: profileObj, token: tokenId } }
+        dispatch({ type: actionTypes.SET_USER, payload: { user: { tokenId, profileObj } } })
+        localStorage.setItem('user', JSON.stringify(user))
+    }
+    const handelFailure = (error: String) => {
         console.log(error)
     }
     return (
@@ -17,8 +30,9 @@ const Form = () => {
                 clientId={Client_ID}
                 render={(prop) => (
                     <button className='w-full p-7 bg-green-500'
-                    onClick={prop.onClick} 
-                    disabled={prop.disabled}>
+                        onClick={prop.onClick}
+                        disabled={prop.disabled || !isUser}
+                    >
                         Google </button>
                 )}
                 onSuccess={handelSuccess}
