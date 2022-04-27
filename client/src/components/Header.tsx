@@ -1,43 +1,87 @@
 import Logo from '../img/logo.png'
 import Profile from '../img/avatar.png'
-import { MdShoppingCart } from 'react-icons/md'
+import { MdShoppingCart, MdLogout, MdLogin, MdLibraryAdd } from 'react-icons/md'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { useEffect } from 'react'
-import {useDispatch} from 'react-redux'
+import { user, isAdman, isUser } from '../controls'
+import { Link, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { GoogleLogin } from 'react-google-login';
+import { Client_ID } from './Secret';
 import * as actionTypes from '../context/actionTypes'
+import ContentHeader from './ContentHeader'
+
 
 const Header = () => {
-    const classes = {
-        li: 'text-base text-gray-600 hover:text-gray-800 duration-100 transition-all cursor-pointer ease-in-out'
+    const dispatch = useDispatch();
+
+    const [isUserFind, setIsUserFind] = useState(isUser)
+    const [isAdmanFind, setIsAdmanFind] = useState(isAdman)
+    const [userFind, setUserFind] = useState(user)
+    const [mune, setMune] = useState(false)
+
+
+    const handelSuccess = async (res: any) => {
+        if (!isUserFind) {
+            const { profileObj } = res
+            const { tokenId } = res
+            const user: any = { profile: profileObj, token: tokenId }
+            dispatch({ type: actionTypes.SET_USER, payload: user })
+            localStorage.setItem('user', JSON.stringify(user))
+            setIsUserFind(true)
+            setIsAdmanFind(true)
+            setUserFind(user)
+        }
     }
+    const handelMune = () => {
+        if (isUserFind) {
+            setMune(!mune)
+        }
+    }
+
+    const handelFailure = (error: String) => {
+        console.log(error)
+    }
+
+    const handelLogout = () => {
+        localStorage.removeItem('user')
+        setIsUserFind(false)
+        setIsAdmanFind(false)
+    }
+
+    let Profiles: string;
+    if (isUserFind && userFind) {
+        Profiles = userFind.profile.imageUrl
+    } else {
+        Profiles = Profile
+    }
+
+    const classes = {
+        li: 'text-base text-gray-600 hover:text-gray-800 duration-100 transition-all cursor-pointer ease-in-out',
+    }
+
     return (
         <header className='w-screen fixed z-50 bg-slate-100 p-6 px-16'>
-            <div className="hidden h-full w-full md:flex justify-between ">
-                <Link to='/' className="flex items-center gap-2">
-                    <img src={Logo} alt='logo' className='w-9 cursor-pointer object-cover' />
-                    <p className='font-bold text-xl text-gray-800 cursor-pointer'> City </p>
-                </Link>
-                <div className="flex justify-center gap-8 items-center">
-                    <ul className='flex items-center gap-8'>
-                        <li className={classes.li}>Home</li>
-                        <li className={classes.li}>Menu</li>
-                        <li className={classes.li}>About Us</li>
-                        <li className={classes.li}>Service</li>
-                    </ul>
-                    <div className="flex relative items-center justify-center">
-                        <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
-                        <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
-                            <p className='text-sm text-white font-semibold'>2</p>
-                        </div>
-                    </div>
-                    <div className="relative">
-                        <motion.img className='w-10 rounded-full cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                            whileTap={{ scale: 0.6 }} src={Profile} alt='profile' />
-                    </div>
-                </div>
-            </div>
-            <div className="flex h-full w-full md:hidden "></div>
+            <ContentHeader 
+            classes={classes}
+            motion={motion}
+            Profiles={Profiles}
+            handelMune={handelMune}
+            handelLogout={handelLogout}
+            handelFailure={handelFailure}
+            logo={Logo}
+            MdLogout={MdLogout}
+            MdLogin={MdLogin}
+            handelSuccess={handelSuccess}
+            MdLibraryAdd={MdLibraryAdd}
+            isUserFind={isUserFind}
+            mune={mune}
+            Link={Link}
+            isAdmanFind={isAdmanFind}
+            MdShoppingCart={MdShoppingCart}
+            Client_ID={Client_ID}
+            GoogleLogin={GoogleLogin}
+            /> 
         </header>
     )
 }
