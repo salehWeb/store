@@ -8,7 +8,7 @@ function App() {
     <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-screen flex flex-col bg-slate-50">
         <Header />
-        <main className='md:mt-24 mt-16 sm:px-4 px-8 py-4 w-full'>
+        <main className='md:mt-24 mt-16 sm:px-4 px-8 py-4 w-full bg-blue-100'>
           <Routes>
             <Route path='/*' element={<MainCon />} />
             <Route path='/creatItem' element={<CreatItem />} />

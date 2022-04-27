@@ -59,12 +59,12 @@ const Header = () => {
     }
 
     const classes = {
-        li: 'text-base text-gray-600 hover:text-gray-800 duration-100 transition-all cursor-pointer ease-in-out',
+        li: 'text-base text-gray-600 hover:text-blue-800 duration-100 transition-all cursor-pointer ease-in-out',
         p: 'hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'
     }
 
     return (
-        <header className='w-screen  fixed z-50 bg-slate-100 py-3 px-4 md:p-6 md:px-16'>
+        <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-slate-100 py-3 px-4 md:p-6 md:px-16'>
             <ContentHeader 
             classes={classes}
             motion={motion}
