@@ -5,10 +5,10 @@ import { AnimatePresence } from 'framer-motion'
 
 function App() {
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-screen flex flex-col bg-slate-50">
         <Header />
-        <main className='mt-24 p-8 w-full'>
+        <main className='md:mt-24 mt-16 sm:px-4 px-8 py-4 w-full'>
           <Routes>
             <Route path='/*' element={<MainCon />} />
             <Route path='/creatItem' element={<CreatItem />} />
