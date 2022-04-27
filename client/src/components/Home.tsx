@@ -1,5 +1,6 @@
 import img from '../img/delivery.png'
-import imgTwo from '../img/img.jpg'
+import I1 from '../img/i1.png'
+import imgTwo from '../img/heroBg.png'
 
 const Home = () => {
     return (
@@ -25,8 +26,15 @@ const Home = () => {
                     </button>
                 </div>
                 <div className="py-4 flex-1">
-                <div className="w-full flex justify-center items-center relative">
-                    <img src={imgTwo} alt="background" />
+                <div className="w-full flex justify-end rounded-md  items-end relative">
+                    <img className='h-[90vh] w-fit' src={imgTwo} alt="background"/>
+                    <div className="w-full h-full top-0 -left-20 flex absolute items-center justify-center">
+                        <div className="w-44 flex items-center justify-center bg-Blur rounded-md p-3 backdrop-blur-md ">
+                            <img src={I1} alt="" className='w-40 flex -mt-20'/>
+                            <p className="text-base font-semibold flex justify-center text-gray-600">Ice Cream</p>
+                            <p className="text-sm font-semibold text-gray-600">chocolate & vanilla </p>
+                        </div>
+                    </div>
                 </div>
                 </div>
             </section>
