@@ -1,7 +1,6 @@
 import img from '../img/delivery.png'
 import Data from './Data'
-import imgTwo from '../img/heroBg.png'
-import imgey from '../img/backGround.svg'
+import None from '../img/none.svg'
 
 const Home = () => {
     return (
@@ -27,8 +26,8 @@ const Home = () => {
                 </button>
             </div>
             <div className="py-4 flex-1">
-                <div className="w-full h-full flex justify-end rounded-md  items-end relative">
-                    <img className='h-[90vh] w-fit' src={imgey} alt="background" />
+                <div className="w-full h-full flex justifys-end rounded-md  items-end relative">
+                    <img className='h-[90vh] w-fit' src={None} alt="background" />
                     <div className="w-full h-full top-0 left-0 items-center justify-center gap-y-20 px-32 py-2 flex flex-col flex-wrap mt-8 absolute gap-4">
                         {Data?.map((item: any) => (
                             <div key={item.id} className=" flex shadow-lg shadow-blue-500 min-w-[180px] py-10 mb-4 flex-col items-center justify-center bg-Blur rounded-[15px] p-3 backdrop-blur-md ">

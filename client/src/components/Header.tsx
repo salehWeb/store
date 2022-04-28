@@ -26,7 +26,7 @@ const Header = () => {
 
     const handelSuccess = async (res: any) => {
         if (!isUserFind) {
-            const { profileObj, tokenId } = res
+            const { profileObj, tokenId } = await res
             const user: Object = { profile: profileObj, token: tokenId }
             dispatch({ type: actionTypes.SET_USER, payload: user })
             setIsUserFind(true)
@@ -52,8 +52,8 @@ const Header = () => {
     }
 
     let Profiles: any;
-    if (isUserFind && userFind) {
-        Profiles = userFind.profile.imageUrl
+    if (isUserFind && userFind && user) {
+        Profiles = user?.profile?.imageUrl
     } else {
         Profiles = Profile
     }
