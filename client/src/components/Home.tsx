@@ -4,7 +4,7 @@ import None from '../img/none.svg'
 
 const Home = () => {
     return (
-        <section id='home' className='grid grid-cols-1 md:grid-cols-2 gap-2 w-full'>
+        <section id='home' className='grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-auto'>
             <div className="py-4 gap-6 justify-center md:justify-start flex-1 flex flex-col items-start ">
                 <div className='flex shadow-xl items-center gap-2 md:justify-start justify-center px-2 py-1 rounded-full bg-blue-200'>
                     <p className='text-base text-blue-600 font-semibold'>Bike delivery</p>
@@ -25,13 +25,13 @@ const Home = () => {
                     Lorem ipsum
                 </button>
             </div>
-            <div className="py-4 flex-1">
-                <div className="w-full h-full flex justifys-end rounded-md  items-end relative">
-                    <img className='h-[90vh] w-fit' src={None} alt="background" />
-                    <div className="w-full h-full top-0 left-0 items-center justify-center gap-y-20 px-32 py-2 flex flex-col flex-wrap mt-8 absolute gap-4">
+            <div className="py-4 h-auto w-full">
+                <div className="w-full h-auto flex rounded-md relative">
+                    <img className='h-auto w-full' src={None} alt="background" />
+                    <div className="w-full h-auto  sm:gap-2 items-center justify-center  py-2 flex flex-wrap  mt-8 absolute">
                         {Data?.map((item: any) => (
-                            <div key={item.id} className=" flex shadow-lg shadow-blue-500 min-w-[180px] py-10 mb-4 flex-col items-center justify-center bg-Blur rounded-[15px] p-3 backdrop-blur-md ">
-                                <img src={item.img} alt="" className='w-40 flex -mt-32' />
+                            <div key={item.id} className=" flex lg:mx-8 lg:w-[200px] shadow-lg shadow-blue-500  md:min-w-[160px] min-w-[180px] py-10 mb-4 xs:mb-16 flex-col items-center justify-center bg-Blur rounded-[15px] mx-2 lg:my-10 backdrop-blur-md ">
+                                <img src={item.img} alt={item.name} className='lg:w-40 w-20 flex -mt-20 lg:-mt-32'/>
                                 <p className="text-base font-semibold flex mt-2 justify-center text-gray-800">{item.name}</p>
                                 <p className="text-sm font-semibold text-gray-600 py-1">{item.desc}</p>
                                 <p className="text-sm font-semibold text-gray-900"><span className="text-xs text-blue-500">$:</span>{item.price}</p>

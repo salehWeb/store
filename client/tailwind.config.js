@@ -6,7 +6,10 @@ module.exports = {
     extend: {
       colors: {
         Blur: 'rgba(256, 256, 256, 0.4)'
-      } 
+      } ,
+      screens: {
+        'xs': '280px'
+      },
     },
   },
   plugins: [],
