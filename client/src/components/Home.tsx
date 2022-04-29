@@ -27,7 +27,7 @@ const Home = () => {
             </div>
             <div className="py-4 w-full">
                 <div className="w-full flex justify-end  items-end rounded-md relative">
-                    <img className='h-screen w-full sm:h-auto lg:w-[77%] ' src={None} alt="background" />
+                    <img className='h-screen w-full sm:h-auto lg:w-[70%] ' src={None} alt="background" />
                     <div className="w-full h-full sm:gap-2 justify-center items-center top-0 left-0 sm:h-fit py-2 flex flex-wrap  mt-8 absolute">
                         {Data?.map((item: any) => (
                             <div key={item.id} className="flex lg:mx-8 shadow-lg mx-4  shadow-blue-500 sm:my-10 sm:justify-between w-[50%] sm:min-w-[145px] md:w-auto pt-14 pb-6 mb-4 flex-col items-center justify-center bg-Blur rounded-[15px] lg:my-10 backdrop-blur-md ">

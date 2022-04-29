@@ -11,12 +11,10 @@ import { Client_ID } from './Secret';
 import * as actionTypes from '../context/actionTypes'
 import ContentHeader from './ContentHeader'
 
-
 const Header = () => {
     let type: any;
     const dispatch = useDispatch();
     const  user: any = useSelector<typeof  type>((state) => state.auth)
-    console.log(user);
 
     const [isUserFind, setIsUserFind] = useState(isUser)
     const [isAdmanFind, setIsAdmanFind] = useState(isAdman)
