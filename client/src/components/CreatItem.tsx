@@ -19,13 +19,13 @@ const CreatItem = () => {
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
-      <div className="w-[90%] md:w-[50%] border border-gray-300 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
+      <div className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
         <AnimatePresence > 
         {isOpen && (
             <motion.div
               initial={{ x: 400, opacity: 0, scale: 0.8 }}
               animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, x: -400, scale: 0.6}}
+              exit={{ opacity: 0.8, x: -700, scale: 1}}
               transition={{ duration: 5, type: 'spring', damping: 175, stiffness: 900 }}
               className={` w-full  p-2 rounded-lg relative flex text-center text-lg items-center justify-between font-semibold ${allState.alert === "danger"
                 ? "bg-red-400"
