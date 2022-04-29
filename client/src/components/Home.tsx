@@ -1,6 +1,6 @@
 import img from '../img/delivery.png'
 import Data from './Data'
-import None from '../img/none.svg'
+import None from '../img/None.png'
 
 const Home = () => {
     return (
@@ -21,17 +21,17 @@ const Home = () => {
                 <p className="text-base text-gray-600 text-center md:text-left">
                     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis placeat alias maxime aliquam omnis quod illo repellendus ad, possimus corporis facilis porro eum cum temporibus rem odit tempore quia pariatur?
                 </p>
-                <button className='bg-gradient-to-br md:justify-end items-end hover:border-blue-500 hover:border-2 md:w-[33%] duration-100 transition-all ease-in-out rounded-md shadow-gray-400 shadow-lg from-blue-400 to-blue-500 w-full px-1 py-2'>
+                <button className='bg-gradient-to-br mb-8 md:justify-end items-end hover:border-blue-500 hover:border-2 md:w-[33%] duration-100 transition-all ease-in-out rounded-md shadow-gray-400 shadow-lg from-blue-400 to-blue-500 w-full px-1 py-2'>
                     Lorem ipsum
                 </button>
             </div>
-            <div className="py-4 h-auto w-full">
-                <div className="w-full h-auto flex rounded-md relative">
-                    <img className='h-auto w-full' src={None} alt="background" />
-                    <div className="w-full h-auto  sm:gap-2 items-center justify-center  py-2 flex flex-wrap  mt-8 absolute">
+            <div className="py-4 w-full">
+                <div className="w-full flex justify-end  items-end rounded-md relative">
+                    <img className='h-screen w-full sm:h-auto lg:w-[77%] ' src={None} alt="background" />
+                    <div className="w-full h-full sm:gap-2 justify-center items-center top-0 left-0 sm:h-fit py-2 flex flex-wrap  mt-8 absolute">
                         {Data?.map((item: any) => (
-                            <div key={item.id} className=" flex lg:mx-8 lg:w-[200px] shadow-lg shadow-blue-500  md:min-w-[160px] min-w-[180px] py-10 mb-4 xs:mb-16 flex-col items-center justify-center bg-Blur rounded-[15px] mx-2 lg:my-10 backdrop-blur-md ">
-                                <img src={item.img} alt={item.name} className='lg:w-40 w-20 flex -mt-20 lg:-mt-32'/>
+                            <div key={item.id} className="flex lg:mx-8 shadow-lg mx-4  shadow-blue-500 sm:my-10 sm:justify-between w-[50%] sm:min-w-[145px] md:w-auto pt-14 pb-6 mb-4 flex-col items-center justify-center bg-Blur rounded-[15px] lg:my-10 backdrop-blur-md ">
+                                <img src={item.img} alt={item.name} className='lg:w-40 w-20 md:w-32  flex -mt-28 lg:-mt-32' />
                                 <p className="text-base font-semibold flex mt-2 justify-center text-gray-800">{item.name}</p>
                                 <p className="text-sm font-semibold text-gray-600 py-1">{item.desc}</p>
                                 <p className="text-sm font-semibold text-gray-900"><span className="text-xs text-blue-500">$:</span>{item.price}</p>
