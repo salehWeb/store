@@ -2,6 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "useUnknownInCatchVariables": false,
+    "allowUnreachableCode": true,
     "target": "es5",
     "lib": [
       "dom",

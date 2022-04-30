@@ -13,13 +13,9 @@ import ContentHeader from './ContentHeader'
 
 
 const Header = () => {
-    const [isHover, setIsHover] = useState(false)
     let type: any;
     const dispatch = useDispatch();
     const  user: any = useSelector<typeof  type>((state) => state.auth)
-useEffect(() => {
-
-}, [user])
 
 const [isUserFind, setIsUserFind] = useState(isUser)
 const [isAdmanFind, setIsAdmanFind] = useState(isAdman)
@@ -35,12 +31,11 @@ const [mune, setMune] = useState(false)
             setIsUserFind(true)
             setIsAdmanFind(true)
             setUserFind(user)
+            setMune(false)
         }
     }
     const handelMune = () => {
-        if (isUserFind) {
-            setMune(!mune)
-        }
+        setMune(!mune)
     }
 
     const handelFailure = (error: String) => {
@@ -58,7 +53,6 @@ const [mune, setMune] = useState(false)
     let Profiles: any;
     if (isUserFind && userFind && userFind?.profile?.imageUrl) {
         Profiles = userFind.profile?.imageUrl
-        console.log(userFind.profile?.imageUrl);
     } else {
         Profiles = Profile
     }
@@ -71,8 +65,7 @@ const [mune, setMune] = useState(false)
     return (
         <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-slate-100 py-3 px-4 md:p-6 md:px-16'>
             <ContentHeader 
-            setIsHover={setIsHover}
-            isHover={isHover}
+            setMune={setMune}
             classes={classes}
             motion={motion}
             Profiles={Profiles}
