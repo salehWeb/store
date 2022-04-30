@@ -1,4 +1,12 @@
-const ContentHeader = ({ MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, isUserFind, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+const ContentHeader = ({ isHover, setIsHover, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, isUserFind, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+    const handelHover = () => {
+        setIsHover(true)
+        console.log('hello world');
+    }
+    const handelUnHover = () => {
+        setIsHover(false)
+        console.log('world hello');
+    }
     return (
         <>
             <div className="hidden h-full w-full md:flex justify-between ">
@@ -23,20 +31,40 @@ const ContentHeader = ({ MdDesignServices, MdHome, MdRestaurant, MdAccountBalanc
                             <p className='text-sm text-white font-semibold'>2</p>
                         </div>
                     </div>
-                    <div className="relative">
+                    <div className="relative"
+                        onMouseOver={handelHover}
+                        onMouseOut={handelUnHover}
+                    >
                         <GoogleLogin
                             clientId={Client_ID}
                             render={(prop: any) => (
                                 <button
                                     disabled={isUserFind}
                                     onClick={prop.onClick}
+
                                 >
                                     <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                                        whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' /> </button>
+                                        whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
+
+                                    />
+                                    {!isUserFind && isHover && (
+                                        <>
+                                            <motion.div
+                                                initial={{ opacity: 0, scale: 0.6 }}
+                                                animate={{ opacity: 1, scale: 1 }}
+                                                exit={{ opacity: 0, scale: 0.6 }}
+                                                className="w-40 right-2 text-center bg-gray-50 shadow-xl flex flex-col rounded-lg absolute">
+                                                <p className={classes.p} onClick={handelSuccess} > login <MdLogin /></p>
+                                            </motion.div>
+                                        </>
+                                    )}
+                                </button>
                             )}
                             onSuccess={handelSuccess}
                             onFailure={handelFailure}
+
                         />
+
                         {mune && (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.6 }}
@@ -101,7 +129,7 @@ const ContentHeader = ({ MdDesignServices, MdHome, MdRestaurant, MdAccountBalanc
                                 <Link to={'/creatItem'}>
                                     <p className='border-b-[1px] border-gray-400'></p>
                                     <p className={classes.p}
-                                    onClick={handelMune}
+                                        onClick={handelMune}
                                     >New Item <MdLibraryAdd /> </p>
                                 </Link>
                             )

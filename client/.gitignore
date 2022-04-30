@@ -10,7 +10,7 @@
 
 # production
 /build
-
+Secret.js
 # misc
 .DS_Store
 .env

@@ -1,5 +1,5 @@
 import { GoogleLogin } from 'react-google-login';
-import { Client_ID } from './Secret';
+import { Client_ID } from '../Secret';
 import * as actionTypes from '../context/actionTypes';
 import { useDispatch } from 'react-redux';
 

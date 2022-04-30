@@ -7,16 +7,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GoogleLogin } from 'react-google-login';
-import { Client_ID } from './Secret';
+import { Client_ID } from '../Secret.js';
 import * as actionTypes from '../context/actionTypes'
 import ContentHeader from './ContentHeader'
-// import dotenv from 'dotenv';
 
 
 const Header = () => {
-    // dotenv.config()
-    // const ClientID = process.env
-    // console.log(ClientID);
+    const [isHover, setIsHover] = useState(false)
     let type: any;
     const dispatch = useDispatch();
     const  user: any = useSelector<typeof  type>((state) => state.auth)
@@ -74,6 +71,8 @@ const [mune, setMune] = useState(false)
     return (
         <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-slate-100 py-3 px-4 md:p-6 md:px-16'>
             <ContentHeader 
+            setIsHover={setIsHover}
+            isHover={isHover}
             classes={classes}
             motion={motion}
             Profiles={Profiles}
