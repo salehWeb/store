@@ -9,6 +9,7 @@ const reducer = (state = {}, action) => {
                 ...state,
                 msg: action.payload
             };
+            
             case actionTypes.GETCARD:
                 return {
                     ...state,

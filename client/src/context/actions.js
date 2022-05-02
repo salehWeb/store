@@ -3,9 +3,10 @@ import * as API from '../server/index'
 
 export const getCard = () => async (dispatch) => {
     try {
-        const DATA = await API.getCard()
-        dispatch({ type: actionTypes.GETCARD, payload: DATA })
+        const data = await API.getCard()
+        dispatch({ type: actionTypes.GETCARD, payload: data })
     } catch (error) {
+        dispatch({ type: actionTypes.GETCARD, payload: error })
         console.log(error);
     }
 }

@@ -1,5 +1,6 @@
 import  express  from "express";
 import { postCard, getCard } from '../controllers/card'
+
 const router = express.Router()
 
 router.post('/creatItem', postCard)

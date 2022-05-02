@@ -7,22 +7,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
 import { postCard, getCard } from '../context/actions';
 
+
 const CreatItem = () => {
+  let data: any;
   const dispatch: any = useDispatch()
 
   const defaulValue: any = {
     title: '', pieces: '', price: '', type: '',
     img: '', alert: 'none', msg: '', desc: ''
   }
-  const data = useSelector((state: any) => state.card)
-  const [isDate, setIsData] = useState(data.data)
-  const [isMsg, setIsMsg] = useState(data.msg)
 
   useEffect(() => {
     dispatch(getCard())
-    setIsData(data.data)
-    setIsMsg({ ...data!.msg })
-  }, [])
+  }, [dispatch, data])
+
+
+
+  data = useSelector(  (state: any) =>  state.card)
+
+  const [isDate, setIsData] = useState(data?.data)
+  const [isMsg, setIsMsg] = useState(data?.msg)
+
+
+
+
+  useEffect(() => {
+    setIsData(data?.data)
+    setIsMsg(data?.msg)
+  }, [dispatch, data])
+
+  console.log(isMsg.msg === 'Created');
 
 
   const [allState, setAllState] = useState(defaulValue)
@@ -55,24 +69,30 @@ const CreatItem = () => {
       setAllState({ ...allState, msg: `pieces must to be number not  "${allState.pieces}"` })
     }
     else if ( allState.title && allState.desc && allState.img && allState.type) {
-      setAllState({ ...allState, msg: `loading...` })
-      dispatch(postCard(allState))
-      const res = async () => {
-        let masge = await isMsg.msg
-        if (masge === 'Created') {
-          return masge
-        }
-      } 
-      setAllState({ ...allState, msg: res()})
       setIsOpen(true)
-      if (isMsg.msg === 'Created') {
-        setIsOpen(true)
-        setTimeout(() => {
-          setAllState(defaulValue)
-          setIsMsg('')
-        }, 3000)
-      }
+      // setAllState({ ...allState, msg: `loading...` })
+      dispatch(postCard(allState))
+
+      // if (isMsg.msg === 'Created') {
+      //   setTimeout(() => {
+      //     setAllState(defaulValue)
+      //     setIsMsg('')
+      //   }, 3000)
+      // }
+
+
+    // if (isMsg.msg !== 'Created') {
+    //   setTimeout(() => {
+
+    //   }, 5000)
+    //   }
+
     }
+    else if(isMsg.msg === 'Created') {
+      setIsOpen(true)
+      console.log('hello as hole');
+      setAllState({ ...allState, msg: isMsg.msg})
+    } 
     else {
       setIsOpen(true)
       setAllState({ ...allState, msg: 'you measd some thank all the Fields is required'})

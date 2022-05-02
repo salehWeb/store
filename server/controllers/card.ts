@@ -14,7 +14,7 @@ export const postCard = async (req: any, res: any) => {
 
 export const getCard = async (req: any, res: any) => {
     try {
-        const data: any = await card.find()
+        const data: any = await card.find().sort({'date': -1}).limit(2)
         res.status(201).json(data)
     } catch (error) {
         res.status(409).json({ msg: error })
