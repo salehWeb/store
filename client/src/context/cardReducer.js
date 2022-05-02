@@ -7,12 +7,12 @@ const reducer = (state = {}, action) => {
             console.log(action.payload);
             return {
                 ...state,
-                data: action.payload
+                msg: action.payload
             };
             case actionTypes.GETCARD:
                 return {
                     ...state,
-                    data: action.payload
+                    data: action.payload.data
                 };
         default: return state
     }

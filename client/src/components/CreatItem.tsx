@@ -14,17 +14,15 @@ const CreatItem = () => {
     title: '', pieces: '', price: '', type: '',
     img: '', alert: 'none', msg: '', desc: ''
   }
-  const { data } = useSelector((state: any) => state.card)
-  const [isDate, setIsData] = useState(data)
-
-  if (isDate) {
-    console.log(isDate);
-  }
+  const data = useSelector((state: any) => state.card)
+  const [isDate, setIsData] = useState(data.data)
+  const [isMsg, setIsMsg] = useState(data.msg)
 
   useEffect(() => {
     dispatch(getCard())
-  }, [isDate])
-
+    setIsData(data.data)
+    setIsMsg({ ...data!.msg })
+  }, [])
 
 
   const [allState, setAllState] = useState(defaulValue)
@@ -32,18 +30,22 @@ const CreatItem = () => {
   const [isAllStateGood, setIsAllStateGood] = useState(false)
   const [isVauleNUmber, seeetIsVauleNumber] = useState(false)
 
-  const [isMsg, setIsMsg] = useState(data?.msg)
 
+
+  const handelCansel = () => {
+    setAllState(defaulValue)
+  }
 
   const handelClose = () => {
     setIsOpen(false)
     console.log('hello i must close')
   }
+
   const handelDeletImage = () => {
     setAllState({ ...allState, img: '' })
   }
-  const handelSaveData = () => {
 
+  const handelSaveData = () => {
     if (!Number(allState.price) && allState.price) {
       setIsOpen(true)
       setAllState({ ...allState, msg: `price must to be number not "${allState.price}"` })
@@ -53,27 +55,31 @@ const CreatItem = () => {
       setAllState({ ...allState, msg: `pieces must to be number not  "${allState.pieces}"` })
     }
     else if ( allState.title && allState.desc && allState.img && allState.type) {
-      // dispatch({ type: actionTypes.POSTCARD, payload: })
-      setAllState({ ...allState, msg: isMsg || 'loading...'})
+      setAllState({ ...allState, msg: `loading...` })
       dispatch(postCard(allState))
-      // setAllState(defaulValue)
+      const res = async () => {
+        let masge = await isMsg.msg
+        if (masge === 'Created') {
+          return masge
+        }
+      } 
+      setAllState({ ...allState, msg: res()})
       setIsOpen(true)
-    }
-      else if (isMsg === 'the data was successfuly saved in data base') {
+      if (isMsg.msg === 'Created') {
+        setIsOpen(true)
         setTimeout(() => {
           setAllState(defaulValue)
+          setIsMsg('')
         }, 3000)
       }
+    }
     else {
       setIsOpen(true)
       setAllState({ ...allState, msg: 'you measd some thank all the Fields is required'})
     }
+  }
 
 
-  }
-  const handelCansel = () => {
-    setAllState(defaulValue)
-  }
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
@@ -132,7 +138,7 @@ const CreatItem = () => {
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                       <MdCloudUpload className=" text-gray-500 text-[6rem] hover:text-gray-700" />
                       <p className="text-gray-500 my-1 hover:text-gray-700">
-                        Click here to upload
+                        Click here to upload 
                       </p>
                     </div>
                     <span className='grid w-0 h-0 items-center justify-center bg-red-400'>

@@ -13,8 +13,11 @@ export const getCard = () => async (dispatch) => {
 export const postCard = (data) => async (dispatch) => {
     try {
         if (data) {
-            await API.postCard(data)
-            dispatch({ type: actionTypes.POSTCARD, payload: { msg: 'the data was successfuly saved in data base' } })
+            const res = await API.postCard(data)
+            dispatch({ type: actionTypes.POSTCARD, payload: { msg: res } })
+            setTimeout(() => {
+                dispatch({ type: actionTypes.POSTCARD, payload: { msg: '' } })
+            }, 5000)
         }
     } catch (error) {
         console.log(error);

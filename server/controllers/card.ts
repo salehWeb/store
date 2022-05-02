@@ -6,7 +6,6 @@ export const postCard = async (req: any, res: any) => {
     try {
         await newCard.save()
         res.status(201).json(res.statusMessage)
-        console.log(res.statusMessage);
     } catch (error) {
         res.status(409).json(error)
         console.log(error);
