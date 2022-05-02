@@ -1,9 +1,8 @@
 import  express  from "express";
-
-import { postCard } from '../controllers/card'
-
+import { postCard, getCard } from '../controllers/card'
 const router = express.Router()
 
-router.post('/', postCard)
+router.post('/creatItem', postCard)
+router.get('/', getCard)
 
 export default router

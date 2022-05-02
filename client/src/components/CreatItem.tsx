@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'
 import { MdFastfood, MdCloudUpload, MdDelete, MdFoodBank, MdAttachMoney, MdClose } from 'react-icons/md'
 import Loader from './Loader'
 import FileBase from './Input.js'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
-import { postCard } from '../context/actions';
+import { postCard, getCard } from '../context/actions';
 
 const CreatItem = () => {
   const dispatch: any = useDispatch()
@@ -14,11 +14,26 @@ const CreatItem = () => {
     title: '', pieces: '', price: '', type: '',
     img: '', alert: 'none', msg: '', desc: ''
   }
+  const { data } = useSelector((state: any) => state.card)
+  const [isDate, setIsData] = useState(data)
+
+  if (isDate) {
+    console.log(isDate);
+  }
+
+  useEffect(() => {
+    dispatch(getCard())
+  }, [isDate])
+
+
 
   const [allState, setAllState] = useState(defaulValue)
   const [isOpen, setIsOpen] = useState(true)
   const [isAllStateGood, setIsAllStateGood] = useState(false)
   const [isVauleNUmber, seeetIsVauleNumber] = useState(false)
+
+  const [isMsg, setIsMsg] = useState(data?.msg)
+
 
   const handelClose = () => {
     setIsOpen(false)
@@ -39,11 +54,17 @@ const CreatItem = () => {
     }
     else if ( allState.title && allState.desc && allState.img && allState.type) {
       // dispatch({ type: actionTypes.POSTCARD, payload: })
-      setAllState({ ...allState, msg: 'loading...'})
+      setAllState({ ...allState, msg: isMsg || 'loading...'})
       dispatch(postCard(allState))
       // setAllState(defaulValue)
       setIsOpen(true)
-    } else {
+    }
+      else if (isMsg === 'the data was successfuly saved in data base') {
+        setTimeout(() => {
+          setAllState(defaulValue)
+        }, 3000)
+      }
+    else {
       setIsOpen(true)
       setAllState({ ...allState, msg: 'you measd some thank all the Fields is required'})
     }

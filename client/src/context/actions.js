@@ -4,7 +4,7 @@ import * as API from '../server/index'
 export const getCard = () => async (dispatch) => {
     try {
         const DATA = await API.getCard()
-        dispatch({ type: actionTypes.POSTCARD, payload: DATA })
+        dispatch({ type: actionTypes.GETCARD, payload: DATA })
     } catch (error) {
         console.log(error);
     }
@@ -12,10 +12,13 @@ export const getCard = () => async (dispatch) => {
 
 export const postCard = (data) => async (dispatch) => {
     try {
-        const DATA = await API.postCard(data)
-        dispatch({ type: actionTypes.POSTCARD, payload: DATA })
+        if (data) {
+            await API.postCard(data)
+            dispatch({ type: actionTypes.POSTCARD, payload: { msg: 'the data was successfuly saved in data base' } })
+        }
     } catch (error) {
         console.log(error);
+        dispatch({ type: actionTypes.POSTCARD, payload: { msg: 'Request failed Place try agin' } })
     }
 }
 

@@ -10,9 +10,10 @@ const url: any = process.env.DATABASEURL
 app.use(express.json({limit: '50mb'}));
 app.use(express.urlencoded({limit: '50mb', extended: true}));
 
-app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors({ origin: '*' }))
 
-app.use('/creatItem', itemRout)
+app.use('/', itemRout)
+
 
 
 mongoose.connect(url).then(() => {
