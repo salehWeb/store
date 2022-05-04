@@ -26,3 +26,11 @@ export const postCard = (data) => async (dispatch) => {
     }
 }
 
+
+// export const getImage = (id) => async (dispatch) => {
+//     try {
+//             const img = await API.getImage(id)
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }

@@ -6,6 +6,7 @@ import FileBase from './Input.js'
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
 import { postCard, getCard } from '../context/actions';
+import {getImage} from '../server/index'
 
 
 const CreatItem = () => {
@@ -17,13 +18,18 @@ const CreatItem = () => {
     img: '', alert: 'none', msg: '', desc: ''
   }
 
+  const [img, setImg] = useState('')
+
   useEffect(() => {
     dispatch(getCard())
+    getImage('6271c6ab2fc802cda93191f5').then(({data}) => {
+      setImg(data)
+    }).catch((err) => console.log(err))
   }, [dispatch, data])
 
 
 
-  data = useSelector(  (state: any) =>  state.card)
+  data = useSelector((state: any) => state.card)
 
   const [isDate, setIsData] = useState(data?.data)
   const [isMsg, setIsMsg] = useState(data?.msg)
@@ -36,7 +42,6 @@ const CreatItem = () => {
     setIsMsg(data?.msg)
   }, [dispatch, data])
 
-  console.log(isMsg.msg === 'Created');
 
 
   const [allState, setAllState] = useState(defaulValue)
@@ -45,6 +50,7 @@ const CreatItem = () => {
   const [isVauleNUmber, seeetIsVauleNumber] = useState(false)
 
 
+  // console.log(isMsg.msg ? allState.msg = isMsg.msg : allState.msg = `loading...`);
 
   const handelCansel = () => {
     setAllState(defaulValue)
@@ -68,34 +74,34 @@ const CreatItem = () => {
       setIsOpen(true)
       setAllState({ ...allState, msg: `pieces must to be number not  "${allState.pieces}"` })
     }
-    else if ( allState.title && allState.desc && allState.img && allState.type) {
+    else if (allState.title && allState.desc && allState.img && allState.type) {
       setIsOpen(true)
-      // setAllState({ ...allState, msg: `loading...` })
       dispatch(postCard(allState))
+      isMsg.msg ? allState.msg = isMsg.msg : allState.msg = `loading...`
+      if (allState.msg) {
+        setTimeout(() => {
+          setAllState(defaulValue)
+          setIsMsg('')
+          allState.msg = ''
+        }, 3000)
+      }
 
-      // if (isMsg.msg === 'Created') {
+
+      // if (isMsg.msg !== 'Created') {
       //   setTimeout(() => {
-      //     setAllState(defaulValue)
-      //     setIsMsg('')
-      //   }, 3000)
-      // }
 
-
-    // if (isMsg.msg !== 'Created') {
-    //   setTimeout(() => {
-
-    //   }, 5000)
-    //   }
+      //   }, 5000)
+      //   }
 
     }
-    else if(isMsg.msg === 'Created') {
-      setIsOpen(true)
-      console.log('hello as hole');
-      setAllState({ ...allState, msg: isMsg.msg})
-    } 
+    // else if(isMsg.msg === 'Created') {
+    //   setIsOpen(true)
+    //   console.log('hello as hole');
+    //   setAllState({ ...allState, msg: isMsg.msg})
+    // } 
     else {
       setIsOpen(true)
-      setAllState({ ...allState, msg: 'you measd some thank all the Fields is required'})
+      setAllState({ ...allState, msg: 'you measd some thank all the Fields is required' })
     }
   }
 
@@ -123,7 +129,7 @@ const CreatItem = () => {
 
 
         <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
-          
+
           <MdFastfood className="text-xl text-gray-700" />
           <input
             type="text"
@@ -147,6 +153,10 @@ const CreatItem = () => {
           />
         </div>
 
+        {isDate && (
+          <img src={img} alt='hello' />
+        )}
+
         <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-225 md:h-340 cursor-pointer rounded-lg">
           {allState.isLoading ? (
             <Loader />
@@ -158,11 +168,11 @@ const CreatItem = () => {
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                       <MdCloudUpload className=" text-gray-500 text-[6rem] hover:text-gray-700" />
                       <p className="text-gray-500 my-1 hover:text-gray-700">
-                        Click here to upload 
+                        Click here to upload
                       </p>
                     </div>
                     <span className='grid w-0 h-0 items-center justify-center bg-red-400'>
-                      <FileBase   required={true} className='w-0 h-0 block text-red-600' type='file' multiple={false} onDone={({ base64 }: any) => setAllState({ ...allState, img: base64 })} />
+                      <FileBase required={true} className='w-0 h-0 block text-red-600' type='file' multiple={false} onDone={({ base64 }: any) => setAllState({ ...allState, img: base64 })} />
                     </span>
                   </label>
                 </>
@@ -241,10 +251,10 @@ const CreatItem = () => {
           >
             Cansel
           </button>
-          
+
         </div>
       </div>
-      
+
     </div>
   )
 }

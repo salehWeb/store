@@ -14,8 +14,20 @@ export const postCard = async (req: any, res: any) => {
 
 export const getCard = async (req: any, res: any) => {
     try {
-        const data: any = await card.find().sort({'date': -1}).limit(2)
+        const data: any = await card.find({}, {img: 0})
+        console.log(data);
         res.status(201).json(data)
+    } catch (error) {
+        res.status(409).json({ msg: error })
+    }
+}
+
+
+export const getImg = async (req: any, res: any) => {
+    const id = req.params.id
+    try {
+        const { img }: any = await card.findById(id, {img: 1, _id: 0})
+        res.status(201).send(img)
     } catch (error) {
         res.status(409).json({ msg: error })
     }
