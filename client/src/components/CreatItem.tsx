@@ -81,7 +81,7 @@ const CreatItem = () => {
       setAllState({ ...allState, msg: `pieces must to be number not "${allState.pieces}"` })
     }
 
-    else if (allState.title && allState.desc && allState.img && allState.type) {
+    else if (allState.title && allState.desc && allState.img && allState.type && Number(allState.price) && Number(allState.pieces)) {
       dispatch(postCard(allState))
       setIsOpen(true)
       setTimeout(async () => {
@@ -103,7 +103,7 @@ const CreatItem = () => {
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
-      <div className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
+      <div className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 mx-24 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
         <AnimatePresence >
           {isOpen && allState.msg && (
             <motion.div
@@ -151,7 +151,7 @@ const CreatItem = () => {
           <img src={img} alt='hello' />
         )} */}
 
-        <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full cursor-pointer rounded-lg">
+        <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 mx-[200px] w-full h-[225px] md:h-[300px] cursor-pointer">
           {allState.isLoading ? (
             <Loader />
           ) : (
@@ -172,7 +172,7 @@ const CreatItem = () => {
                 </>
               ) : (
                 <>
-                  <div className="relative h-60">
+                  <div className="w-full h-full relative">
                     <img
                       src={allState.img}
                       alt="uploaded"
@@ -181,7 +181,7 @@ const CreatItem = () => {
                     <motion.button
                       type="button"
                       whileTap={{ scale: 0.6 }}
-                      className="absolute bottom-3 -right-[5.25rem] p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
+                      className="absolute bottom-2 right-2 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-lg  duration-500 transition-all ease-in-out"
                       onClick={handelDeletImage}
                     >
                       <MdDelete className="text-white" />
