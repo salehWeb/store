@@ -53,6 +53,9 @@ const [mune, setMune] = useState(false)
     let Profiles: any;
     if (isUserFind && userFind && userFind?.profile?.imageUrl) {
         Profiles = userFind.profile?.imageUrl
+    } else if (localStorage.getItem('user')) {
+        // dispatch({ type: actionTypes.SET_USER})
+        // Profiles = userFind.profile?.imageUrl
     } else {
         Profiles = Profile
     }

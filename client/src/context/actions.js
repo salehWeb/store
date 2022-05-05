@@ -6,7 +6,6 @@ export const getCard = () => async (dispatch) => {
         const data = await API.getCard()
         dispatch({ type: actionTypes.GETCARD, payload: data })
     } catch (error) {
-        dispatch({ type: actionTypes.GETCARD, payload: error })
         console.log(error);
     }
 }
@@ -16,21 +15,12 @@ export const postCard = (data) => async (dispatch) => {
         if (data) {
             const res = await API.postCard(data)
             dispatch({ type: actionTypes.POSTCARD, payload: { msg: res } })
-            setTimeout(() => {
-                dispatch({ type: actionTypes.POSTCARD, payload: { msg: '' } })
+            setTimeout(function() {
+                dispatch({ type: actionTypes.POSTCARD, payload: null })
             }, 5000)
         }
     } catch (error) {
         console.log(error);
-        dispatch({ type: actionTypes.POSTCARD, payload: { msg: 'Request failed Place try agin' } })
+        dispatch({ type: actionTypes.POSTCARD, payload: { msg: 'Request failed Place try agin' + error.message } })
     }
 }
-
-
-// export const getImage = (id) => async (dispatch) => {
-//     try {
-//             const img = await API.getImage(id)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }

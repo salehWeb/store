@@ -6,11 +6,12 @@ import FileBase from './Input.js'
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
 import { postCard, getCard } from '../context/actions';
-import {getImage} from '../server/index'
+import { getImage } from '../server/index'
 
 
 const CreatItem = () => {
   let data: any;
+
   const dispatch: any = useDispatch()
 
   const defaulValue: any = {
@@ -18,11 +19,12 @@ const CreatItem = () => {
     img: '', alert: 'none', msg: '', desc: ''
   }
 
+
   const [img, setImg] = useState('')
 
   useEffect(() => {
     dispatch(getCard())
-    getImage('6271c6ab2fc802cda93191f5').then(({data}) => {
+    getImage('6271c6ab2fc802cda93191f5').then(({ data }) => {
       setImg(data)
     }).catch((err) => console.log(err))
   }, [dispatch, data])
@@ -33,24 +35,24 @@ const CreatItem = () => {
 
   const [isDate, setIsData] = useState(data?.data)
   const [isMsg, setIsMsg] = useState(data?.msg)
-
-
+  const [allState, setAllState] = useState(defaulValue)
 
 
   useEffect(() => {
     setIsData(data?.data)
     setIsMsg(data?.msg)
-  }, [dispatch, data])
+    if (isMsg?.msg) {
+      setAllState({...allState, msg: isMsg?.msg })
+    }
+  }, [dispatch, data, isMsg?.msg, allState])
 
 
 
-  const [allState, setAllState] = useState(defaulValue)
+
+
   const [isOpen, setIsOpen] = useState(true)
-  const [isAllStateGood, setIsAllStateGood] = useState(false)
-  const [isVauleNUmber, seeetIsVauleNumber] = useState(false)
 
 
-  // console.log(isMsg.msg ? allState.msg = isMsg.msg : allState.msg = `loading...`);
 
   const handelCansel = () => {
     setAllState(defaulValue)
@@ -65,45 +67,37 @@ const CreatItem = () => {
     setAllState({ ...allState, img: '' })
   }
 
+
   const handelSaveData = () => {
+
+
     if (!Number(allState.price) && allState.price) {
       setIsOpen(true)
       setAllState({ ...allState, msg: `price must to be number not "${allState.price}"` })
     }
+
     else if (!Number(allState.pieces) && allState.pieces) {
       setIsOpen(true)
-      setAllState({ ...allState, msg: `pieces must to be number not  "${allState.pieces}"` })
+      setAllState({ ...allState, msg: `pieces must to be number not "${allState.pieces}"` })
     }
+
     else if (allState.title && allState.desc && allState.img && allState.type) {
-      setIsOpen(true)
       dispatch(postCard(allState))
-      isMsg.msg ? allState.msg = isMsg.msg : allState.msg = `loading...`
-      if (allState.msg) {
-        setTimeout(() => {
-          setAllState(defaulValue)
-          setIsMsg('')
-          allState.msg = ''
-        }, 3000)
-      }
-
-
-      // if (isMsg.msg !== 'Created') {
-      //   setTimeout(() => {
-
-      //   }, 5000)
-      //   }
-
+      setIsOpen(true)
+      setTimeout(() => {
+        setAllState(defaulValue)
+        allState.msg = ''
+        setIsOpen(false)
+      }, 5000)
     }
-    // else if(isMsg.msg === 'Created') {
-    //   setIsOpen(true)
-    //   console.log('hello as hole');
-    //   setAllState({ ...allState, msg: isMsg.msg})
-    // } 
+
     else {
       setIsOpen(true)
       setAllState({ ...allState, msg: 'you measd some thank all the Fields is required' })
     }
-  }
+}
+
+
 
 
 
@@ -153,11 +147,11 @@ const CreatItem = () => {
           />
         </div>
 
-        {isDate && (
+        {/* {isDate && (
           <img src={img} alt='hello' />
-        )}
+        )} */}
 
-        <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full h-225 md:h-340 cursor-pointer rounded-lg">
+        <div className="group flex justify-center items-center flex-col border-2 border-dotted border-gray-300 w-full cursor-pointer rounded-lg">
           {allState.isLoading ? (
             <Loader />
           ) : (
@@ -178,19 +172,20 @@ const CreatItem = () => {
                 </>
               ) : (
                 <>
-                  <div className="relative h-full">
+                  <div className="relative h-60">
                     <img
                       src={allState.img}
                       alt="uploaded"
                       className="w-full h-full object-cover"
                     />
-                    <button
+                    <motion.button
                       type="button"
-                      className="absolute bottom-3 right-3 p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
+                      whileTap={{ scale: 0.6 }}
+                      className="absolute bottom-3 -right-[5.25rem] p-3 rounded-full bg-red-500 text-xl cursor-pointer outline-none hover:shadow-md  duration-500 transition-all ease-in-out"
                       onClick={handelDeletImage}
                     >
                       <MdDelete className="text-white" />
-                    </button>
+                    </motion.button>
                   </div>
                 </>
               )}
