@@ -15,9 +15,6 @@ export const postCard = (data) => async (dispatch) => {
         if (data) {
             const res = await API.postCard(data)
             dispatch({ type: actionTypes.POSTCARD, payload: { msg: res } })
-            setTimeout(function() {
-                dispatch({ type: actionTypes.POSTCARD, payload: null })
-            }, 5000)
         }
     } catch (error) {
         console.log(error);

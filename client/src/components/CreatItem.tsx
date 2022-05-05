@@ -42,7 +42,7 @@ const CreatItem = () => {
     setIsData(data?.data)
     setIsMsg(data?.msg)
     if (isMsg?.msg) {
-      setAllState({...allState, msg: isMsg?.msg })
+      setAllState({ ...allState, msg: isMsg?.msg })
     }
   }, [dispatch, data, isMsg?.msg, allState])
 
@@ -84,10 +84,10 @@ const CreatItem = () => {
     else if (allState.title && allState.desc && allState.img && allState.type) {
       dispatch(postCard(allState))
       setIsOpen(true)
-      setTimeout(() => {
-        setAllState(defaulValue)
-        allState.msg = ''
-        setIsOpen(false)
+      setTimeout(async () => {
+        await dispatch({ type: actionTypes.POSTCARD, payload: null })
+          setAllState(defaulValue)
+          setIsOpen(false)
       }, 5000)
     }
 
