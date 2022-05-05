@@ -15,21 +15,32 @@ import ContentHeader from './ContentHeader'
 const Header = () => {
     let type: any;
     const dispatch = useDispatch();
-    const  user: any = useSelector<typeof  type>((state) => state.auth)
+    const  { user } : any = useSelector<typeof  type>((state) => state.auth)
 
-const [isUserFind, setIsUserFind] = useState(isUser)
+
+    
+    useEffect(() => {
+        if (localStorage.getItem('user')) {
+            dispatch({type: actionTypes.GET_USER})
+        }
+    }, [dispatch])
+
+    useEffect(() => {
+        setUserFind(user)
+    }, [user])
+
+
 const [isAdmanFind, setIsAdmanFind] = useState(isAdman)
 const [userFind, setUserFind] = useState(user)
 const [mune, setMune] = useState(false)
 
+console.log(userFind);
 
     const handelSuccess = async (res: any) => {
-        if (!isUserFind) {
+        if (!userFind) {
             const { profileObj, tokenId } = await res
             const user: Object = { profile: profileObj, token: tokenId }
             dispatch({ type: actionTypes.SET_USER, payload: user })
-            setIsUserFind(true)
-            setIsAdmanFind(true)
             setUserFind(user)
             setMune(false)
         }
@@ -44,21 +55,17 @@ const [mune, setMune] = useState(false)
 
     const handelLogout = () => {
         dispatch({ type: actionTypes.LOGOUT})
-        setIsUserFind(false)
         setIsAdmanFind(false)
         setMune(false)
     }
 
-
     let Profiles: any;
-    if (isUserFind && userFind && userFind?.profile?.imageUrl) {
-        Profiles = userFind.profile?.imageUrl
-    } else if (localStorage.getItem('user')) {
-        // dispatch({ type: actionTypes.SET_USER})
-        // Profiles = userFind.profile?.imageUrl
-    } else {
-        Profiles = Profile
-    }
+            
+            if (userFind?.profile?.imageUrl) {
+                Profiles = userFind.profile?.imageUrl
+            } else {
+                Profiles = Profile
+            }
 
     const classes = {
         li: 'text-base text-gray-600 hover:text-blue-800 duration-100 transition-all cursor-pointer ease-in-out',
@@ -68,6 +75,7 @@ const [mune, setMune] = useState(false)
     return (
         <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-slate-100 py-3 px-4 md:p-6 md:px-16'>
             <ContentHeader 
+            userFind={userFind}
             setMune={setMune}
             classes={classes}
             motion={motion}
@@ -80,7 +88,6 @@ const [mune, setMune] = useState(false)
             MdLogin={MdLogin}
             handelSuccess={handelSuccess}
             MdLibraryAdd={MdLibraryAdd}
-            isUserFind={isUserFind}
             mune={mune}
             Link={Link}
             isAdmanFind={isAdmanFind}
