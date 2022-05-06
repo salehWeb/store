@@ -1,6 +1,7 @@
 import img from '../img/delivery.png'
 import Data from './Data'
 import None from '../img/None.png'
+import CardData from './CardData' 
 
 const Home = () => {
     return (
@@ -40,6 +41,7 @@ const Home = () => {
                     </div>
                 </div>
             </div>
+            <CardData />
         </section>
     )
 }

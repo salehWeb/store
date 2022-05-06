@@ -6,7 +6,7 @@ import FileBase from './Input.js'
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
 import { postCard, getCard } from '../context/actions';
-import { getImage } from '../server/index'
+
 
 
 const CreatItem = () => {
@@ -20,14 +20,11 @@ const CreatItem = () => {
   }
 
 
-  const [img, setImg] = useState('')
+
 
   useEffect(() => {
     dispatch(getCard())
-    getImage('6271c6ab2fc802cda93191f5').then(({ data }) => {
-      setImg(data)
-    }).catch((err) => console.log(err))
-  }, [dispatch, data])
+  }, [dispatch])
 
 
 
@@ -60,7 +57,6 @@ const CreatItem = () => {
 
   const handelClose = () => {
     setIsOpen(false)
-    console.log('hello i must close')
   }
 
   const handelDeletImage = () => {
@@ -147,9 +143,6 @@ const CreatItem = () => {
           />
         </div>
 
-        {/* {isDate && (
-          <img src={img} alt='hello' />
-        )} */}
 
         <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 mx-[200px] w-full h-[225px] md:h-[300px] cursor-pointer">
           {allState.isLoading ? (
@@ -176,7 +169,7 @@ const CreatItem = () => {
                     <img
                       src={allState.img}
                       alt="uploaded"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full bg-cover"
                     />
                     <motion.button
                       type="button"
