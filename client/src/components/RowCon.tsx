@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { MdShoppingCart } from 'react-icons/md'
 import iamge from '../img/d7.png'
@@ -6,28 +6,33 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getCard } from '../context/actions'
 import Loader from './Loader'
 
-const RowCon = ({ flag }: any) => {
-    const dispatch: any = useDispatch()
-    const { data }: any = useSelector((state: any) => state.card)
+const RowCon = ({ flag, slide, data }: any) => {
+
+    const slideRef: any = useRef<HTMLDivElement>()
+    const cardRef: any = useRef<HTMLDivElement>()
 
     useEffect(() => {
-        dispatch(getCard())
-    }, [dispatch])
-
+        slideRef.current.scrollLeft = slide * cardRef?.current?.clientWidth
+    }, [slide, cardRef])
 
     return (
-        <div className={`w-full my-12 bg-blue-200 items-center flex ${!flag ? 'overflow-x-scroll' : 'overflow-x-hidden'}`}>
-            {!data ? <Loader /> : data.map(({img, _id, price, desc, title, type}: any) => (
-                <div key={_id} className="h-auto w-full bg-Blur md:w-[350px] backdrop-blur-2xl hover:drop-shadow-md p-4  my-12 shadow-2xl">
+        <div ref={slideRef} className={`w-full flex items-center gap-3  my-12 scroll-smooth  
+        ${flag
+                ? "overflow-x-scroll scrollbar-none"
+                : "overflow-x-hidden flex-wrap justify-center"
+            }`}>
+            {!data ? <Loader /> : data.map(({ img, _id, price, desc, title, type }: any) => (
+                <div ref={cardRef} key={_id} className="bg-Blur w-275 h-[175px] min-w-[275px] md:w-300 md:min-w-[300px] rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative">
                     <div className="w-full flex items-center justify-between">
-                        <motion.img whileHover={{ scale: 1.15 }} src={img} alt='ewew' className='w-40 -mt-8' />
-                        <motion.div whileTap={{ scale: 0.6 }} className="w-7 h-7 flex cursor-pointer hover:shadow-lg items-center justify-center rounded-full bg-pink-600">
+                        <motion.div whileHover={{ scale: 1.15 }} className='w-40 h-40 -mt-8 drop-shadow-2xl'>
+                            <img src={img} alt='ewew' className='w-full h-full object-contain' />
+                        </motion.div>
+                        <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8 rounded-full bg-red-600 flex items-center justify-center cursor-pointer hover:shadow-md -mt-8">
                             <MdShoppingCart className='text-white' />
                         </motion.div>
                     </div>
-                    <div className="w-full flex flex-col gap-4 items-end justify-end">
-                        <p className="text-gray-700 md:text-lg text-semibold text-base">{title} & {title}</p>
-                        <p className='mt-1 text-sm text-gray-500 '>{desc}</p>
+                    <div className="w-full flex flex-col items-end justify-end -mt-8">
+                        <p className="text-gray-700 md:text-lg text-semibold text-base">{title}</p>
                         <div className="flex items-center gap-8">
                             <p className='text-lg text-gray-700 font-semibold'>
                                 <span className='text-sm text-blue-600'>$</span>{price}
