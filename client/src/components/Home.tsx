@@ -1,9 +1,11 @@
 import img from '../img/delivery.png'
 import Data from './Data'
 import None from '../img/None.png'
-import CardData from './CardData' 
+
+
 
 const Home = () => {
+
     return (
         <section id='home' className='grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-auto'>
             <div className="py-4 gap-6 justify-center md:justify-start flex-1 flex flex-col items-start ">
@@ -41,7 +43,6 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-            <CardData />
         </section>
     )
 }
