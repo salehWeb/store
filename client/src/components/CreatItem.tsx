@@ -169,7 +169,7 @@ const CreatItem = () => {
                     <img
                       src={allState.img}
                       alt="uploaded"
-                      className="w-full h-full bg-cover"
+                      className="w-full h-full object-contain"
                     />
                     <motion.button
                       type="button"
