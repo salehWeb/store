@@ -1,8 +1,10 @@
-const ContentHeader = ({history, userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd,  mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
-    
-const handelReduric = () => {
-    history('/card')
-}
+const ContentHeader = ({ history, userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+
+    const handelReduric = () => {
+        history('/card')
+    }
+    const card = localStorage.getItem('cardItems')
+    const Cards = card ? JSON.parse(card) : null
 
     return (
         <>
@@ -50,7 +52,7 @@ const handelReduric = () => {
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.6 }}
                                 className="w-40 right-2 text-center bg-gray-50 shadow-xl flex flex-col rounded-lg absolute">
-                                <p onClick={handelLogout} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout  /> : <MdLogin />}</p>
+                                <p onClick={handelLogout} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
                                 {isAdmanFind && (
                                     <Link to={'/creatItem'}>
                                         <p onClick={handelMune} className='border-b-[1px] border-gray-400'></p>
@@ -68,9 +70,11 @@ const handelReduric = () => {
 
                 <div className="flex relative items-center justify-center">
                     <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
-                    <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
-                        <p className='text-sm text-white font-semibold'>2</p>
-                    </div>
+                    {Cards.length > 0 ? (
+                        <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
+                            <p className='text-sm text-white font-semibold'>{Cards.length}</p>
+                        </div>
+                    ) : null}
                 </div>
 
                 <Link to='/' className="flex items-center gap-2">
