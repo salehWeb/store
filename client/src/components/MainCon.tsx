@@ -57,7 +57,7 @@ const prefseSlide = () => {
           </div>  
         </div>
         <RowCon slide={slide} data={data} flag={flag}/>
-        <CardCon />
+        <CardCon data={data} />
       </section>
     </div>
   )

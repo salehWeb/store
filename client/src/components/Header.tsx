@@ -13,6 +13,7 @@ import ContentHeader from './ContentHeader'
 
 
 const Header = () => {
+    const history = useNavigate()
     let type: any;
     const dispatch = useDispatch();
     const  { user } : any = useSelector<typeof  type>((state) => state.auth)
@@ -98,6 +99,7 @@ console.log(userFind);
             MdAccountBalance={MdAccountBalance}
             MdRestaurant={MdRestaurant}
             MdHome={MdHome}
+            history={history}
             /> 
         </header>
     )

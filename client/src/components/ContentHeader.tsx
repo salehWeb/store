@@ -1,6 +1,8 @@
-const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd,  mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+const ContentHeader = ({history, userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd,  mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
     
-
+const handelReduric = () => {
+    history('/card')
+}
 
     return (
         <>
@@ -20,7 +22,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         <li className={classes.li}>About Us</li>
                         <li className={classes.li}>Service</li>
                     </motion.ul>
-                    <div className="flex relative items-center justify-center">
+                    <div onClick={handelReduric} className="flex relative items-center justify-center">
                         <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
                         <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
                             <p className='text-sm text-white font-semibold'>2</p>

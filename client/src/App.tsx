@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { CreatItem, MainCon, Header } from './components/index'
+import { CreatItem, MainCon, Header, Cart } from './components/index'
 import { AnimatePresence } from 'framer-motion'
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
           <Routes>
             <Route path='/*' element={<MainCon />} />
             <Route path='/creatItem' element={<CreatItem />} />
+            <Route path='/card' element={<Cart />} />
           </Routes>
         </main>
       </div>
