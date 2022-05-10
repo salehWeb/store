@@ -3,7 +3,6 @@ import Data from './Data'
 import None from '../img/None.png'
 
 
-
 const Home = () => {
 
     return (

@@ -2,19 +2,35 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { MdShoppingCart, MdAddTask } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
+import * as actionTypes from '../context/actionTypes'
 import Loader from './Loader'
+import RowChald from './RowChald'
 
 const RowCon = ({ flag, slide, data }: any) => {
+    const dispatch = useDispatch()
+    const { cards } = useSelector((state: any) => state.card)
+    useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
-    const [items, setItems] = useState<any[] | null>()
+    const [items, setItems] = useState(cards || [])
 
-    
+
+
+
+
+
+    // items && localStorage.setItem(`cardItems`, JSON.stringify(items))
+
     const handelAdd = (itemey: any) => {
-        setItems(itemey._id)
-        const isHaveCard = localStorage.getItem('cardItems')
-        const Arrey: any = isHaveCard ? JSON.parse(isHaveCard) : [];
-        Arrey.push(itemey)
-        localStorage.setItem(`cardItems`, JSON.stringify(Arrey))
+
+        dispatch({ type: actionTypes.SET_CARD })
+
+
+        items?.length <= 0 ? setItems([itemey._id]) : setItems([...items, itemey._id]);
+
+
+        localStorage.setItem(`cardItems`, JSON.stringify(items))
+
+
     }
 
 
@@ -32,30 +48,7 @@ const RowCon = ({ flag, slide, data }: any) => {
                 : "overflow-x-hidden flex-wrap justify-center"
             }`}>
             {!data ? <Loader /> : data.map((item: any) => (
-                <div ref={cardRef} key={item._id} className="bg-Blur w-275 h-[175px] min-w-[275px] md:w-300 md:min-w-[300px] rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative">
-                    <div className="w-full flex items-center justify-between">
-                        <motion.div whileHover={{ scale: 1.15 }} className='w-40 h-40 -mt-8 drop-shadow-2xl'>
-                            <img src={item.img} alt={item.title} className='w-full h-full object-contain' />
-                        </motion.div>
-                        {item._id === items ? (
-                            <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8 rounded-full ease-in-out duration-100 transition-all bg-gradient-to-tr from-blue-300 to-blue-600   flex items-center justify-center cursor-pointer hover:shadow-md -mt-8">
-                                <MdAddTask className='text-white' />
-                            </motion.div>
-                        ) : (
-                            <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8 rounded-full bg-gradient-to-tr from-red-300 to-red-600 flex items-center justify-center cursor-pointer hover:shadow-md -mt-8">
-                                <MdShoppingCart onClick={() => handelAdd(item)} className='text-white' />
-                            </motion.div>
-                        )}
-                    </div>
-                    <div className="w-full flex flex-col items-end justify-end -mt-8">
-                        <p className="text-gray-700 md:text-lg text-semibold text-base">{item.title}</p>
-                        <div className="flex items-center gap-8">
-                            <p className='text-lg text-gray-700 font-semibold'>
-                                <span className='text-sm text-blue-600'>$</span>{item.price}
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                    <RowChald  items={items}  cardRef={cardRef} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
             ))}
         </div>
     )

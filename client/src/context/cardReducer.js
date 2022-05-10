@@ -1,19 +1,22 @@
 import * as actionTypes from './actionTypes'
 
-
 const reducer = (state = {}, action) => {
     switch (action.type) {
         case actionTypes.POSTCARD:
-            console.log(action.payload);
             return {
                 ...state,
                 msg: action.payload
             };
-            case actionTypes.GETCARD:
-                return {
-                    ...state,
-                    data: action.payload.data
-                };
+        case actionTypes.GETCARD:
+            return {
+                ...state,
+                data: action.payload.data
+            };
+        case actionTypes.SET_CARD:
+            return {
+                ...state,
+                cards: JSON.parse(localStorage.getItem('cardItems')) || JSON.stringify(localStorage.setItem('cardItems', '[]'))
+            }
         default: return state
     }
 }

@@ -56,7 +56,7 @@ const prefseSlide = () => {
             <motion.div onClick={nextSlid} whileTap={{ scale: 0.6 }} className="w-8 bg-blue-400   hover:bg-blue-600 cursor-pointer  rounded-lg h-8 flex items-center justify-center"><MdChevronRight className='text-lg text-white'/></motion.div>
           </div>  
         </div>
-        <RowCon slide={slide} data={data} flag={flag}/>
+        {/* <RowCon slide={slide} data={data} flag={flag}/> */}
         <CardCon data={data} />
       </section>
     </div>
