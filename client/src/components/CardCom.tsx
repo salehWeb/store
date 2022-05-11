@@ -1,41 +1,43 @@
 import React, { useEffect, useState } from 'react'
 import { BsCartDashFill } from 'react-icons/bs'
+import Loader from './Loader'
 
-const CardCom = ({ item, handelDelet, isAdmanasc }: any) => {
+const CardCom = ({ item, handelDelet, isAdmanasc, data }: any) => {
     const [image, setImage] = useState('')
 
     const IMAGE = async () => {
         await isAdmanasc(item).then((data: any) => {
             setImage(data)
         })
-    } 
+    }
 
-    useEffect(() => {IMAGE()}, [])
-
-
-
+    useEffect(() => { IMAGE() }, [item])
 
     return (
-        <div key={item._id} className="w-full my-6 h-full flex bg-white rounded-lg">
+        <div key={data._id} className="w-full my-6 h-full flex bg-white rounded-lg">
             <div className="flex relative h-full w-[50%] flex-row flex-wrap justify-between rounded-lg">
 
                 <div className="bg-gray-800 shadow-lg  rounded-lg  -top-7 left-[75px] w-[39%] h-10 items-center justify-center flex  absolute">
-                    <p className="text-gray-500">price:{item.price}</p>
+                    <p className="text-gray-500">price:{data.price}</p>
                 </div>
-
-                <div className="h-32 w-[25rem] flex   rounded-lg  bg-white ">
-                    <img className=' w-full h-full object-contain' src={image} alt={item.title} />
-                </div>
-
+                {!image ? (
+                    <div className="flex h-32 w-[25rem] justify-center items-center">
+                        <Loader  />
+                    </div>
+                ) : (
+                    <div className="h-32 w-[25rem] flex   rounded-lg  bg-white ">
+                        <img className=' w-full h-full object-contain' src={image} alt={data.title} />
+                    </div>
+                )}
                 <div className="h-32 w-[25rem] flex rounded-lg justify-center items-center">
-                    <BsCartDashFill onClick={() => handelDelet(item._id)} className='flex text-[2rem] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
+                    <BsCartDashFill onClick={() => handelDelet(item)} className='flex text-[2rem] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
                 </div>
             </div>
             <div className=" w-full h-full flex flex-end flex-col  justify-center items-center">
-                <p className="text-base  ">{item.title}
+                <p className="text-base  ">{data.title}
                     <span className='h-[1px] w-full   bg-gradient-to-tr from-blue-300 to-blue-600  flex flex-row'></span></p>
                 <br />
-                <p className="text-gray-500 flex self-start">{item.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
+                <p className="text-gray-500 flex self-start">{data.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
                 <div className="flex self-end h-full rounded-lg justify-end mr-4 my-6 bg-gray-800">
                     <div className="p-2 flex flex-row">
                         <span className="flex text-white cursor-pointer text-base ">+</span>
