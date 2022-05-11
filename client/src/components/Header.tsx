@@ -69,7 +69,7 @@ console.log(userFind);
             }
 
     const classes = {
-        li: 'text-base text-gray-600 hover:text-blue-800 duration-100 transition-all cursor-pointer ease-in-out',
+        li: 'text-base text-gray-600 hover:text-blue-800 duration-100 transition-all cursor-pointer ease-in-out hover:underline',
         p: 'hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'
     }
 

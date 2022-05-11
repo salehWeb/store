@@ -21,7 +21,7 @@ const EmtyCart = () => {
                     <h1 className='text-base text-semibold  justify-center items-center'>look like your cart is empty!.</h1>
                 </div>
                 <div className="flex w-full h-full  rounded-lg justify-center items-center">
-                    <p className="flex hover:underline cursor-pointer hover:text-blue-500">Go to Home</p> <MdHome onClick={handelHome} className='text-blue-400 flex text-2xl cursor-pointer hover:text-blue-600' />
+                    <p className="flex hover:underline text-blue-400 text-2xl items-center justify-center cursor-pointer hover:text-blue-600" onClick={handelHome}><MdHome />Go to Home</p>
                 </div>
             </motion.div>
         </AnimatePresence>

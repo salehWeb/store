@@ -4,7 +4,7 @@ export const postCard = async (req: any, res: any) => {
     const data = await req.body;
     if (String(data.desc) && String(data.title) && Number(data.price) && Number(data.pieces) && String(data.type) && String(data.img)) {
 
-        const newCard = new card({ ...data, creatAt: new Date().toISOString() });
+        const newCard = new card({ ...data, createdAt: new Date().toISOString() });
         try {
             await newCard.save()
             res.status(201).json(res.statusMessage)

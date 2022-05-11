@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cardRout from './routes/cardRourt'
 import iamgesRout from './routes/iamgesRout'
+import userRout from './routes/userRout'
 import cors from 'cors'
 import dotenv from 'dotenv'
 
@@ -14,15 +15,17 @@ app.use(express.json({limit: '50mb'}))
 
 app.use(express.urlencoded({limit: '50mb', extended: true}))
 
-app.use(cors({ origin: 'http://localhost:3000' }))
+app.use(cors({ origin: '*' }))
 
 app.use('/', cardRout)
-
+app.use('/login', userRout)
 app.use('/images', iamgesRout)
 
 
-mongoose.connect(url).then(() => {
-    app.listen(PORT, () => console.log(`app listening on PORT ${PORT}!`))
-}).catch((error) => console.log(error))
+mongoose.connect(url)
+    .then(() => {
+        app.listen(PORT, () => console.log(`app listening on PORT ${PORT}!`))
+    })
+    .catch((error) => console.log(error))
 
 
