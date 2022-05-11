@@ -7,12 +7,12 @@ const RowChald = ({ cardRef, item, items, MdShoppingCart, cards, MdAddTask, hand
     const [image, setImage] = useState('')
 
     const IMAGE = async () => {
-        await getImage(item._id).then((item: string) => item).then((data: any) => {
+        await getImage(item._id).then((data: any) => {
             setImage(data)
         })
     }
 
-    useEffect(() => {localStorage.setItem(`cardItems`, JSON.stringify(items))}, [items])
+    useEffect(() => { localStorage.setItem(`cardItems`, JSON.stringify(items)) }, [items])
 
     useEffect(() => { IMAGE() }, [])
 

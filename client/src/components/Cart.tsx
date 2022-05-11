@@ -3,8 +3,11 @@ import { BsCartDashFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../context/actionTypes'
 import { getCard } from '../context/actions'
-import {getImage} from '../server/index'
-import CardCom from  './CardCom'
+import { getImage } from '../server/index'
+import CardCom from './CardCom'
+import EmtyCart from './EmtyCart'
+import Loader from './Loader'
+import { AnimatePresence } from 'framer-motion'
 
 const Cart = () => {
     const dispatch: any = useDispatch()
@@ -12,14 +15,14 @@ const Cart = () => {
     useEffect(() => { dispatch(getCard()) }, [dispatch])
 
     const { cards: Cards, data } = useSelector((state: any) => state.card)
-    
+
     const [cards, setCards] = useState(Cards)
 
-    useEffect(() => { setCards(Cards) }, [Cards] )
+    useEffect(() => { setCards(Cards) }, [Cards])
 
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
-
+    console.log(cards?.length);
 
     const handelDelet = (id: any) => {
         const filterd = cards?.filter((item: any) => item !== id)
@@ -29,24 +32,29 @@ const Cart = () => {
         dispatch({ type: actionTypes.SET_CARD })
     }
 
-
-    // const filterData = data.find((item: any) => item._id === Cards.map((item: any) => item))
-    // console.log(filterData);
     const isAdmanasc = async (id: string) => await getImage(id).then((item: string) => item)
 
     return (
         <section className='w-full h-auto min-h-screen'>
-            {cards && cards?.length > 0 ? (
-                <div className="w-full h-full gap-4 flex flex-col">
-                    
-                    {data && cards.map((item: any) => (
-                        <CardCom data={data?.find((CardDAta: any) => CardDAta._id === item)} item={item} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
-                    ))}
+            {data && cards?.length > 0 ? (
+                <>
+                    {cards && cards?.length > 0 ? (
+                        <div className="w-full h-full gap-4 flex flex-col">
+                            {data && cards.map((item: any) => (
+                                <AnimatePresence >
+                                    <CardCom data={data?.find((CardDAta: any) => CardDAta._id === item)} item={item} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
+                                </AnimatePresence>
+                            ))}
 
-                </div>
+                        </div>
+                    ) : (
+                        <Loader />
+                    )}
+                </>
             ) : (
-                <p>your card is empty</p>
+                <EmtyCart />
             )}
+
 
         </section>
     )

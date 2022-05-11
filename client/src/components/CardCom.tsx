@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { BsCartDashFill } from 'react-icons/bs'
 import Loader from './Loader'
+import {motion} from 'framer-motion'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data }: any) => {
     const [image, setImage] = useState('')
@@ -14,7 +15,11 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data }: any) => {
     useEffect(() => { IMAGE() }, [item])
 
     return (
-        <div key={data._id} className="w-full my-6 h-full flex bg-white rounded-lg">
+        <motion.div 
+        initial={{ x: 400, opacity: 0, scale: 0.8 }}
+        animate={{ x: 0, opacity: 1, scale: 1 }}
+        exit={{ opacity: 0.8, x: -700, scale: 1 }} 
+        key={data._id} className="w-full my-6 h-full ease-in-out duration-100 transition-all flex bg-white rounded-lg">
             <div className="flex relative h-full w-[50%] flex-row flex-wrap justify-between rounded-lg">
 
                 <div className="bg-gray-800 shadow-lg  rounded-lg  -top-7 left-[75px] w-[39%] h-10 items-center justify-center flex  absolute">
@@ -46,7 +51,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data }: any) => {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     )
 }
 

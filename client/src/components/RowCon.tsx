@@ -8,29 +8,25 @@ import RowChald from './RowChald'
 
 const RowCon = ({ flag, slide, data }: any) => {
     const dispatch = useDispatch()
-    const { cards } = useSelector((state: any) => state.card)
+
+
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
-    const [items, setItems] = useState(cards || [])
+    const { cards } = useSelector((state: any) => state.card)
+
+    const [items, setItems] = useState(cards)
+    
+    useEffect(() => { setItems(cards) }, [cards])
 
 
 
 
-
-
-    // items && localStorage.setItem(`cardItems`, JSON.stringify(items))
-
-    const handelAdd = (itemey: any) => {
-
-        dispatch({ type: actionTypes.SET_CARD })
-
-
+    const handelAdd = async (itemey: any) => {
         items?.length <= 0 ? setItems([itemey._id]) : setItems([...items, itemey._id]);
 
+        await localStorage.setItem(`cardItems`, JSON.stringify(items))
 
-        localStorage.setItem(`cardItems`, JSON.stringify(items))
-
-
+        dispatch({ type: actionTypes.SET_CARD })
     }
 
 

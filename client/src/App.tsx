@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { CreatItem, MainCon, Header, Cart } from './components/index'
 import { AnimatePresence } from 'framer-motion'
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
             <Route path='/card' element={<Cart />} />
           </Routes>
         </main>
+        <Footer />
       </div>
     </AnimatePresence>
   );

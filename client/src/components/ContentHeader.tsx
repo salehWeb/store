@@ -1,22 +1,28 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import  * as actionTypes from '../context/actionTypes'
 
-const ContentHeader = ({ history, userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
     const dispatch = useDispatch()
-    const handelReduric = () => {
-        history('/card')
-    }
+    const history  = useNavigate()
     const { cards: Cards } = useSelector((state: any) => state.card)
 
-    const [cards, setCards] = useState(Cards?.length)
+    
+    useEffect(() => { dispatch({ type: actionTypes.SET_CARD}) }, [dispatch])
+    
+    
+    useEffect(() => {setCards(Cards?.length)}, [Cards])
+
+    const handelReduric = () => {
+        console.log('dirct me');
+        history('/card')
+    }
 
 
+    const [cards, setCards] = useState(0)
 
 
-
-    useEffect(() => { dispatch({ type: actionTypes.SET_CARD}); setCards(Cards) }, [dispatch])
-    console.log(Cards);
 
     return (
         <>
@@ -82,7 +88,7 @@ const ContentHeader = ({ history, userFind, MdDesignServices, MdHome, MdRestaura
             {/*  mobil view  */}
             <div className="flex h-full items-center justify-between w-full md:hidden ">
 
-                <div className="flex relative items-center justify-center">
+                <div onClick={handelReduric} className="flex relative items-center justify-center">
                     <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
                     {cards > 0 ? (
                         <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
