@@ -1,5 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import cookieParser from 'cookie-parser'
 import cardRout from './routes/cardRourt'
 import iamgesRout from './routes/iamgesRout'
 import userRout from './routes/userRout'
@@ -10,6 +11,9 @@ dotenv.config()
 const app = express()
 const PORT = process.env.PORT || 5000
 const url: any = process.env.DATABASEURL
+
+
+app.use(cookieParser())
 
 app.use(express.json({limit: '50mb'}))
 
