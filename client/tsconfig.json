@@ -3,7 +3,7 @@
     "strict": true,
     "useUnknownInCatchVariables": false,
     "allowUnreachableCode": true,
-    "target": "es5",
+    "target": "es2020",
     "lib": [
       "dom",
       "dom.iterable",

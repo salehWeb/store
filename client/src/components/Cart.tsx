@@ -22,7 +22,6 @@ const Cart = () => {
 
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
-    console.log(cards?.length);
 
     const handelDelet = (id: any) => {
         const filterd = cards?.filter((item: any) => item !== id)

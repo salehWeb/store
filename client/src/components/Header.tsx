@@ -1,4 +1,4 @@
-import Logo from '../img/logo.png'
+import Logo from '../img/logoFood1.png'
 import Profile from '../img/avatar.png'
 import { MdShoppingCart,MdHome, MdDesignServices, MdAccountBalance, MdRestaurant, MdLogout, MdLogin, MdLibraryAdd } from 'react-icons/md'
 import { motion } from 'framer-motion'
@@ -35,7 +35,6 @@ const [isAdmanFind, setIsAdmanFind] = useState(isAdman)
 const [userFind, setUserFind] = useState(user)
 const [mune, setMune] = useState(false)
 
-console.log(userFind);
 
     const handelSuccess = async (res: any) => {
         if (!userFind) {
@@ -74,7 +73,7 @@ console.log(userFind);
     }
 
     return (
-        <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-slate-100 py-3 px-4 md:p-6 md:px-16'>
+        <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-Blur py-3 px-4 md:p-6 md:px-16'>
             <ContentHeader 
             userFind={userFind}
             setMune={setMune}

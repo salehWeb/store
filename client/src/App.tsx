@@ -3,9 +3,11 @@ import { Route, Routes } from 'react-router-dom';
 import { CreatItem, MainCon, Header, Cart } from './components/index'
 import { AnimatePresence } from 'framer-motion'
 import Footer from './components/Footer';
+import { StyledEngineProvider } from '@mui/material'
 
 function App() {
   return (
+    <StyledEngineProvider injectFirst>
     <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-screen flex flex-col bg-slate-50">
         <Header />
@@ -19,6 +21,7 @@ function App() {
         <Footer />
       </div>
     </AnimatePresence>
+    </StyledEngineProvider>
   );
 }
 
