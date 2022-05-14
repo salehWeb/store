@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { BsCartDashFill } from 'react-icons/bs'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../context/actionTypes'
 import { getCard } from '../context/actions'
@@ -22,10 +21,10 @@ const Cart = () => {
 
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
+    const [totaly, setTotaly] = useState(0)
 
     const handelDelet = (id: any) => {
         const filterd = cards?.filter((item: any) => item !== id)
-        console.log(filterd);
         setCards(filterd)
         localStorage.setItem('cardItems', JSON.stringify(filterd))
         dispatch({ type: actionTypes.SET_CARD })
@@ -33,18 +32,21 @@ const Cart = () => {
 
     const isAdmanasc = async (id: string) => await getImage(id).then((item: string) => item)
 
+
     return (
-        <section className='w-full h-auto min-h-screen'>
+        <section className='w-full h-auto gap-4 grid lg:grid-cols-2 grid-cols-1  min-h-screen'>
             {data && cards?.length > 0 ? (
                 <>
                     {cards && cards?.length > 0 ? (
                         <div className="w-full h-full gap-4 flex flex-col">
-                            {data && cards.map((item: any) => (
-                                <AnimatePresence >
-                                    <CardCom data={data?.find((CardDAta: any) => CardDAta._id === item)} item={item} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
-                                </AnimatePresence>
-                            ))}
 
+                            {data && cards.map((item: any) => 
+                                (
+                                    <AnimatePresence >
+                                        <CardCom key={item} totaly={totaly} setTotaly={setTotaly} data={data?.find((CardDAta: any) => CardDAta._id === item)} item={item} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
+                                    </AnimatePresence >
+                                )
+                            )}
                         </div>
                     ) : (
                         <Loader />
