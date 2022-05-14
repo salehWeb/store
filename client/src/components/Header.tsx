@@ -4,7 +4,7 @@ import { MdShoppingCart,MdHome, MdDesignServices, MdAccountBalance, MdRestaurant
 import { motion } from 'framer-motion'
 import { isAdman, isUser } from '../controls'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GoogleLogin } from 'react-google-login';
 import { Client_ID } from '../Secret.js';
@@ -12,7 +12,7 @@ import * as actionTypes from '../context/actionTypes'
 import ContentHeader from './ContentHeader'
 
 
-const Header = () => {
+const Header = ({ haed }: any) => {
     const history = useNavigate()
     let type: any;
     const dispatch = useDispatch();
@@ -72,8 +72,11 @@ const [mune, setMune] = useState(false)
         p: 'hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'
     }
 
+
+    
+
     return (
-        <header className='w-screen shadow-md shadow-blue-300  fixed z-50 bg-Blur py-3 px-4 md:p-6 md:px-16'>
+        <header  className={`${haed ? ' py-1 rounded-[25px] mt-1 px-8 ' : ' px-4 md:p-2 md:px-16'} w-screen sm:py-3 ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
             <ContentHeader 
             userFind={userFind}
             setMune={setMune}

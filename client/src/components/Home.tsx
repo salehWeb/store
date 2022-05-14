@@ -1,8 +1,9 @@
 import img from '../img/delivery.png'
 import Data from './Data'
 import None from '../img/None.png'
-import hero from '../img/hero(1).png'
+import hero from '../img/backGROUND.png'
 import Serves from './serves/Serves'
+// import None from 'None.svg'
 
 
 const Home = () => {
@@ -12,6 +13,8 @@ const Home = () => {
             {/* <div className="w-[50%] bg-orange-500 rounded-b-[60px] rounded-lg shadow-2xl flex justify-center items-center">
                 <img src={hero} alt=" food " className="flex w-[600px] h-[600px] object-contain" />
             </div> */}
+
+
             <section id='home' className='grid grid-cols-1 md:grid-cols-2 gap-2 w-full h-auto'>
 
                 <div className="py-4 gap-6 justify-center md:justify-start flex-1 flex flex-col items-start ">
@@ -23,7 +26,7 @@ const Home = () => {
                     </div>
                     <div className="flex md:justify-start">
                         <p className="font-bold text-[2rem] lg:text-[3rem] md:text-[2.5rem] tracking-[1px] text-gray-800 ">
-                            Lorem ipsum dolor sit amen
+                        Selexome fastest deliver in the World
                             <span className="text-blue-600 lg:text-[4rem] mt-2 md:text-[3rem] shadow-blue-400 shadow-md bg-white flex text-center justify-center text-[2.5rem]">Lorem ipsum</span>
                         </p>
                     </div>
@@ -34,6 +37,7 @@ const Home = () => {
                         Lorem ipsum
                     </button>
                 </div>
+
                 <div className="py-4 w-full">
                     <div className="w-full flex justify-end  items-end rounded-md relative">
                         <img className='h-screen w-full sm:h-auto lg:w-[70%] ' src={None} alt="background" />

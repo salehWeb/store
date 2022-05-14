@@ -29,7 +29,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
             <div className="hidden h-full w-full md:flex justify-between ">
                 <Link to='/' className="flex items-center gap-2">
                     <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />
-                    <p className='font-bold text-xl text-gray-800 cursor-pointer'> City </p>
+                    <p className='font-bold text-xl text-gray-800 cursor-pointer'> Selexome </p>
                 </Link>
                 <div className="flex justify-center gap-8 items-center">
                     <motion.ul
