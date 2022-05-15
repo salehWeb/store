@@ -2,13 +2,51 @@ import React, { useEffect, useState } from 'react'
 import { BsCartDashFill } from 'react-icons/bs'
 import Loader from './Loader'
 import { motion } from 'framer-motion'
+import { useDispatch, useSelector } from 'react-redux'
+import * as actionTypes from '../context/actionTypes'
 
-const CardCom = ({ item, handelDelet, isAdmanasc, data, totaly, setTotaly }: any) => {
+const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards}: any) => {
+    const dispatch = useDispatch()
     const [image, setImage] = useState('')
-    const [Total, setTotal] = useState(0)
+    const [Total, setTotal] = useState(data.Total / data.price || 1)
 
-    useEffect(() => {}, [Total])
+    let arreyReday: any = []
+    let hackajvh: any;
 
+    useEffect(() => {
+
+        if (!data.Total) {
+            data.Total = data.price
+        }
+
+        if (hackajvh) {
+            console.log(hackajvh);
+        }
+
+        Cards.reduce((cur: any, item: any) => {
+            console.log(cur += item.Total);
+            arreyReday.push(item.Total)
+        }, 0)
+
+        localStorage.setItem('cardItems', JSON.stringify(Cards))
+        dispatch({ type: actionTypes.SET_CARD })
+    }, [Total])
+
+
+// useEffect(() => {
+//     handdel_hack()
+// }, [arreyReday])
+
+
+
+const handdel_hack = () => {
+    if(arreyReday.length >= 2) {
+        arreyReday.reduce((item: any, curent: any) => {
+            hackajvh = curent += item
+        })
+        console.log(hackajvh);
+    }
+}
 
     const IMAGE = async () => {
         await isAdmanasc(item).then((data: any) => {
@@ -20,26 +58,23 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, totaly, setTotaly }: any
 
     const handelAdd = () => {
         setTotal(Total + 1)
-        setTotaly(Total + 1 * data.price)
-        console.log(Total + 1);
+        const totrfdo = Total + 1
+        data.Total = totrfdo * data.price
+        
     }
 
     const handleEncramnt = () => {
             setTotal(Total - 1)
-            setTotaly(Total - 1 * data.price)
-            console.log(Total - 1);
-    }
-
-    const handelChiceOut = () => {
-        console.log(Total);
+            const totrfdo = Total - 1
+            data.Total = totrfdo * data.price
     }
 
 
     return (
         <motion.div
-            initial={{ x: 400, opacity: 0, scale: 0.8 }}
+            initial={{ x: 400, opacity: 0, scale: 0.2 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
-            exit={{ opacity: 0.8, x: -700, scale: 1 }}
+            exit={{ opacity: 0.8, x: 700, scale: 1 }}
             key={data._id} className="w-full my-6 h-full ease-in-out duration-100 transition-all flex bg-white rounded-lg">
             <div className="flex relative h-full w-[50%] flex-row flex-wrap justify-between rounded-lg">
                 <div className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[75px] w-[39%] h-10 items-center justify-center flex  absolute">
@@ -51,7 +86,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, totaly, setTotaly }: any
                     </div>
                 ) : (
                     <div className="h-32 w-[25rem] flex   rounded-lg  bg-white ">
-                        <img onClick={handelChiceOut} className=' w-full h-full object-contain' src={image} alt={data.title} />
+                        <img className=' w-full h-full object-contain' src={image} alt={data.title} />
                     </div>
                 )}
                 <div className="h-32 w-[25rem] flex rounded-lg justify-center items-center">

@@ -8,6 +8,8 @@ import EmtyCart from './EmtyCart'
 import Loader from './Loader'
 import { AnimatePresence } from 'framer-motion'
 
+
+
 const Cart = () => {
     const dispatch: any = useDispatch()
 
@@ -17,19 +19,29 @@ const Cart = () => {
 
     const [cards, setCards] = useState(Cards)
 
+    useEffect(() => {
+            console.log(cards)
+    }, [cards])
+
     useEffect(() => { setCards(Cards) }, [Cards])
 
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
-    const [totaly, setTotaly] = useState(0)
+    const [totaly, setTotaly] = useState(null)
 
     const handelDelet = (id: any) => {
-        const filterd = cards?.filter((item: any) => item !== id)
+        const filterd = cards?.filter((item: any) => item._id !== id)
         setCards(filterd)
         localStorage.setItem('cardItems', JSON.stringify(filterd))
         dispatch({ type: actionTypes.SET_CARD })
     }
 
+    // useEffect(() => {
+    //     // for (let index = 0; index < data.length; index++) {
+    //     //     const element = data[index].price;
+    //     //     pricec.push(element)
+    //     // }
+    // },
     const isAdmanasc = async (id: string) => await getImage(id).then((item: string) => item)
 
 
@@ -39,14 +51,14 @@ const Cart = () => {
                 <>
                     {cards && cards?.length > 0 ? (
                         <div className="w-full h-full gap-4 flex flex-col">
-
-                            {data && cards.map((item: any) => 
-                                (
-                                    <AnimatePresence >
-                                        <CardCom key={item} totaly={totaly} setTotaly={setTotaly} data={data?.find((CardDAta: any) => CardDAta._id === item)} item={item} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
-                                    </AnimatePresence >
-                                )
-                            )}
+                            {data && cards.map((item: any) => {
+                                
+                            return (
+                                <AnimatePresence >
+                                    <CardCom key={item._id} data={item} Cards={Cards} item={item._id} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
+                                </AnimatePresence >
+                            )
+                        })}
                         </div>
                     ) : (
                         <Loader />
@@ -55,8 +67,6 @@ const Cart = () => {
             ) : (
                 <EmtyCart />
             )}
-
-
         </section>
     )
 }

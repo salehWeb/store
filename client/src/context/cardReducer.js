@@ -17,6 +17,11 @@ const reducer = (state = {}, action) => {
                 ...state,
                 cards: JSON.parse(localStorage.getItem('cardItems')) || JSON.stringify(localStorage.setItem('cardItems', '[]'))
             }
+        case actionTypes.SET_TOTAL:
+            return {
+                ...state,
+                total: action.payload
+            }
         default: return state
     }
 }

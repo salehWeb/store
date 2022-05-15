@@ -29,7 +29,7 @@ const RowChald = ({ cardRef, item, items, MdShoppingCart, cards, MdAddTask, hand
                         </motion.div>
                     )}
                 <>
-                    {items && items.find((id: any) => id === item._id) ?
+                    {items && items.find((id: any) => id._id === item._id) ?
                         (
                             <motion.div whileTap={{ scale: 0.6, options: 0.6 }} className="w-8 h-8 rounded-full  bg-gradient-to-tr from-blue-300 to-blue-600   flex items-center justify-center cursor-pointer hover:shadow-md -mt-8">
                                 <MdAddTask className='text-white' />

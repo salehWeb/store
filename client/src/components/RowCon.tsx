@@ -22,7 +22,7 @@ const RowCon = ({ flag, slide, data }: any) => {
 
 
     const handelAdd = async (itemey: any) => {
-        items?.length <= 0 ? setItems([itemey._id]) : setItems([...items, itemey._id]);
+        items?.length <= 0 ? setItems([itemey]) : setItems([...items, itemey]);
 
         await localStorage.setItem(`cardItems`, JSON.stringify(items))
 
