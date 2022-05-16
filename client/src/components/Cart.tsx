@@ -7,7 +7,7 @@ import CardCom from './CardCom'
 import EmtyCart from './EmtyCart'
 import Loader from './Loader'
 import { AnimatePresence } from 'framer-motion'
-
+import TotalCard from './TotalCard'
 
 
 const Cart = () => {
@@ -18,9 +18,9 @@ const Cart = () => {
     const { cards: Cards, data } = useSelector((state: any) => state.card)
 
     const [cards, setCards] = useState(Cards)
+    const [Total, setTotal] = useState(0)
 
     useEffect(() => { setCards(Cards) }, [Cards])
-    // useEffect(() => {console.log('hello jhc')}, [Cards])
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
 
@@ -38,14 +38,24 @@ const Cart = () => {
     }
 
 
+
+    useEffect(() => {
+        const haveTotal = localStorage.getItem('total')
+        const total = haveTotal && JSON.parse(haveTotal)
+        setTotal(total)
+    }, [Cards, cards])
+
+
     const isAdmanasc = async (id: string) => await getImage(id).then((item: string) => item)
 
 
     return (
-        <section className='w-full h-auto gap-4 grid lg:grid-cols-2 grid-cols-1  min-h-screen'>
+        <section className='w-full h-auto flex justify-center items-center min-h-screen'>
             {data && cards?.length > 0 ? (
                 <>
+                <div className="w-full h-auto gap-4 grid lg:grid-cols-2 grid-cols-1  min-h-screen">
                     {cards && cards?.length > 0 ? (
+                        <>
                         <div className="w-full h-full gap-4 flex flex-col">
                             {data && cards.map((item: any) => {
                                 return (
@@ -54,10 +64,14 @@ const Cart = () => {
                                     </AnimatePresence >
                                 )
                             })}
+                            
                         </div>
+                        <TotalCard Total={Total}/>
+                        </>
                     ) : (
                         <Loader />
                     )}
+                    </div>
                 </>
             ) : (
                 <EmtyCart />

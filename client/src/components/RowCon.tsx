@@ -44,7 +44,7 @@ const RowCon = ({ flag, slide, data }: any) => {
                 : "overflow-x-hidden flex-wrap justify-center"
             }`}>
             {!data ? <Loader /> : data.map((item: any) => (
-                    <RowChald  items={items}  cardRef={cardRef} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
+                    <RowChald  items={items}  key={item._id} cardRef={cardRef} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
             ))}
         </div>
     )

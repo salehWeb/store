@@ -15,7 +15,6 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         Cards.reduce((total: any, curnt: any) => {
             baby += curnt.Total
         }, 0)
-        console.log(baby);
         return baby
     } 
 
@@ -32,7 +31,6 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         localStorage.setItem('cardItems', JSON.stringify(Cards))
         dispatch({ type: actionTypes.SET_CARD })
 
-        // localStorage.setItem('total', JSON.stringify(handeNone()))
 
     }, [Total, dispatch])
 

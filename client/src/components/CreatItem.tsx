@@ -99,7 +99,7 @@ const CreatItem = () => {
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
-      <div className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 mx-24 rounded-lg p-4 flex flex-col items-center justify-center gap-4">
+      <div className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 rounded-lg p-4 mx-24 flex flex-col items-center justify-center gap-4">
         <AnimatePresence >
           {isOpen && allState.msg && (
             <motion.div
