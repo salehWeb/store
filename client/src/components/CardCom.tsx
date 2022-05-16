@@ -5,13 +5,21 @@ import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../context/actionTypes'
 
-const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards}: any) => {
+const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
     const [Total, setTotal] = useState(data.Total / data.price || 1)
 
-    let arreyReday: any = []
-    let hackajvh: any;
+    const handeNone = () => {
+        let baby = 0;
+        Cards.reduce((total: any, curnt: any) => {
+            baby += curnt.Total
+        }, 0)
+        console.log(baby);
+        return baby
+    } 
+
+    
 
     useEffect(() => {
 
@@ -19,34 +27,19 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards}: any) => {
             data.Total = data.price
         }
 
-        if (hackajvh) {
-            console.log(hackajvh);
-        }
-
-        Cards.reduce((cur: any, item: any) => {
-            console.log(cur += item.Total);
-            arreyReday.push(item.Total)
-        }, 0)
+        handeNone()
 
         localStorage.setItem('cardItems', JSON.stringify(Cards))
         dispatch({ type: actionTypes.SET_CARD })
-    }, [Total])
 
+        // localStorage.setItem('total', JSON.stringify(handeNone()))
 
-// useEffect(() => {
-//     handdel_hack()
-// }, [arreyReday])
+    }, [Total, dispatch])
 
+    useEffect(() => {
+        localStorage.setItem('total', JSON.stringify(handeNone()))
+    }, [Cards])
 
-
-const handdel_hack = () => {
-    if(arreyReday.length >= 2) {
-        arreyReday.reduce((item: any, curent: any) => {
-            hackajvh = curent += item
-        })
-        console.log(hackajvh);
-    }
-}
 
     const IMAGE = async () => {
         await isAdmanasc(item).then((data: any) => {
@@ -60,15 +53,13 @@ const handdel_hack = () => {
         setTotal(Total + 1)
         const totrfdo = Total + 1
         data.Total = totrfdo * data.price
-        
     }
 
     const handleEncramnt = () => {
-            setTotal(Total - 1)
-            const totrfdo = Total - 1
-            data.Total = totrfdo * data.price
+        setTotal(Total - 1)
+        const totrfdo = Total - 1
+        data.Total = totrfdo * data.price
     }
-
 
     return (
         <motion.div
@@ -77,7 +68,7 @@ const handdel_hack = () => {
             exit={{ opacity: 0.8, x: 700, scale: 1 }}
             key={data._id} className="w-full my-6 h-full ease-in-out duration-100 transition-all flex bg-white rounded-lg">
             <div className="flex relative h-full w-[50%] flex-row flex-wrap justify-between rounded-lg">
-                <div className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[75px] w-[39%] h-10 items-center justify-center flex  absolute">
+                <div  className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[75px] w-[39%] h-10 items-center justify-center flex  absolute">
                     <p className="text-gray-500">price $:{data.price}</p>
                 </div>
                 {!image ? (

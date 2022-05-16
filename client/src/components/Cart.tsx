@@ -19,15 +19,10 @@ const Cart = () => {
 
     const [cards, setCards] = useState(Cards)
 
-    useEffect(() => {
-            console.log(cards)
-    }, [cards])
-
     useEffect(() => { setCards(Cards) }, [Cards])
-
+    // useEffect(() => {console.log('hello jhc')}, [Cards])
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
-    const [totaly, setTotaly] = useState(null)
 
     const handelDelet = (id: any) => {
         const filterd = cards?.filter((item: any) => item._id !== id)
@@ -36,12 +31,13 @@ const Cart = () => {
         dispatch({ type: actionTypes.SET_CARD })
     }
 
-    // useEffect(() => {
-    //     // for (let index = 0; index < data.length; index++) {
-    //     //     const element = data[index].price;
-    //     //     pricec.push(element)
-    //     // }
-    // },
+    const ahveEleman: any = localStorage.getItem('cardItems') || []
+
+    if (JSON.parse(ahveEleman).length === 0) {
+        localStorage.setItem('total', JSON.stringify(0))
+    }
+
+
     const isAdmanasc = async (id: string) => await getImage(id).then((item: string) => item)
 
 
@@ -52,13 +48,12 @@ const Cart = () => {
                     {cards && cards?.length > 0 ? (
                         <div className="w-full h-full gap-4 flex flex-col">
                             {data && cards.map((item: any) => {
-                                
-                            return (
-                                <AnimatePresence >
-                                    <CardCom key={item._id} data={item} Cards={Cards} item={item._id} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
-                                </AnimatePresence >
-                            )
-                        })}
+                                return (
+                                    <AnimatePresence >
+                                        <CardCom key={item._id} data={item} Cards={cards} item={item._id} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
+                                    </AnimatePresence >
+                                )
+                            })}
                         </div>
                     ) : (
                         <Loader />
