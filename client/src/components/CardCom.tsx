@@ -16,9 +16,9 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             baby += curnt.Total
         }, 0)
         return baby
-    } 
+    }
 
-    
+
 
     useEffect(() => {
 
@@ -48,9 +48,11 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     useEffect(() => { IMAGE() }, [item])
 
     const handelAdd = () => {
-        setTotal(Total + 1)
-        const totrfdo = Total + 1
-        data.Total = totrfdo * data.price
+        if (Total < data.pieces) {
+            setTotal(Total + 1)
+            const totrfdo = Total + 1
+            data.Total = totrfdo * data.price
+        }
     }
 
     const handleEncramnt = () => {
@@ -64,44 +66,80 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             initial={{ x: 400, opacity: 0, scale: 0.2 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ opacity: 0.8, x: 700, scale: 1 }}
-            key={data._id} className="w-full my-6 h-full ease-in-out duration-100 transition-all flex bg-white rounded-lg">
-            <div className="flex relative h-full w-[50%] flex-row flex-wrap justify-between rounded-lg">
-                <div  className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[75px] w-[39%] h-10 items-center justify-center flex  absolute">
-                    <p className="text-gray-500">price $:{data.price}</p>
-                </div>
+            key={data._id} className="w-full my-6 h-fit ease-in-out duration-100 transition-all flex bg-white rounded-lg">
+            <div className="flex  w-[50%] h-fit flex-row flex-wrap justify-between rounded-lg">
+
                 {!image ? (
                     <div className="flex h-32 w-[25rem] justify-center items-center">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="h-32 w-[25rem] flex   rounded-lg  bg-white ">
-                        <img className=' w-full h-full object-contain' src={image} alt={data.title} />
+                    <div className="h-32 w-[25rem] flex relative  rounded-lg  bg-white ">
+                        <img className=' w-full  h-full object-contain' src={image} alt={data.title} />
+
+                        <div className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[30%] w-[39%] h-10 items-center justify-center flex  absolute">
+                            <p className="text-gray-500">price $:{data.price}</p>
+                        </div>
                     </div>
                 )}
+
                 <div className="h-32 w-[25rem] flex rounded-lg justify-center items-center">
                     <BsCartDashFill onClick={() => handelDelet(item)} className='flex text-[2rem] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
                 </div>
             </div>
+
+
             <div className=" w-full h-full flex flex-end flex-col  justify-center items-center">
-                <p className="text-base  ">{data.title}
+                <p className="text-base  "><h1 className='text-2xl'>{data.title}</h1>
                     <span className='h-[1px] w-full   bg-gradient-to-tr from-blue-300 to-blue-600  flex flex-row'></span></p>
                 <br />
                 <p className="text-gray-500 flex self-start">{data.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
-                <div className="flex self-end h-full rounded-lg justify-end mr-4 my-6 bg-gray-800">
-                    <div className="p-2 flex flex-row">
 
-                        <span onClick={handelAdd} className="flex text-white cursor-pointer text-base ">+</span>
 
-                        <span className="flex bg-gradient-to-tr rounded-lg px-2 mx-2 from-blue-300 text-base  to-blue-600 ">{Total}</span>
 
-                        {Total >= 2 ? (
-                            <span onClick={handleEncramnt} className="flex text-white cursor-pointer text-base ">-</span>
-                        ) : (
-                            <span className="flex text-gry-500 cursor-pointer text-base ">-</span>
-                        )}
+                <div className="flex h-fit w-full justify-between items-center">
+
+
+                <div className="flex justify-center items-center ">
+                        <p className="font-semibold"> 
+
+                        {data.pieces - Total >= 1 
+
+                        ?  `${data.pieces - Total > 1  
+                            
+                            ?  `items left: ${data.pieces - Total}`  
+                            : 'one item left !'  }`
+
+                        : 'sorry no item left 😟'}
+
+                        </p>
+                    </div>
+
+                    <div className="flex self-end h-fit  rounded-lg justify-end mr-4 my-6 bg-gray-800">
+
+                        <div className="p-2 flex flex-row">
+
+                            {Total === data.pieces ? (
+                                <span className="flex bg-gray-500 rounded-lg justify-between px-1 self-center text-base ">+</span>
+                            ) : (
+                                <span onClick={handelAdd} className="flex bg-blue-400 px-1 self-center rounded-lg text-white cursor-pointer text-base ">+</span>
+                            )}
+
+                            <span className="flex bg-gradient-to-tr rounded-lg px-2 mx-2 from-blue-300 text-base  to-blue-600 ">{Total}</span>
+
+                            {Total >= 2 ? (
+                                <span onClick={handleEncramnt} className="flex  px-1 self-center bg-blue-400 rounded-lg text-white cursor-pointer text-base ">-</span>
+                            ) : (
+                                <span className="flex bg-gray-500 rounded-lg px-1 self-center text-base ">-</span>
+                            )}
+
+                        </div>
 
                     </div>
+
+
                 </div>
+
             </div>
         </motion.div>
     )
