@@ -9,6 +9,9 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
     const [Total, setTotal] = useState(data.Total / data.price || 1)
+    const [likes, setLikes] = useState(false)
+
+
 
     const handeNone = () => {
         let baby = 0;
@@ -18,7 +21,9 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         return baby
     }
 
-
+    const handelLikes = () => {
+        setLikes(!likes)
+    }
 
     useEffect(() => {
 
@@ -77,14 +82,14 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                     <div className="h-32 w-[25rem] flex relative  rounded-lg  bg-white ">
                         <img className=' w-full  h-full object-contain' src={image} alt={data.title} />
 
-                        <div className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[30%] w-[39%] h-10 items-center justify-center flex  absolute">
+                        <div className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[30%] lg:w-[39%] px-[6px] h-10 items-center justify-center flex  absolute">
                             <p className="text-gray-500">price $:{data.price}</p>
                         </div>
                     </div>
                 )}
 
                 <div className="h-32 w-[25rem] flex rounded-lg justify-center items-center">
-                    <BsCartDashFill onClick={() => handelDelet(item)} className='flex text-[2rem] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
+                    <BsCartDashFill onClick={() => handelDelet(item)} className='flex text-[2rem] p-[6px] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
                 </div>
             </div>
 
@@ -97,20 +102,19 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
 
 
-                <div className="flex h-fit w-full justify-between items-center">
+                <div className="flex h-fit w-full justify-between  flex-wrap items-center">
 
+                    <div className="flex justify-center items-center ">
+                        <p className="font-semibold">
 
-                <div className="flex justify-center items-center ">
-                        <p className="font-semibold"> 
+                            {data.pieces - Total >= 1
 
-                        {data.pieces - Total >= 1 
+                                ? `${data.pieces - Total > 1
 
-                        ?  `${data.pieces - Total > 1  
-                            
-                            ?  `items left: ${data.pieces - Total}`  
-                            : 'one item left !'  }`
+                                    ? `items left: ${data.pieces - Total}`
+                                    : 'one item left !'}`
 
-                        : 'sorry no item left 😟'}
+                                : 'sorry no item left'}
 
                         </p>
                     </div>
@@ -136,10 +140,16 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                         </div>
 
                     </div>
-
-
+                    <div className="flex justify-center items-center mr-3 ">
+                        <motion.button
+                            whileTap={{ scale: 0.6 }}
+                            onClick={handelLikes} className={`flex-none flex items-center ease-in-out duration-[50] transition-all justify-center w-9 h-9 rounded-md ${likes ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+                            <svg width="20" height="20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                            </svg>
+                        </motion.button>
+                    </div>
                 </div>
-
             </div>
         </motion.div>
     )

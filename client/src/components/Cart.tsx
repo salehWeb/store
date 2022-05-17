@@ -66,7 +66,7 @@ const Cart = () => {
                             })}
                             
                         </div>
-                        <TotalCard Total={Total}/>
+                        <TotalCard key={'total'} Total={Total}/>
                         </>
                     ) : (
                         <Loader />

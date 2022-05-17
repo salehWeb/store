@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { IoFastFood } from 'react-icons/io5'
 import RowCon from './RowCon';
@@ -6,13 +6,34 @@ import { useSelector } from 'react-redux';
 
 
 const CardCon = ({ data }: any) => {
+  
+  let result: any = []
+
+  const [filter, setFilter] = useState("");
+
+const [res, SetRes] = useState(result)
 
 
-  const [filter, setFilter] = useState("chicken");
+
+  const handel = async () => {
+
+    if (data) {
+
+      for (let i: any = 0; i < data?.length; i++) {
+        if (result.indexOf(data[i].type) === -1) {
+          result.push(data[i].type)
+        }
+        SetRes(result)
+      }
+      return result
+    }
+  }
 
   useEffect(() => {
-    console.log('i run');
-  }, [filter])
+    handel()
+    SetRes(result)
+    console.log(data?.filter((item: any) => item.type === res[0] ).map((ite: any) => ite))
+  }, [])
 
   return (
 
@@ -24,40 +45,39 @@ const CardCon = ({ data }: any) => {
         </p>
 
         <div className="w-full flex items-center justify-start lg:justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
-          {data &&
-            data.map((data: any) => (
+          {
+            res.map((type: any) => (
               <motion.div
                 whileTap={{ scale: 0.75 }}
-                key={data._id}
-                className={`group ${filter === data.type ? "bg-blue-600" : "bg-Blur"
+                key={type}
+                className={`group ${filter === type ? "bg-blue-600" : "bg-Blur"
                   } w-24 min-w-[94px] h-28 cursor-pointer rounded-lg drop-shadow-xl flex flex-col gap-3 items-center justify-center hover:bg-blue-600 `}
-                onClick={() => setFilter(data.type)}
+                onClick={() => setFilter(type)}
               >
                 <div
-                  className={`w-10 h-10 rounded-full shadow-lg ${filter === data.type
+                  className={`w-10 h-10 rounded-full shadow-lg ${filter === type
                     ? "bg-white"
                     : "bg-blue-600"
                     } group-hover:bg-white flex items-center justify-center`}
                 >
                   <IoFastFood
-                    className={`${filter === data.type
+                    className={`${filter === type
                       ? "text-gray-500"
                       : "text-white"
                       } group-hover:text-gray-500 text-lg`}
                   />
                 </div>
                 <p
-                  className={`text-sm ${filter === data.type
+                  className={`text-sm ${filter === type
                     ? "text-white"
                     : "text-gray-500"
                     } group-hover:text-white`}
                 >
-                  {data.title}
+                  {type}
                 </p>
               </motion.div>
             ))}
         </div>
-
         <div className="w-full">
           <RowCon
             flag={false}
