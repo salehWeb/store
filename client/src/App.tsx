@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import { CreatItem, MainCon, Header, Cart } from './components/index'
 import { AnimatePresence } from 'framer-motion'
 import Footer from './components/Footer';
+import Main from './components/login/Main'
 import { StyledEngineProvider } from '@mui/material'
 
 function App() {
@@ -35,6 +36,7 @@ React.useEffect(() => {
             <Route path='/*' element={<MainCon />} />
             <Route path='/creatItem' element={<CreatItem />} />
             <Route path='/card' element={<Cart />} />
+            <Route path='/login' element={<Main />} />
           </Routes>
         </main>
         <Footer  />
