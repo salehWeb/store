@@ -32,7 +32,7 @@ const [res, SetRes] = useState(result)
   useEffect(() => {
     handel()
     SetRes(result)
-    console.log(data?.filter((item: any) => item.type === res[0] ).map((ite: any) => ite))
+    console.log(res)
   }, [])
 
   return (
