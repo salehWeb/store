@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
 
-    password: { type: String, required: true, unique: true, min: 8 },
+    password: { type: String, required: true },
 
     email: { type: String, required: true, unique: true },
-    createdAt: {
-        type: Date,
-        default: new Date()
-    }
+
+    createdAt: { type: Date, default: new Date() },
+
+    img: { type: String, required: false }
 })
 
 const user = mongoose.model('user', userSchema)

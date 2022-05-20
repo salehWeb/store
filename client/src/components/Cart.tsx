@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../context/actionTypes'
-import { getCard } from '../context/actions'
+import { getCard } from '../context/Cardactions'
 import { getImage } from '../server/index'
 import CardCom from './CardCom'
 import EmtyCart from './EmtyCart'

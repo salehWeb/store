@@ -6,7 +6,7 @@ import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import {RowCon, CardCon } from './index'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getCard } from '../context/actions'
+import { getCard } from '../context/Cardactions'
 
 
 const MainCon = () => {

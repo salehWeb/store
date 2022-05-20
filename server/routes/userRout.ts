@@ -1,5 +1,5 @@
 import express  from 'express'
-import { getUser, login, logout, reggstar, virfyToken } from '../controllers/user'
+import { getUser, login, logout, reggstar, virfyToken} from '../controllers/user'
 const router = express.Router()
 
 router.post('/', login)

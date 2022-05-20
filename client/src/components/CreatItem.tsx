@@ -5,7 +5,7 @@ import Loader from './Loader'
 import FileBase from './Input.js'
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
-import { postCard, getCard } from '../context/actions';
+import { postCard, getCard } from '../context/Cardactions';
 
 
 

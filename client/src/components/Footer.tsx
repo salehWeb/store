@@ -3,7 +3,7 @@ import logo from '../img/logoFood1.png'
 
 const Footer = () => {
     return (
-        <footer className="p-4 bg-[#f1f5f9] shadow-lg shadow-blue-200 sm:p-6 dark:bg-gray-800">
+        <footer className="p-4 bg-[#f1f5f9] shadow-lg shadow-blue-200 sm:p-6 dark:bg-gray-800" id='d'>
             <div className="md:flex md:justify-between">
                 <div className="mb-6 md:mb-0">
                     <a href="#" className="flex items-center">

@@ -6,16 +6,20 @@ dotenv.config()
 
 const seacrtJwt: any = process.env.SEACRT_JWT
 
-export const login = async (req: any, res: any, next: any) => {
+
+
+export const login = async (req: any, res: any) => {
     const { name, email, password }: any = await req.body
     const isHaveAcount: any = await user.findOne({ email: email })
 
     try {
 
         if (isHaveAcount) {
-            return res.status(404).json({ msg: " this account is already exist!. try login." })
+            console.log(' this account is already exist!. try login.');
+            return res.status(201).json({ msg: " this account is already exist!. try login." })
         }
 
+        console.log('fuck')
 
         const salt = bcrypt.genSaltSync(10)
 
@@ -29,7 +33,7 @@ export const login = async (req: any, res: any, next: any) => {
         })
 
         await USER.save()
-
+        console.log(' acount sucssfuly created ');
         res.status(201).json({ msg: " acount sucssfuly created " })
     }
 
@@ -51,8 +55,7 @@ export const reggstar = async (req: any, res: any, next: any) => {
         const isRigthPassword = await bcrypt.compareSync(password, isHaveAcount.password)
 
         if (!isRigthPassword) {
-            console.log('wrong');
-            return res.status(404).json({ msg: " password is wrong Try agin!. " })
+            return res.status(201).json({ msg: " password is wrong Try agin!. " })
         }
 
         const token = jwt.sign({ id: isHaveAcount._id }, seacrtJwt, {
@@ -67,13 +70,14 @@ export const reggstar = async (req: any, res: any, next: any) => {
         })
 
 
-        res.status(200).json({ msg: " login sucsas ", isHaveAcount, token })
+        res.status(200).json({ msg: " login sucsas " })
 
 
     } catch (error: any) {
+
         if (!isHaveAcount) {
             console.log('wrong');
-            return res.status(404).json({ msg: " the email is wrong try agin!. or singin if do not have an account " })
+            return res.status(201).json({ msg: " the email is wrong try agin!. or sing in if do not have an account " })
         }
 
         res.status(404).json({ msg: error.message })
