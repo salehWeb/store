@@ -1,21 +1,21 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
-import { Sing_in } from '../../context/useractioan'
-import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
+import { setUser } from '../../server'
 
 const Singin = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
-  const { userMsg }: any = useSelector((state: any) => state.auth)
-
-  const dispatch: any = useDispatch()
-
   const DefultFormVaule: any = {
     name: '',
     password: '',
     email: ''
   }
 
+    /*  
+  sadsafew
+  wefewfew@gmail.com
+  weweeggewffw
+  */
 
   const [forms, setForms] = useState(DefultFormVaule)
   const [eye, setEye] = useState(false)
@@ -26,24 +26,29 @@ const Singin = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
     setEye(!eye)
   }
 
-  useEffect(() => {
-
-  }, [userMsg])
 
 
 
   const handelSubmit = async (e: any) => {
+    let msg: any;
     setDispeldButtton(true)
     e.preventDefault()
 
-    await dispatch(Sing_in(forms))
+    await setUser(forms).then((r) => msg = r.data.msg).catch( async (e) => {
+      setDispeldButtton(false)
+      return await Swal.fire({
+        icon: 'error',
+        title: 'filed',
+        text: `${e.message}`
+      })
+    })
 
-    if (userMsg?.msg?.data?.msg === " acount sucssfuly created ") {
+    if (msg === " acount sucssfuly created ") {
 
       await Swal.fire({
         icon: 'success',
         title: 'success',
-        text: `${userMsg?.msg?.data?.msg}`
+        text: `${msg}`
       })
 
       setDispeldButtton(false)
@@ -51,12 +56,12 @@ const Singin = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
 
     }
 
-    if (userMsg?.msg?.data?.msg === " this account is already exist!. try login.") {
+    if (msg === " this account is already exist!. try login.") {
 
       await Swal.fire({
         icon: 'error',
         title: 'felid',
-        text: `${userMsg?.msg?.data?.msg}`
+        text: `${msg}`
       })
 
       setDispeldButtton(false)

@@ -1,16 +1,10 @@
-import { useEffect, useState } from 'react'
+import {useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
-import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
-import { login } from '../../context/useractioan'
-import * as actionTypes from '../../context/actionTypes'
+import { getUser } from '../../server'
 
 const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
-  const dispatch: any = useDispatch()
-
-  const { userMsg }: any = useSelector((state: any) => state.auth)
-
   const DefultFormVaule: any = {
     password: '',
     email: ''
@@ -20,68 +14,63 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
   const [eye, setEye] = useState(false)
   const [dispeldButtton, setDispeldButtton] = useState(false)
 
-  const [msg, setMsg] = useState(userMsg)
-
-
-  useEffect(() => {
-    setMsg(userMsg)
-    setDispeldButtton(false)
-
-  }, [userMsg])
-
 
 
   const handelEye = () => {
     setEye(!eye)
   }
+
   /*  
   sadsafew
   wefewfew@gmail.com
   weweeggewffw
   */
 
+
   const handelSubmit = async (e: any) => {
-    
-    dispatch({ type: actionTypes.GET_LOGIN, payload: null })
+    let msg: any;
 
     e.preventDefault()
-    // setDispeldButtton(true)
+    setDispeldButtton(true)
 
-
-    await dispatch(login(forms))
-
-    if (msg?.msg?.data?.msg === ' password is wrong Try agin!. ') {
-
-
-      await Swal.fire({
-        icon: 'error',
-        title: 'password is wrong !',
-        text: `${msg?.msg?.data?.msg}`
-      })
-
+    await getUser(forms).then((r) => msg = r.data.msg).catch( async (e) => {
       setDispeldButtton(false)
-    }
+      return await Swal.fire({
+        icon: 'error',
+        title: 'filed',
+        text: `${e.message}`
+      })
+  })
 
-    else if (msg?.msg?.data?.msg === ' login sucsas ') {
-
+    if (msg === ' login sucsas ') {
 
       await Swal.fire({
         icon: 'success',
         title: 'success',
-        text: `${msg?.msg?.data?.msg}`
+        text: `${msg}`
       })
+
+
       setForms(DefultFormVaule)
       setDispeldButtton(false)
 
+    } 
+    else if (msg === ' password is wrong Try agin!. ') {
+
+      await Swal.fire({
+        icon: 'error',
+        title: 'password is wrong !',
+        text: `${msg}`
+      })
+
+      setDispeldButtton(false)
     }
-
-    else if (msg?.msg?.data?.msg === ' the email is wrong try agin!. or sing in if do not have an account ') {
-
+    else if (msg === ' the email is wrong try agin!. or sing in if do not have an account ') {
 
       await Swal.fire({
         icon: 'error',
         title: 'email is wrong !',
-        text: `${msg?.msg?.data?.msg}` /// 
+        text: `${msg}` /// 
       })
 
       setDispeldButtton(false)
