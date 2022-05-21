@@ -15,11 +15,17 @@ const url: any = process.env.DATABASEURL
 
 app.use(cookieParser())
 
-app.use(express.json({limit: '50mb'}))
+app.use(express.json({ limit: '50mb' }))
 
-app.use(express.urlencoded({limit: '50mb', extended: true}))
+app.use(express.urlencoded({ limit: '50mb', extended: true }))
 
-app.use(cors({ origin: '*', credentials: true}))
+const corsOptions = {
+    origin: 'http://localhost:3000',
+    credentials: true,
+    optionSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 app.use('/', cardRout)
 app.use('/login', userRout)

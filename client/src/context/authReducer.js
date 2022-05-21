@@ -13,11 +13,6 @@ const reducer = (state = {}, action) => {
         case actionType.LOGOUT:
             localStorage.removeItem('user')
             return { user: null }
-        case actionType.LOGIN_USER:
-            return {
-                ...state,
-                userMsg: action.payload
-            }
         default: return state
     }
 }

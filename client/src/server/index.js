@@ -2,6 +2,12 @@ import axios from 'axios'
 
 const API = axios.create({ baseURL: 'http://localhost:5000' })
 
+API.interceptors.request.use((req) => {
+    if(localStorage.getItem('profile')) {
+        req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`
+    }
+    return req
+})
 
 export const getCard = async () => await API.get(`/`)
 
@@ -25,3 +31,8 @@ export const getCartUser = async (id) => await API.get('/card', id)
 export const setUser = async (data) => await API.post('/login', data)
 
 export const getUser = async (data) => await API.post('/login/sgs', data)
+
+
+export const refreshToken = async () => await API.get('/login/refresh', {
+    withCredentials: true
+})
