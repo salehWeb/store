@@ -31,8 +31,5 @@ export const getCartUser = async (id) => await API.get('/card', id)
 export const setUser = async (data) => await API.post('/login', data)
 
 export const getUser = async (data) => await API.post('/login/sgs', data)
+export const hell = async () => await API.get('/login/hell')
 
-
-export const refreshToken = async () => await API.get('/login/refresh', {
-    withCredentials: true
-})

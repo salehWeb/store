@@ -11,14 +11,7 @@ export const auth = async (req: any, res: any, next: any) => {
         const isCustomAuth = token.length < 500
 
         if(token && isCustomAuth) {
-            decodedData = jwt.verify(token, seacrtJwt, (err: any, user: any) => {
-                if (err) {
-                    console.log(err);
-                    return res.status(404).json({ msg: "user not found"})
-                } else {
-                    console.log(user)
-                }
-            })
+            decodedData = jwt.verify(token, seacrtJwt)
             req.userId = decodedData?.id
         } else {
             decodedData = jwt.decode(token)
@@ -26,6 +19,6 @@ export const auth = async (req: any, res: any, next: any) => {
         }
         next()
     } catch (error) {
-        console.log(req.headers);
+        console.log(error);
     }
 }

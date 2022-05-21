@@ -1,10 +1,12 @@
-import {useState } from 'react'
+import {useEffect, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
 import Swal from 'sweetalert2'
-import { getUser } from '../../server'
+import { getUser, hell } from '../../server'
+import { useNavigate } from 'react-router-dom'
 
 const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
+  const history = useNavigate()
   const DefultFormVaule: any = {
     password: '',
     email: ''
@@ -25,15 +27,32 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
   wefewfew@gmail.com
   weweeggewffw
   */
+  useEffect(() => {
+    hell().then(res => console.log(res.data)).catch(async err => {
+      return await Swal.fire({
+        icon: 'error',
+        title: 'filed',
+        text: `user not autherstion`,
+        footer: `you need to login !`
+      })
+    })
+  } , [])
 
 
   const handelSubmit = async (e: any) => {
+    let data: any;
     let msg: any;
 
     e.preventDefault()
     setDispeldButtton(true)
 
-    await getUser(forms).then((r) => msg = r.data.msg).catch( async (e) => {
+    await getUser(forms).then((r) => {
+      msg = r.data.msg
+      data = r
+      console.log(data)
+      console.log(data.data)
+      localStorage.setItem('profile', JSON.stringify(data.data))
+    }).catch( async (e) => {
       setDispeldButtton(false)
       return await Swal.fire({
         icon: 'error',

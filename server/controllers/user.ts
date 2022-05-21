@@ -62,7 +62,7 @@ export const reggstar = async (req: any, res: any, next: any) => {
         })
 
 
-        res.status(200).json({ msg: " login sucsas ", user: isHaveAcount, token })
+        res.status(200).json({ msg: " login sucsas ", user: { email: isHaveAcount.email, name: isHaveAcount.name, createdAt: isHaveAcount.createdAt }, token })
 
 
     } catch (error: any) {
