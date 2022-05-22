@@ -1,9 +1,12 @@
-import {useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
 import Swal from 'sweetalert2'
-import { getUser, hell } from '../../server'
+import { getUser } from '../../server'
 import { useNavigate } from 'react-router-dom'
+
+import { GoogleLogin } from 'react-google-login';
+import { Client_ID } from '../../Secret.js';
 
 const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
   const history = useNavigate()
@@ -27,17 +30,29 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
   wefewfew@gmail.com
   weweeggewffw
   */
-  useEffect(() => {
-    hell().then(res => console.log(res.data)).catch(async err => {
+
+  const handelSuccess = async (res: any) => {
+
+    const { profileObj, tokenId } = await res
+    const user: Object = { profile: profileObj, token: tokenId }
+    await Swal.fire({
+      icon: 'success',
+      title: 'success'
+    })
+    console.log(user)
+    localStorage.setItem('profile', JSON.stringify(user))
+
+  }
+
+  const handelFailure = async (err: any) => {
+    if (err.message) {
       return await Swal.fire({
         icon: 'error',
         title: 'filed',
-        text: `user not autherstion`,
-        footer: `you need to login !`
+        text: `${err.message}`
       })
-    })
-  } , [])
-
+    }
+  }
 
   const handelSubmit = async (e: any) => {
     let data: any;
@@ -52,14 +67,14 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
       console.log(data)
       console.log(data.data)
       localStorage.setItem('profile', JSON.stringify(data.data))
-    }).catch( async (e) => {
+    }).catch(async (e) => {
       setDispeldButtton(false)
       return await Swal.fire({
         icon: 'error',
         title: 'filed',
         text: `${e.message}`
       })
-  })
+    })
 
     if (msg === ' login sucsas ') {
 
@@ -69,11 +84,11 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
         text: `${msg}`
       })
 
-
+    
       setForms(DefultFormVaule)
       setDispeldButtton(false)
 
-    } 
+    }
     else if (msg === ' password is wrong Try agin!. ') {
 
       await Swal.fire({
@@ -89,7 +104,7 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
       await Swal.fire({
         icon: 'error',
         title: 'email is wrong !',
-        text: `${msg}` /// 
+        text: `${msg}`
       })
 
       setDispeldButtton(false)
@@ -171,18 +186,30 @@ const Login = ({ isLoginOrSingIn, setIsLoginOrSingIn }: any) => {
           <p className="text-center font-semibold mx-4 mb-0">OR</p>
         </div>
 
-        <a
-          className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
-          style={{ backgroundColor: "#55acee" }}
-          role="button"
-          href='#a'
-          data-mdb-ripple="true"
-          data-mdb-ripple-color="light"
-        >
 
-          <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
-          <p className="flex text-md  lg:text-lg">with Google</p>
-        </a>
+
+
+
+        <GoogleLogin
+          clientId={Client_ID}
+          render={(prop: any) => (
+            <a
+              className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
+              style={{ backgroundColor: "#55acee" }}
+              role="button"
+              href='#a'
+              data-mdb-ripple="true"
+              data-mdb-ripple-color="light"
+              onClick={prop.onClick}
+              
+            >
+              <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
+              <p className="flex text-md  lg:text-lg">with Google</p>
+            </a>
+          )}
+          onSuccess={handelSuccess}
+          onFailure={handelFailure}
+        />
       </form>
     </>
   )

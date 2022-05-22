@@ -45,12 +45,13 @@ const [mune, setMune] = useState(false)
             setMune(false)
         }
     }
+
     const handelMune = () => {
         setMune(!mune)
     }
 
-    const handelFailure = (error: String) => {
-        console.log(error)
+    const handelFailure = (error: any) => {
+        console.log(error.message)
     }
 
     const handelLogout = () => {

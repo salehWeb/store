@@ -37,3 +37,24 @@ export const getImg = async (req: any, res: any) => {
         res.status(409).json({ msg: error })
     }
 }
+
+export const sershQurey = async (req: any, res: any) => {
+    const sersh = req.query.qurey // 
+    const data = await card.find({ title: sersh })
+
+    res.status(200).json({ data })
+}
+
+export const likesprodacetd = async (req: any, res: any) => {
+    const data = await req.body
+    const id = req.params.id
+    console.log(id);
+    console.log(data);
+    try {
+        const updataed = await card.findByIdAndUpdate(id, data, { new: true })
+        console.log(updataed);
+    } catch (error) {
+        console.log(error)
+    }
+
+}
