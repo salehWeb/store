@@ -76,7 +76,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             render={(prop: any) => (
                                 <button
                                     disabled={userFind}
-                                    onClick={prop.onClick}
+                                    
                                 >
                                     <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
                                         whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
@@ -129,7 +129,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         render={(prop: any) => (
                             <button
                                 disabled={userFind}
-                                onClick={prop.onClick}
+                                
                             >
                                 <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
                                     whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' /> </button>

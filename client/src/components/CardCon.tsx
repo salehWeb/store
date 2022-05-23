@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { IoFastFood } from 'react-icons/io5'
 import RowCon from './RowCon';
-import { useSelector } from 'react-redux';
 
 
 const CardCon = ({ data }: any) => {

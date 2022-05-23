@@ -26,7 +26,7 @@ export const getImage = async (id) => await API.get(`/images/${id}`).then((res) 
     return err.message
 })
 
-export const getCartUser = async (id) => await API.get('/card', id)
+export const getCartUser = async (id) => await API.get(`/card/${id}`)
 
 export const setUser = async (data) => await API.post('/login', data)
 
@@ -35,4 +35,5 @@ export const getUser = async (data) => await API.post('/login/sgs', data)
 export const likesProdectd = async (id, data) => await API.patch(`${id}`, data)
 
 export const sesrshQurey = async (sershVul) => await API.get(`/sersh?qurey=${sershVul}`)
+
 

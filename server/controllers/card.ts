@@ -1,5 +1,18 @@
 import card from "../models/card";
 
+
+
+export const getOneCard = async (req: any, res: any) => {
+    const id = req.params.id
+    try {
+        const data = await card.findById(id, { likes: 1, _id: 1 })
+        res.status(201).json(data)
+    } catch (error: any) {
+        console.log(error)
+        res.send(error.message)
+    }
+}
+
 export const postCard = async (req: any, res: any) => {
     const data = await req.body;
     if (String(data.desc) && String(data.title) && Number(data.price) && Number(data.pieces) && String(data.type) && String(data.img)) {
@@ -47,12 +60,10 @@ export const sershQurey = async (req: any, res: any) => {
 
 export const likesprodacetd = async (req: any, res: any) => {
     const data = await req.body
-    const id = req.params.id
-    console.log(id);
     console.log(data);
     try {
-        const updataed = await card.findByIdAndUpdate(id, data, { new: true })
-        console.log(updataed);
+        const updataed = await card.findByIdAndUpdate(data._id, data, { new: true })
+        res.status(202).json(updataed)
     } catch (error) {
         console.log(error)
     }

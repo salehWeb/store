@@ -4,14 +4,17 @@ import Loader from './Loader'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../context/actionTypes'
-import { likesProdectd } from '../server'
+import { getCartUser, likesProdectd } from '../server'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
     const [Total, setTotal] = useState(data.Total / data.price || 1)
-    const [likes, setLikes] = useState(false)
+    const [likesC, setLikes] = useState(false)
 
+    const haveAnacount = localStorage.getItem('profile')
+
+    const user = haveAnacount && JSON.parse(haveAnacount)
 
 
     const handeNone = () => {
@@ -22,16 +25,54 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         return baby
     }
 
+    const userEmail: any = `${user?.profile?.email || user?.user?.email}`
+
+    useEffect(() => {
+        getCartUser(data._id).then(res => {
+            setLikes(res.data.likes.includes(userEmail))
+        }).catch(error => console.log(error))
+    }, [])
+
     const handelLikes = async () => {
-        setLikes(!likes)
-        await likesProdectd(data._id, data).then((res: any) => console.log(res)).catch(error => console.log(error))
+        setLikes(!likesC)
+        let DATA: any;
+
+
+        await getCartUser(data._id).then(async res => {
+            DATA = res.data
+
+
+            if (!res.data.likes.includes(userEmail)) {
+                DATA = { ...DATA, likes: [userEmail] }
+
+                await likesProdectd(DATA._id, DATA.likes.length === 0 ? DATA :
+
+                    { ...res.data, likes: [...res.data.likes, userEmail] })
+                    .then(resed => {
+                        // console.log(res)
+                        console.log(resed.data)
+                    })
+                    .catch(error => console.log(error))
+            } else {
+                await likesProdectd(res.data._id, res.data.likes.length === 1 ? { ...res.data, likes: [] } :
+                    { ...res.data, likes: res.data.likes.filter((item: any) => item !== userEmail) })
+                    .then((res: any) => {
+                        console.log(res.data);
+                    }).catch(error => console.log(error))
+            }
+
+        }).catch(err => console.log(err))
     }
+
+
 
     useEffect(() => {
 
         if (!data.Total) {
             data.Total = data.price
         }
+
+
 
         handeNone()
 
@@ -145,7 +186,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                     <div className="flex justify-center items-center mr-3 ">
                         <motion.button
                             whileTap={{ scale: 0.6 }}
-                            onClick={handelLikes} className={`flex-none flex items-center ease-in-out duration-[50] transition-all justify-center w-9 h-9 rounded-md ${likes ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+                            onClick={handelLikes} className={`flex-none flex items-center ease-in-out duration-[50] transition-all justify-center w-9 h-9 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
                             <svg width="20" height="20" fill="currentColor" aria-hidden="true">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
                             </svg>
