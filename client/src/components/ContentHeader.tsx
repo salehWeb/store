@@ -27,7 +27,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
         }
         await sesrshQurey(sersh).then(res => console.log(res)).catch(err => console.log(err))
     }
-    
+
     const [cards, setCards] = useState(0)
 
 
@@ -76,7 +76,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             render={(prop: any) => (
                                 <button
                                     disabled={userFind}
-                                    
+
                                 >
                                     <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
                                         whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
@@ -129,7 +129,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         render={(prop: any) => (
                             <button
                                 disabled={userFind}
-                                
+
                             >
                                 <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
                                     whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' /> </button>
@@ -137,6 +137,8 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         onSuccess={handelSuccess}
                         onFailure={handelFailure}
                     />
+                    {/* sersh mobil view 
+                    
                     <div className="flex justify-center">
                         <div className="mb-3 xl:w-96">
                             <div className="input-group relative flex flex-wrap items-stretch w-full mb-4">
@@ -149,6 +151,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             </div>
                         </div>
                     </div>
+*/}
                     {mune && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.6 }}

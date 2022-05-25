@@ -26,13 +26,13 @@ export const postCard = async (req: any, res: any) => {
             console.log(error);
         }
     } else {
-        res.status(404).json( { msg: 'unvalued data' } )
+        res.status(404).json({ msg: 'unvalued data' })
     }
 }
 
 export const getCard = async (req: any, res: any) => {
     try {
-        const data: any = await card.find({}, { img: 0})
+        const data: any = await card.find({}, { img: 0 })
         res.status(201).json(data)
     } catch (error) {
         res.status(409).json({ msg: error })
@@ -52,8 +52,8 @@ export const getImg = async (req: any, res: any) => {
 }
 
 export const sershQurey = async (req: any, res: any) => {
-    const sersh = req.query.qurey // 
-    const data = await card.find({ title: sersh })
+    const sersh = req.query.qurey
+    const data = await card.find({ $or: [{ title: sersh }, { type: sersh }, { desc: sersh }, { _id: sersh }] })
 
     res.status(200).json({ data })
 }

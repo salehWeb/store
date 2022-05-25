@@ -6,11 +6,13 @@ import FileBase from './Input.js'
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../context/actionTypes'
 import { postCard, getCard } from '../context/Cardactions';
+import { sesrshQurey } from '../server/index';
 
 
 
 const CreatItem = () => {
   let data: any;
+
 
   const dispatch: any = useDispatch()
 
@@ -21,8 +23,10 @@ const CreatItem = () => {
 
 
 
+  console.log()
 
   useEffect(() => {
+
     dispatch(getCard())
   }, [dispatch])
 
@@ -34,6 +38,23 @@ const CreatItem = () => {
   const [isMsg, setIsMsg] = useState(data?.msg)
   const [allState, setAllState] = useState(defaulValue)
 
+  useEffect(() => {
+    if (window.location.search.split("=")[1] && window.location.search.split("=")[1].length >= 24) {
+      const id = window.location.search.split("=")[1]
+      async function fetchData() {
+          await sesrshQurey(id).then(res => {
+            console.log(res.data.data[0]._id === id);
+              if (res.data.data[0]._id === id) {
+            setAllState(res.data.data[0])
+            console.log('yub');
+          }
+        })
+      }
+
+      fetchData()
+    }
+
+  }, [])
 
   useEffect(() => {
     setIsData(data?.data)
@@ -82,8 +103,8 @@ const CreatItem = () => {
       setIsOpen(true)
       setTimeout(async () => {
         await dispatch({ type: actionTypes.POSTCARD, payload: null })
-          setAllState(defaulValue)
-          setIsOpen(false)
+        setAllState(defaulValue)
+        setIsOpen(false)
       }, 5000)
     }
 
@@ -91,7 +112,7 @@ const CreatItem = () => {
       setIsOpen(true)
       setAllState({ ...allState, msg: 'you measd some thank all the Fields is required' })
     }
-}
+  }
 
 
 
