@@ -1,4 +1,3 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { MdHome } from 'react-icons/md'
 import { motion, AnimatePresence } from 'framer-motion'

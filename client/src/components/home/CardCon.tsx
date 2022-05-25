@@ -4,35 +4,32 @@ import { IoFastFood } from 'react-icons/io5'
 import RowCon from '../row/RowCon';
 
 
+
+
 const CardCon = ({ data }: any) => {
-  
+
   let result: any = []
 
   const [filter, setFilter] = useState("");
-
-const [res, SetRes] = useState(result)
-
+  const [res, SetRes] = useState(result);
 
 
-  const handel = async () => {
 
+
+  useEffect(() => {
     if (data) {
-
-      for (let i: any = 0; i < data?.length; i++) {
-        if (result.indexOf(data[i].type) === -1) {
-          result.push(data[i].type)
+      const handel = async () => {
+        for (let i: any = 0; i < data?.length; i++) {
+          if (result.indexOf(data[i].type) === -1) {
+            result.push(data[i].type)
+          }
         }
         SetRes(result)
       }
-      return result
-    }
-  }
 
-  useEffect(() => {
-    handel()
-    SetRes(result)
-    console.log(res)
-  }, [])
+      handel()
+    }
+  }, [data, result])
 
   return (
 

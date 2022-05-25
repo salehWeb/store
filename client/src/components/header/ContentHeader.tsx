@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import * as actionTypes from '../../context/actionTypes'
 import { sesrshQurey } from "../../server"
+import SideBar from "./SideBar"
 
-const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes,  Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
     const dispatch = useDispatch()
     const history = useNavigate()
     const { cards: Cards } = useSelector((state: any) => state.card)
@@ -29,6 +30,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
     }
 
     const [cards, setCards] = useState(0)
+    const [open, setOpen] = useState(false)
 
 
 
@@ -70,34 +72,25 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             </div>
                         ) : null}
                     </div>
-                    <div className="relative">
-                        <GoogleLogin
-                            clientId={Client_ID}
-                            render={(prop: any) => (
-                                <button
-                                    disabled={userFind}
 
-                                >
+                    <div className="relative">
+
                                     <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
                                         whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
                                     />
-                                </button>
-                            )}
-                            onSuccess={handelSuccess}
-                            onFailure={handelFailure}
-                        />
+ 
 
-                        {mune && (
+                        {open && (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.6 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0.6 }}
                                 className="w-40 right-2 text-center bg-gray-50 shadow-xl flex flex-col rounded-lg absolute">
                                 <p onClick={handelLogout} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
-                                    <Link to={'/creatItem'}>
-                                        <p onClick={handelMune} className='border-b-[1px] border-gray-400'></p>
-                                        <p onClick={handelMune} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'>New Item <MdLibraryAdd /> </p>
-                                    </Link>
+                                <Link to={'/creatItem'}>
+                                    <p onClick={handelMune} className='border-b-[1px] border-gray-400'></p>
+                                    <p onClick={handelMune} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'>New Item <MdLibraryAdd /> </p>
+                                </Link>
                             </motion.div>
                         )}
                     </div>
@@ -107,12 +100,10 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
             <div className="flex h-full items-center justify-between w-full md:hidden ">
 
                 <div onClick={handelReduric} className="flex relative items-center justify-center">
-                    <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
-                    {cards > 0 ? (
-                        <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
-                            <p className='text-sm text-white font-semibold'>{cards}</p>
-                        </div>
-                    ) : null}
+                    {/* <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' /> */}
+                    
+                    <SideBar cards={cards}/>
+
                 </div>
 
                 <Link to='/' className="flex items-center gap-2">
@@ -120,20 +111,15 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                     <p className='font-bold text-xl text-gray-800 cursor-pointer'> City </p>
                 </Link>
 
-                <div className="relative">
-                    <GoogleLogin
-                        clientId={Client_ID}
-                        render={(prop: any) => (
-                            <button
-                                disabled={userFind}
 
-                            >
-                                <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                                    whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' /> </button>
-                        )}
-                        onSuccess={handelSuccess}
-                        onFailure={handelFailure}
-                    />
+                <div className="relative">
+
+
+                    <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
+                        whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' />
+
+
+
                     {/* sersh mobil view 
                     
                     <div className="flex justify-center">
@@ -149,7 +135,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         </div>
                     </div>
 */}
-                    {mune && (
+                    {open && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.6 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -161,12 +147,12 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             <p className={classes.p} onClick={handelMune} >Service <MdDesignServices /></p>
                             <p className='border-b-[1px] border-gray-400'></p>
                             <p onClick={handelLogout} className='hover:bg-gray-300 hover:shadow-md rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
-                                <Link to={'/creatItem'}>
-                                    <p className='border-b-[1px] border-gray-400'></p>
-                                    <p className={classes.p}
-                                        onClick={handelMune}
-                                    >New Item <MdLibraryAdd /> </p>
-                                </Link>
+                            <Link to={'/creatItem'}>
+                                <p className='border-b-[1px] border-gray-400'></p>
+                                <p className={classes.p}
+                                    onClick={handelMune}
+                                >New Item <MdLibraryAdd /> </p>
+                            </Link>
                         </motion.div>
                     )}
                 </div>
