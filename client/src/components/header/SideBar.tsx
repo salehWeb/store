@@ -17,13 +17,16 @@ const SideBar = ({ cards }: any) => {
                 <span aria-hidden="true" className={`block  h-[2px] w-8 bg-current transform transition duration-[600ms] ease-in-out ${open && 'opacity-0'} `}></span>
                 <span aria-hidden="true" className={`${open && ' rotate-[315deg] -translate-y-1.5 '} block h-[2px] w-8 mt-[4px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
             </div>
+
             <AnimatePresence>
                 {
                     open && (
-                        <motion.div className="w-64 absolute top-[27px] -left-4 border-t-[1px]" aria-label="Sidebar"
-                            initial={{ x: -400, opacity: 0, scale: 0.8 }}
+                        <motion.div className="w-64 absolute top-[38px] -right-[11px] border-t-[1px]" aria-label="Sidebar"
+                            initial={{ x: 400, opacity: 0.8, scale: 0.6 }}
                             animate={{ x: 0, opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0.8, x: 700, scale: 1 }}
+                            exit={{ opacity: 0.8, x: 400, scale: 0.6 }}    
+                            transition={{ duration: 0.4 }}
+
                         >
                             <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
                                 <ul className="space-y-2">

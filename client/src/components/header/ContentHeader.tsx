@@ -30,7 +30,6 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
     }
 
     const [cards, setCards] = useState(0)
-    const [open, setOpen] = useState(false)
 
 
 
@@ -48,9 +47,8 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         exit={{ opacity: 0, x: 200 }}
                         className='flex items-center gap-8'>
                         <li className={classes.li}>Home</li>
-                        <li className={classes.li}>Menu</li>
-                        <li className={classes.li}>About Us</li>
-                        <li className={classes.li}>Service</li>
+                        <li className={classes.li}>{localStorage.getItem("profile") ? 'Logout' : 'Login'}</li>
+
                         <li className="flex justify-center">
                             <div className="xl:w-96">
                                 <div className=" relative flex items-center w-full">
@@ -63,23 +61,33 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                                 </div>
                             </div>
                         </li>
-                    </motion.ul>
-                    <div onClick={handelReduric} className="flex relative items-center justify-center">
-                        <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
-                        {cards > 0 ? (
-                            <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
-                                <p className='text-sm text-white font-semibold'>{cards}</p>
+                        <li className={classes.li}>
+                            <div onClick={handelReduric} className="flex relative items-center justify-center">
+                                <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' />
+                                {cards > 0 ? (
+                                    <div className="w-5 h-5 absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
+                                        <p className='text-sm text-white font-semibold'>{cards}</p>
+                                    </div>
+                                ) : null}
                             </div>
-                        ) : null}
-                    </div>
+                        </li>
+                        <li className={classes.li}>
+                            <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
+                                whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
+                            />
+                        </li>
+                        <li className={classes.li + ' relative  mr-4'}>
+                            <SideBar cards={cards} />
+                        </li>
 
-                    <div className="relative">
+                    </motion.ul>
+                </div>
+            </div>
 
-                                    <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                                        whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
-                                    />
- 
 
+
+
+            {/* 
                         {open && (
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.6 }}
@@ -92,35 +100,43 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                                     <p onClick={handelMune} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'>New Item <MdLibraryAdd /> </p>
                                 </Link>
                             </motion.div>
-                        )}
-                    </div>
-                </div>
-            </div>
+                        )} */}
+
+
+
             {/*  mobil view  */}
-            <div className="flex h-full items-center justify-between w-full md:hidden ">
+                
+                <motion.ul
+                    initial={{ opacity: 0, x: 200 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: 200 }}
+                    className='flex items-center relative justify-between md:hidden'>
 
-                <div onClick={handelReduric} className="flex relative items-center justify-center">
+                    {/* <div onClick={handelReduric} className="flex relative items-center justify-center"> */}
                     {/* <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' /> */}
-                    
-                    <SideBar cards={cards}/>
-
-                </div>
-
-                <Link to='/' className="flex items-center gap-2">
-                    <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />
-                    <p className='font-bold text-xl text-gray-800 cursor-pointer'> City </p>
-                </Link>
 
 
-                <div className="relative">
+                    <li className={classes.li}>
+                        <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
+                            whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' />
+                    </li>
 
-
-                    <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                        whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' />
+                    {/* </div> */}
+                    <li className={classes.li}>
+                        <Link to='/' className="flex items-center gap-2">
+                            <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />
+                            <p className='font-bold text-xl text-gray-800 cursor-pointer'> City </p>
+                        </Link>
+                    </li>
 
 
 
-                    {/* sersh mobil view 
+                    <li className={classes.li + ' relative mr-4'}>
+                        <SideBar cards={cards} />
+                    </li>
+                </motion.ul>
+
+                {/* sersh mobil view 
                     
                     <div className="flex justify-center">
                         <div className="mb-3 xl:w-96">
@@ -135,7 +151,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         </div>
                     </div>
 */}
-                    {open && (
+                {/* {open && (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.6 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -154,9 +170,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                                 >New Item <MdLibraryAdd /> </p>
                             </Link>
                         </motion.div>
-                    )}
-                </div>
-            </div>
+                    )} */}
         </>
     )
 }
