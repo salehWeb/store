@@ -31,7 +31,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         getCartUser(data._id).then(res => {
             setLikes(res.data.likes.includes(userEmail))
         }).catch(error => console.log(error))
-    }, [])
+    }, [likesC, userEmail, data._id])
 
     const handelLikes = async () => {
         setLikes(!likesC)

@@ -38,14 +38,17 @@ const RowCon = ({ flag, slide, data }: any) => {
     }, [slide, cardRef])
 
     return (
+
         <div ref={slideRef} className={`w-full flex items-center gap-3  my-12 scroll-smooth  
         ${flag
                 ? "overflow-x-scroll scrollbar-none"
                 : "overflow-x-hidden flex-wrap justify-center"
             }`}>
+                
             {!data ? <Loader /> : data.map((item: any) => (
                     <RowChald  items={items}  key={item._id} cardRef={cardRef} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
             ))}
+
         </div>
     )
 }

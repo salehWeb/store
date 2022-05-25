@@ -20,8 +20,17 @@ const RowChald = ({ cardRef, item, items, MdShoppingCart, cards, MdAddTask, hand
         }
      }, [])
 
+     const [open, setOpen] = useState(false)
+
     return (
+        
         <div ref={cardRef} key={item._id} className="bg-Blur w-275 h-[175px] min-w-[275px] md:w-300 md:min-w-[300px] rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col items-center justify-evenly relative">
+                        <div onClick={() => setOpen(!open)} className="block w-5 left-1/2 top-1/2  z-[2] ">
+                            <span aria-hidden="true" className={`${open && ' -rotate-[45deg] translate-y-1.5 '} block h-0.5 w-5 mb-[4px] bg-current transform transition duration-400 ease-in-out`}></span>
+                            <span aria-hidden="true" className={`block  h-0.5 w-5 bg-current transform transition duration-400 ease-in-out ${open && 'opacity-0'} `}></span>
+                            <span aria-hidden="true" className={`${open && ' rotate-[45deg] -translate-y-1.5 '} block h-0.5 w-5 mt-[4px] bg-current transform transition duration-400 ease-in-out`}></span>
+                        </div>
+
             <div className="w-full flex items-center justify-between">
                 {!image ? (
                     <div className="flex  justify-center items-center">

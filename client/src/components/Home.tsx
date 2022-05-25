@@ -2,11 +2,13 @@ import img from '../img/delivery.png'
 import Data from './Data'
 import None from '../img/None.png'
 import hero from '../img/backGROUND.png'
-import Serves from './serves/Serves'
+import { useState } from 'react'
 // import None from 'None.svg'
 
 
+
 const Home = () => {
+
 
     return (
         <>
@@ -26,7 +28,7 @@ const Home = () => {
                     </div>
                     <div className="flex md:justify-start">
                         <p className="font-bold text-[2rem] lg:text-[3rem] md:text-[2.5rem] tracking-[1px] text-gray-800 ">
-                        Selexome fastest deliver in the World
+                            Selexome fastest deliver in the World
                             <span className="text-blue-600 lg:text-[4rem] mt-2 md:text-[3rem] shadow-blue-400 shadow-md bg-white flex text-center justify-center text-[2.5rem]">Lorem ipsum</span>
                         </p>
                     </div>
@@ -34,9 +36,9 @@ const Home = () => {
                         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Blanditiis placeat alias maxime aliquam omnis quod illo repellendus ad, possimus corporis facilis porro eum cum temporibus rem odit tempore quia pariatur?
                     </p>
                     <button className='bg-gradient-to-br mb-8 md:justify-end items-end hover:border-blue-500 hover:border-2 md:w-[33%] duration-100 transition-all ease-in-out rounded-md shadow-gray-400 shadow-lg from-blue-400 to-blue-500 w-full px-1 py-2'>
-                        Lorem ipsum
+
                     </button>
-                </div>
+                </div >
 
                 <div className="py-4 w-full">
                     <div className="w-full flex justify-end  items-end rounded-md relative">
@@ -53,10 +55,15 @@ const Home = () => {
                         </div>
                     </div>
                 </div>
-            </section>
-            <Serves />
+            </section >
         </>
     )
 }
 
 export default Home
+
+
+/* 
+
+
+*/

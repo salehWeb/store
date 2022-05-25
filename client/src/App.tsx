@@ -5,10 +5,13 @@ import { AnimatePresence } from 'framer-motion'
 import Footer from './components/Footer';
 import Main from './components/login/Main'
 import { StyledEngineProvider } from '@mui/material'
+import AboutCob from './components/about/AboutCob';
 
 function App() {
 
-
+const isHaveAcount = localStorage.getItem('profile')
+const isAdman = isHaveAcount && JSON.parse(isHaveAcount).profile?.email
+console.log();
   
   const hederRefer: any = React.useRef()
 const [scrollPosition, setScrollPosition] = React.useState(0);
@@ -33,10 +36,14 @@ React.useEffect(() => {
         <Header haed={scrollPosition > 10 ? true : false} />
         <main className='md:mt-16 mt-16 sm:px-4 px-8 py-4 w-full h-auto bg-blue-100 '>
           <Routes>
-            <Route path='/*' element={<MainCon />} />
-            <Route path='/creatItem' element={<CreatItem />} />
+            <Route path='/' element={<MainCon />} />
+            <Route path='/adman/creatItem' element={<CreatItem />} />
             <Route path='/card' element={<Cart />} />
             <Route path='/login' element={<Main />} />
+            {isAdman === 'salehwebdev2004@gmail.com' 
+            && (
+              <Route path='/adman' element={<AboutCob />} />
+            )}
           </Routes>
         </main>
         <Footer  />
