@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { motion } from 'framer-motion'
 import { MdShoppingCart, MdAddTask } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
-import * as actionTypes from '../context/actionTypes'
-import Loader from './Loader'
+import * as actionTypes from '../../context/actionTypes'
+import Loader from '../tools/Loader'
 import RowChald from './RowChald'
 
 const RowCon = ({ flag, slide, data }: any) => {

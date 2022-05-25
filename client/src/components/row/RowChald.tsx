@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { getImage } from '../server'
-import Loader from './Loader'
+import { getImage } from '../../server'
+import Loader from '../tools/Loader'
 
 const RowChald = ({ cardRef, item, items, MdShoppingCart, cards, MdAddTask, handelAdd, motion }: any) => {
 

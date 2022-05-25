@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion'
 import { MdFastfood, MdCloudUpload, MdDelete, MdFoodBank, MdAttachMoney, MdClose } from 'react-icons/md'
-import Loader from './Loader'
-import FileBase from './Input.js'
+import Loader from '../tools/Loader'
+import FileBase from '../tools/Input.js'
 import { useDispatch, useSelector } from 'react-redux';
-import * as actionTypes from '../context/actionTypes'
-import { postCard, getCard } from '../context/Cardactions';
-import { sesrshQurey } from '../server/index';
+import * as actionTypes from '../../context/actionTypes'
+import { postCard } from '../../context/Cardactions';
+import { sesrshQurey } from '../../server/index';
 
 
 
 const CreatItem = () => {
-  let data: any;
+  let data: any = useSelector((state: any) => state.card)
 
 
   const dispatch: any = useDispatch()
@@ -22,31 +22,20 @@ const CreatItem = () => {
   }
 
 
-
-  console.log()
-
-  useEffect(() => {
-
-    dispatch(getCard())
-  }, [dispatch])
-
-
-
-  data = useSelector((state: any) => state.card)
-
-  const [isDate, setIsData] = useState(data?.data)
   const [isMsg, setIsMsg] = useState(data?.msg)
   const [allState, setAllState] = useState(defaulValue)
+  const [lodaing, setLoading] = useState(true)
 
   useEffect(() => {
     if (window.location.search.split("=")[1] && window.location.search.split("=")[1].length >= 24) {
+      setLoading(true)
       const id = window.location.search.split("=")[1]
       async function fetchData() {
-          await sesrshQurey(id).then(res => {
-            console.log(res.data.data[0]._id === id);
-              if (res.data.data[0]._id === id) {
+        await sesrshQurey(id).then(res => {
+          console.log(res.data.data[0]._id === id);
+          if (res.data.data[0]._id === id) {
             setAllState(res.data.data[0])
-            console.log('yub');
+            setLoading(false)
           }
         })
       }
@@ -57,7 +46,6 @@ const CreatItem = () => {
   }, [])
 
   useEffect(() => {
-    setIsData(data?.data)
     setIsMsg(data?.msg)
     if (isMsg?.msg) {
       setAllState({ ...allState, msg: isMsg?.msg })
@@ -99,7 +87,11 @@ const CreatItem = () => {
     }
 
     else if (allState.title && allState.desc && allState.img && allState.type && Number(allState.price) && Number(allState.pieces)) {
-      dispatch(postCard(allState))
+      if (window.location.search.split("=")[1].length >= 24) {
+        console.log("ubdataaaaet data");
+      } else {
+        dispatch(postCard(allState))
+      }
       setIsOpen(true)
       setTimeout(async () => {
         await dispatch({ type: actionTypes.POSTCARD, payload: null })
@@ -166,11 +158,11 @@ const CreatItem = () => {
 
 
         <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 mx-[200px] w-full h-[225px] md:h-[300px] cursor-pointer">
-          {allState.isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              {!allState.img ? (
+          <>
+            {lodaing ? (
+              <Loader />
+            ) : (
+              !allState.img ? (
                 <>
                   <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
@@ -202,9 +194,10 @@ const CreatItem = () => {
                     </motion.button>
                   </div>
                 </>
-              )}
-            </>
-          )}
+              )
+            )}
+
+          </>
         </div>
 
         <div className="w-full flex flex-col md:flex-row items-center gap-3">

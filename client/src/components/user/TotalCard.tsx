@@ -3,10 +3,6 @@ import { Button } from '@mui/material'
 
 const TotalCard = ({Total}: any) => {
 
-    // const haveTotal = localStorage.getItem('total')
-    // const total = haveTotal && JSON.parse(haveTotal)
-    // const [Total, setTotal] = useState(0)
-    // useEffect(() => {setTotal(total)}, [haveTotal, total])
 
     const haveItems = localStorage.getItem('cardItems')
     const items = haveItems && JSON.parse(haveItems).length
@@ -27,7 +23,7 @@ const TotalCard = ({Total}: any) => {
             <Button variant='outlined' className='bg-gradient-to-tr m-4 flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r'><span className="z-10 text-white text-base">check out!</span></Button>
             <div className="w-full flex justify-center items-center">
                 <p className="text-gray-700 justify-center items-center"> do Not have an count !</p>
-                <a href='#' className='text-blue-600 hover:underline'>Sing in</a>
+                <a href='/login' className='text-blue-600 hover:underline'>Sing in</a>
             </div>
         </section>
     )

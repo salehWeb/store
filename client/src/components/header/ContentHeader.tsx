@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import * as actionTypes from '../context/actionTypes'
-import { sesrshQurey } from "../server"
+import * as actionTypes from '../../context/actionTypes'
+import { sesrshQurey } from "../../server"
 
-const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes, isAdmanFind, Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
+const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAccountBalance, logo, MdLogout, MdLogin, MdLibraryAdd, mune, Link, motion, Profiles, MdShoppingCart, handelFailure, handelMune, classes,  Client_ID, GoogleLogin, handelLogout, handelSuccess }: any) => {
     const dispatch = useDispatch()
     const history = useNavigate()
     const { cards: Cards } = useSelector((state: any) => state.card)
@@ -94,13 +94,10 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                                 exit={{ opacity: 0, scale: 0.6 }}
                                 className="w-40 right-2 text-center bg-gray-50 shadow-xl flex flex-col rounded-lg absolute">
                                 <p onClick={handelLogout} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
-                                {isAdmanFind && (
                                     <Link to={'/creatItem'}>
                                         <p onClick={handelMune} className='border-b-[1px] border-gray-400'></p>
                                         <p onClick={handelMune} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'>New Item <MdLibraryAdd /> </p>
                                     </Link>
-                                )
-                                }
                             </motion.div>
                         )}
                     </div>
@@ -164,15 +161,12 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             <p className={classes.p} onClick={handelMune} >Service <MdDesignServices /></p>
                             <p className='border-b-[1px] border-gray-400'></p>
                             <p onClick={handelLogout} className='hover:bg-gray-300 hover:shadow-md rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
-                            {isAdmanFind && (
                                 <Link to={'/creatItem'}>
                                     <p className='border-b-[1px] border-gray-400'></p>
                                     <p className={classes.p}
                                         onClick={handelMune}
                                     >New Item <MdLibraryAdd /> </p>
                                 </Link>
-                            )
-                            }
                         </motion.div>
                     )}
                 </div>

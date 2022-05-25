@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux'
-import Store from './Store'
+import Store from './context/Store'
 import { disableReactDevTools } from '@fvilers/disable-react-devtools';
 
 if (process.env.NODE_ENV === 'production') {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { BsCartDashFill } from 'react-icons/bs'
-import Loader from './Loader'
+import Loader from '../tools/Loader'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
-import * as actionTypes from '../context/actionTypes'
-import { getCartUser, likesProdectd } from '../server'
+import * as actionTypes from '../../context/actionTypes'
+import { getCartUser, likesProdectd } from '../../server'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()

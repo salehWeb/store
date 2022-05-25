@@ -1,14 +1,13 @@
-import Logo from '../img/logoFood1.png'
-import Profile from '../img/avatar.png'
+import Logo from '../../img/logoFood1.png'
+import Profile from '../../img/avatar.png'
 import { MdShoppingCart,MdHome, MdDesignServices, MdAccountBalance, MdRestaurant, MdLogout, MdLogin, MdLibraryAdd } from 'react-icons/md'
 import { motion } from 'framer-motion'
-import { isAdman, isUser } from '../controls'
 import { Link, useNavigate } from 'react-router-dom'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { GoogleLogin } from 'react-google-login';
-import { Client_ID } from '../Secret.js';
-import * as actionTypes from '../context/actionTypes'
+import { Client_ID } from '../../Secret.js';
+import * as actionTypes from '../../context/actionTypes'
 import ContentHeader from './ContentHeader'
 
 
@@ -31,7 +30,6 @@ const Header = ({ haed }: any) => {
     }, [user])
 
 
-const [isAdmanFind, setIsAdmanFind] = useState(isAdman)
 const [userFind, setUserFind] = useState(user)
 const [mune, setMune] = useState(false)
 
@@ -56,7 +54,6 @@ const [mune, setMune] = useState(false)
 
     const handelLogout = () => {
         dispatch({ type: actionTypes.LOGOUT})
-        setIsAdmanFind(false)
         setMune(false)
     }
 
@@ -94,7 +91,6 @@ const [mune, setMune] = useState(false)
             MdLibraryAdd={MdLibraryAdd}
             mune={mune}
             Link={Link}
-            isAdmanFind={isAdmanFind}
             MdShoppingCart={MdShoppingCart}
             Client_ID={Client_ID}
             GoogleLogin={GoogleLogin}

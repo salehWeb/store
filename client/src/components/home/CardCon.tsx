@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { IoFastFood } from 'react-icons/io5'
-import RowCon from './RowCon';
+import RowCon from '../row/RowCon';
 
 
 const CardCon = ({ data }: any) => {

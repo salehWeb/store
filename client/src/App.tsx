@@ -1,17 +1,18 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { CreatItem, MainCon, Header, Cart } from './components/index'
+import { CreatItem, MainCon, Header, Cart } from './components/tools/index'
 import { AnimatePresence } from 'framer-motion'
-import Footer from './components/Footer';
+import Footer from './components/footer/Footer';
 import Main from './components/login/Main'
 import { StyledEngineProvider } from '@mui/material'
-import AboutCob from './components/about/AboutCob';
+import AboutCob from './components/admain/AboutCob';
+import NotFound from './components/notfound/NotFound'
 
 function App() {
 
   const isHaveAcount = localStorage.getItem('profile')
   const isAdman = isHaveAcount && JSON.parse(isHaveAcount).profile?.email
-  console.log();
+
 
   const hederRefer: any = React.useRef()
   const [scrollPosition, setScrollPosition] = React.useState(0);
@@ -46,6 +47,7 @@ function App() {
                     <Route path='/adman/creatItem' element={<CreatItem />} />
                   </>
                 )}
+                <Route path='/*' element={<NotFound />} />
             </Routes>
           </main>
           <Footer />
