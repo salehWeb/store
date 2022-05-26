@@ -1,9 +1,9 @@
 import  express  from "express";
-import { auth } from '../middleware/auth'
+import { auth, isAdman } from '../middleware/auth'
 import { getAllUsers } from '../controllers/user'
 
 const router = express.Router()
 
-router.get('/users', getAllUsers)
+router.get('/users', auth, isAdman, getAllUsers)
 
 export default router

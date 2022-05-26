@@ -8,8 +8,8 @@ export const getOneCard = async (req: any, res: any) => {
         const data = await card.findById(id, { likes: 1, _id: 1 })
         res.status(201).json(data)
     } catch (error: any) {
-        console.log(error)
-        res.send(error.message)
+        res.status(201).json({ msg: error.message})
+        console.log(error);
     }
 }
 
@@ -26,7 +26,7 @@ export const postCard = async (req: any, res: any) => {
             console.log(error);
         }
     } else {
-        res.status(404).json({ msg: 'unvalued data' })
+        res.status(201).json({ msg: 'unvalued data' })
     }
 }
 
@@ -34,8 +34,8 @@ export const getCard = async (req: any, res: any) => {
     try {
         const data: any = await card.find({}, { img: 0 })
         res.status(201).json(data)
-    } catch (error) {
-        res.status(409).json({ msg: error })
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message})
     }
 }
 
@@ -46,8 +46,8 @@ export const getImg = async (req: any, res: any) => {
         console.log(id);
         const { img }: any = await card.findById(id, { img: 1, _id: 0 })
         res.status(201).json(img)
-    } catch (error) {
-        res.status(409).json({ msg: error })
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message})
     }
 }
 
@@ -64,8 +64,21 @@ export const likesprodacetd = async (req: any, res: any) => {
     try {
         const updataed = await card.findByIdAndUpdate(data._id, data, { new: true })
         res.status(202).json(updataed)
-    } catch (error) {
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message})
         console.log(error)
     }
 
+}
+
+export const upDataProdectd = async (req: any, res: any) => {
+    const id = req.params.id
+    const data = await req.body
+    try {
+        const result = await card.findByIdAndUpdate(id, {...data, createdAt: new Date().toISOString()})
+        res.status(201).json(result)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message})
+        console.log(error)
+    }
 }

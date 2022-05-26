@@ -9,22 +9,14 @@ API.interceptors.request.use((req) => {
     return req
 })
 
+
+
+
 export const getCard = async () => await API.get(`/`)
 
-export const postCard = async (data) => await API.post(`/creatItem`, data).then((res) => {
-    return res.statusText
-}).catch((err) => {
-    console.log(err);
-    return err.message
-})
+export const postCard = async (data) => await API.post(`/creatItem`, data)
 
-export const getImage = async (id) => await API.get(`/images/${id}`).then((res) => {
-    return res.data
-
-}).catch((err) => {
-    console.log(err)
-    return err.message
-})
+export const getImage = async (id) => await API.get(`/images/${id}`)
 
 export const getCartUser = async (id) => await API.get(`/card/${id}`)
 
@@ -38,4 +30,4 @@ export const sesrshQurey = async (sershVul) => await API.get(`/sersh?qurey=${ser
 
 export const getAllUSers = async () => await API.get('/adman/users')
 
-
+export const upDataCard = async (id, data) =>  await API.patch(`/card/${id}`, data)

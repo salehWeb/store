@@ -8,7 +8,7 @@ const RowChald = ({ cardRef, item, items, MdShoppingCart,  MdAddTask, handelAdd,
 
     const IMAGE = async () => {
         await getImage(item._id).then((data: any) => {
-            setImage(data)
+            setImage(data.data)
         })
     }
 

@@ -6,7 +6,7 @@ import FileBase from '../tools/Input.js'
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../../context/actionTypes'
 import { postCard } from '../../context/Cardactions';
-import { sesrshQurey } from '../../server/index';
+import { sesrshQurey, upDataCard } from '../../server/index';
 
 
 
@@ -25,17 +25,19 @@ const CreatItem = () => {
   const [isMsg, setIsMsg] = useState(data?.msg)
   const [allState, setAllState] = useState(defaulValue)
   const [lodaing, setLoading] = useState(true)
+  const [isUpData, setIsUpData] = useState(false)
 
   useEffect(() => {
     if (window.location.search.split("=")[1] && window.location.search.split("=")[1].length >= 24) {
       setLoading(true)
-      const id = window.location.search.split("=")[1]
+      const id: any = window.location.search.split("=")[1]
       async function fetchData() {
         await sesrshQurey(id).then(res => {
           console.log(res.data.data[0]._id === id);
           if (res.data.data[0]._id === id) {
             setAllState(res.data.data[0])
             setLoading(false)
+            setIsUpData(id)
           }
         })
       }
@@ -73,7 +75,7 @@ const CreatItem = () => {
   }
 
 
-  const handelSaveData = () => {
+  const handelSaveData = async () => {
 
 
     if (!Number(allState.price) && allState.price) {
@@ -87,8 +89,8 @@ const CreatItem = () => {
     }
 
     else if (allState.title && allState.desc && allState.img && allState.type && Number(allState.price) && Number(allState.pieces)) {
-      if (window.location.search.split("=")[1].length >= 24) {
-        console.log("ubdataaaaet data");
+      if (isUpData) {
+        await upDataCard(isUpData, allState).then(res => console.log(res)).catch(err => console.log(err))
       } else {
         dispatch(postCard(allState))
       }

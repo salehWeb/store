@@ -6,9 +6,6 @@ dotenv.config()
 
 const seacrtJwt: any = process.env.SEACRT_JWT
 
-export const hell = async (req: any, res: any) => {
-    res.status(200).json({ msg: 'hello world' })
-}
 
 export const login = async (req: any, res: any) => {
     const { name, email, password }: any = await req.body

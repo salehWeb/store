@@ -24,7 +24,7 @@ const AboutCob = () => {
 
 
   return (
-    <div className="min-h-[60vh]">
+    <div className="min-h-[60vh]  flex justify-center items-center my-10">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-300 uppercase bg-gray-700">
@@ -58,8 +58,8 @@ const AboutCob = () => {
             </tr>
           </thead>
           <tbody>
-            {card && card.map((item: any) => (
-              <tr key={item._id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+            {card && card.map((item: any, index: number) => (
+              <tr key={item._id} className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
                 <th scope="row" className="px-5 py-[10px] font-medium text-gray-900 dark:text-white whitespace-nowrap">
                   {item.title}
                 </th>

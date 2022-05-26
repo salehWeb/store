@@ -46,7 +46,7 @@ const Cart = () => {
     }, [Cards, cards])
 
 
-    const isAdmanasc = async (id: string) => await getImage(id).then((item: string) => item)
+    const isAdmanasc = async (id: string) => await getImage(id).then((item: any) => item.data)
 
 
     return (

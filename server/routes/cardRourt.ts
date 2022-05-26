@@ -1,17 +1,19 @@
 import  express  from "express";
-import { auth } from '../middleware/auth'
-import { postCard, getCard, sershQurey, likesprodacetd, getOneCard } from '../controllers/card'
+import { auth, isAdman } from '../middleware/auth'
+import { postCard, getCard, sershQurey, likesprodacetd, getOneCard, upDataProdectd } from '../controllers/card'
 
 const router = express.Router()
-
-router.post('/creatItem', postCard)
 
 router.get('/', getCard)
 
 router.get('/sersh', sershQurey)
 
+router.get('/card/:id', getOneCard)
+
 router.patch('/:id', auth, likesprodacetd)
 
-router.get('/card/:id', getOneCard)
+router.patch('/card/:id', auth, isAdman, upDataProdectd)
+
+router.post('/creatItem', auth, isAdman, postCard)
 
 export default router

@@ -74,7 +74,7 @@ const [mune, setMune] = useState(false)
     
 
     return (
-        <header  className={`${haed ? ' py-1 rounded-[25px] mt-1 px-8 ' : ' px-4 md:p-2 md:px-16'} w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
+        <header  className={`${haed ? ' rounded-[25px] mt-1 px-8 ' : ' px-4  md:px-16'} w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
             <ContentHeader 
             userFind={userFind}
             setMune={setMune}
