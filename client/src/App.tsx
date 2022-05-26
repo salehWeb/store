@@ -3,15 +3,16 @@ import { Route, Routes } from 'react-router-dom';
 import { CreatItem, MainCon, Header, Cart } from './components/tools/index'
 import { AnimatePresence } from 'framer-motion'
 import Footer from './components/footer/Footer';
-import Main from './components/login/Main'
 import { StyledEngineProvider } from '@mui/material'
 import AboutCob from './components/admain/AboutCob';
 import NotFound from './components/notfound/NotFound'
+import Singin from './components/login/Singin';
+import Login from './components/login/Login';
 
 function App() {
 
   const isHaveAcount = localStorage.getItem('profile')
-  const isAdman = isHaveAcount && JSON.parse(isHaveAcount).profile?.email
+  const isAdman = isHaveAcount && JSON.parse(isHaveAcount).profile?.email === 'salehwebdev2004@gmail.com'
 
 
   const hederRefer: any = React.useRef()
@@ -39,8 +40,9 @@ function App() {
             <Routes>
               <Route path='/' element={<MainCon />} />
               <Route path='/card' element={<Cart />} />
-              <Route path='/login' element={<Main />} />
-              {isAdman === 'salehwebdev2004@gmail.com'
+              <Route path='/login' element={<Login />} />
+              <Route path='/singin' element={<Singin />} />
+              {isAdman
                 && (
                   <>
                     <Route path='/adman' element={<AboutCob />} />
