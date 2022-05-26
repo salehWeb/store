@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import * as  actionTypes from '../../context/actionTypes'
+import { useEffect, useState } from 'react'
 import { getCard } from '../../server/index'
 import moment from 'moment'
 
@@ -16,7 +14,6 @@ const AboutCob = () => {
     getCards()
   }, [])
 
-
   const handelEdait = (id: any) => {
     console.log('ubdata' + id)
   }
@@ -24,11 +21,6 @@ const AboutCob = () => {
   const handelDelet = (id: any) => {
     setCard(card.filter((item: any) => item._id !== id))
   }
-
-
-  // const { cards } = useSelector((state: any) => state.card)
-
-  // console.log(cards)
 
 
   return (

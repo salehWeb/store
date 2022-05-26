@@ -7,7 +7,7 @@ dotenv.config()
 const seacrtJwt: any = process.env.SEACRT_JWT
 
 export const hell = async (req: any, res: any) => {
-    res.status(200).json({ msg: 'hello world'})
+    res.status(200).json({ msg: 'hello world' })
 }
 
 export const login = async (req: any, res: any) => {
@@ -113,114 +113,11 @@ export const logout = async (req: any, res: any, next: any) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// export const virfyToken = async (req: any, res: any, next: any) => {
-//     const cookies = req.headers.cookie
-//     const token = cookies?.split("=")[1]
-
-//     try {
-
-//         if (!token) {
-//             return res.status(404).json({ msg: "No token Found" })
-//         }
-
-//         jwt.verify(token, seacrtJwt, (err: any, user: any) => {
-
-//             if (err) {
-//                 return res.status(404).json({ msg: " Invald token!!. " })
-//             }
-
-//             req.id = user.id
-//         })
-
-//         next()
-
-//     } catch (error: any) {
-//         console.log(error);
-//         return res.status(404).json({ msg: "No token Found" + error.message })
-//     }
-// }
-
-
-
-// export const getUser = async (req: any, res: any) => {
-//     const userID = await req.id
-//     let USER;
-
-//     try {
-//         USER = await user.findById({ _id: userID }, { password: 0 })
-
-//         if (!USER) {
-//             return res.status(404).json({ msg: "user Not Found!." })
-//         }
-
-//     } catch (error: any) {
-//         console.log(error);
-//         return res.status(404).json({ msg: error.message })
-//     }
-
-//     res.status(200).json({ USER })
-
-// }
-
-
-// export const refreshToken = async (req: any, res: any, next: any) => {
-//     const cookies = req.headers.cookie
-//     console.log(req.headers)
-//     const token = cookies?.split("=")[1]
-
-//     if (!token) {
-//         return res.status(200).json({ msg: "user not Authorization"})
-//     } 
-
-//     jwt.verify(String(token), seacrtJwt, (err: any, user: any) => {
-//         if (err) {
-//             console.log(err);
-//             return res.status(404).json({ msg: err.message })
-//         }
-
-//         res.clearCookie(`${user.id}`)
-//         req.cookies[`${user.id}`] = ""
-
-//         const newToken = jwt.sign({ id: user.id }, seacrtJwt, {
-//             expiresIn: "55s"
-//         })
-
-//         res.cookie(String(user.id), newToken, {
-//             path: '/',
-//             expires: new Date(Date.now() + 1000 * 30),
-//             httpOnly: true,
-//             sameSite: 'lax'
-//         })
-
-//         req.id = user.id
-
-//         next()
-//     })
-// }
+export const getAllUsers = async (req: any, res: any) => {
+    try {
+        const users: any = await user.find({}, { password: 0 })
+        res.status(201).json(users)
+    } catch (error: any) {
+        res.status(200).json({ msg: error.message })
+    }
+}

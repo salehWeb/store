@@ -36,4 +36,6 @@ export const likesProdectd = async (id, data) => await API.patch(`${id}`, data)
 
 export const sesrshQurey = async (sershVul) => await API.get(`/sersh?qurey=${sershVul}`)
 
+export const getAllUSers = async () => await API.get('/adman/users')
+
 

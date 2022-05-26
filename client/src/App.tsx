@@ -8,6 +8,7 @@ import AboutCob from './components/admain/AboutCob';
 import NotFound from './components/notfound/NotFound'
 import Singin from './components/login/Singin';
 import Login from './components/login/Login';
+import Users from './components/admain/Users';
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
                   <>
                     <Route path='/adman' element={<AboutCob />} />
                     <Route path='/adman/creatItem' element={<CreatItem />} />
+                    <Route path='/adman/users' element={<Users />} />
                   </>
                 )}
                 <Route path='/*' element={<NotFound />} />

@@ -13,9 +13,11 @@ export const auth = async (req: any, res: any, next: any) => {
         if(token && isCustomAuth) {
             decodedData = jwt.verify(token, seacrtJwt)
             req.userId = decodedData?.id
+            console.log(decodedData);
         } else {
             decodedData = jwt.decode(token)
             req.userId = decodedData?.sub
+            console.log(decodedData);
         }
         next()
     } catch (error) {

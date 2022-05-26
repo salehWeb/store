@@ -9,7 +9,13 @@ const userSchema = new mongoose.Schema({
 
     createdAt: { type: Date, default: new Date() },
 
-    img: { type: String, required: false }
+    img: { type: String, required: false },
+
+    payment: { type: [String], default: [] },
+
+    likes: { type: [String], default: [] },
+    
+    isAdman: { type: Boolean, default: false }
 })
 
 const user = mongoose.model('user', userSchema)

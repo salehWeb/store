@@ -15,6 +15,9 @@ const cardSchema = new mongoose.Schema({
         type: Date,
         default: new Date()
     },
+    discounts: { 
+        type: Number, default: 0
+    }
 })
 
 const card = mongoose.model('card', cardSchema)

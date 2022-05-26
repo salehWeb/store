@@ -15,7 +15,6 @@
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
     "axios": "^0.26.1",
-    "dotenv": "^16.0.0",
     "framer-motion": "^6.3.1",
     "jwt-decode": "^3.1.2",
     "moment": "^2.29.3",
