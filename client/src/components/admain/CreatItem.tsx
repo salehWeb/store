@@ -1,30 +1,23 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion'
-import { MdFastfood, MdCloudUpload, MdDelete, MdFoodBank, MdAttachMoney, MdClose } from 'react-icons/md'
+import { motion } from 'framer-motion'
+import { MdFastfood, MdCloudUpload, MdDelete, MdFoodBank, MdAttachMoney } from 'react-icons/md'
 import Loader from '../tools/Loader'
-import FileBase from '../tools/Input.js'
-import { useDispatch, useSelector } from 'react-redux';
-import * as actionTypes from '../../context/actionTypes'
-import { postCard } from '../../context/Cardactions';
+import { postCard } from '../../server/index'
 import { sesrshQurey, upDataCard } from '../../server/index';
+import Swal from 'sweetalert2'
 
 
 
 const CreatItem = () => {
-  let data: any = useSelector((state: any) => state.card)
-
-
-  const dispatch: any = useDispatch()
 
   const defaulValue: any = {
     title: '', pieces: '', price: '', type: '',
-    img: '', alert: 'none', msg: '', desc: ''
+    img: '', desc: ''
   }
 
 
-  const [isMsg, setIsMsg] = useState(data?.msg)
   const [allState, setAllState] = useState(defaulValue)
-  const [lodaing, setLoading] = useState(true)
+  const [lodaing, setLoading] = useState(false)
   const [isUpData, setIsUpData] = useState(false)
 
   useEffect(() => {
@@ -47,98 +40,80 @@ const CreatItem = () => {
 
   }, [])
 
-  useEffect(() => {
-    setIsMsg(data?.msg)
-    if (isMsg?.msg) {
-      setAllState({ ...allState, msg: isMsg?.msg })
-    }
-  }, [dispatch, data, isMsg?.msg, allState])
-
-
-
-
-
-  const [isOpen, setIsOpen] = useState(true)
-
-
 
   const handelCansel = () => {
     setAllState(defaulValue)
   }
 
-  const handelClose = () => {
-    setIsOpen(false)
-  }
 
   const handelDeletImage = () => {
     setAllState({ ...allState, img: '' })
   }
 
 
-  const handelSaveData = async () => {
+  const handelSaveData = async (e: any) => {
+    e.preventDefault()
 
 
-    if (!Number(allState.price) && allState.price) {
-      setIsOpen(true)
-      setAllState({ ...allState, msg: `price must to be number not "${allState.price}"` })
+    if (isUpData) {
+      await upDataCard(isUpData, allState).then(res => console.log(res)).catch(err => console.log(err))
     }
-
-    else if (!Number(allState.pieces) && allState.pieces) {
-      setIsOpen(true)
-      setAllState({ ...allState, msg: `pieces must to be number not "${allState.pieces}"` })
-    }
-
-    else if (allState.title && allState.desc && allState.img && allState.type && Number(allState.price) && Number(allState.pieces)) {
-      if (isUpData) {
-        await upDataCard(isUpData, allState).then(res => console.log(res)).catch(err => console.log(err))
-      } else {
-        dispatch(postCard(allState))
-      }
-      setIsOpen(true)
-      setTimeout(async () => {
-        await dispatch({ type: actionTypes.POSTCARD, payload: null })
-        setAllState(defaulValue)
-        setIsOpen(false)
-      }, 5000)
-    }
-
     else {
-      setIsOpen(true)
-      setAllState({ ...allState, msg: 'you measd some thank all the Fields is required' })
+      await postCard(allState).then(async res => {
+        console.log(res);
+        if (res.data._message) {
+          await Swal.fire({
+            icon: 'error',
+            title: 'Filed',
+            text: `${res.data._message}`
+          })
+        } else {
+          if (res.data.msg) {
+            await Swal.fire({
+              icon: 'success',
+              title: 'success',
+              text: `${res.data.msg}`
+            })
+            setAllState(defaulValue)
+          }
+        }
+      })
     }
   }
 
 
+const convertToBase64 = (file: any) => {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      resolve(fileReader.result);
+    };
+    fileReader.onerror = (error) => {
+      reject(error);
+    };
+  });
+};
 
+const handelImage = async (e: any)  => {
+  const file = e.target.files[0];
+  const base64 = await convertToBase64(file)
+  setAllState({...allState, img: base64 })
+}
 
 
   return (
     <div className="w-full min-h-screen flex items-center justify-center">
-      <div className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 rounded-lg p-4 mx-24 flex flex-col items-center justify-center gap-4">
-        <AnimatePresence >
-          {isOpen && allState.msg && (
-            <motion.div
-              initial={{ x: 400, opacity: 0, scale: 0.8 }}
-              animate={{ x: 0, opacity: 1, scale: 1 }}
-              exit={{ opacity: 0.8, x: -700, scale: 1 }}
-              transition={{ duration: 5, type: 'spring', damping: 175, stiffness: 900 }}
-              className={` w-full  p-2 rounded-lg relative flex text-center text-lg items-center justify-between font-semibold ${allState.alert === "danger"
-                ? "bg-red-400"
-                : "bg-emerald-400"
-                }`}
-            >
-              <p className='px-4'>{allState?.msg}</p> <MdClose onClick={handelClose} className={`cursor-pointer absolute top-0 shadow-lg m-2 ${allState.alert === "danger" ? 'bg-gray-400' : 'bg-red-400'} rounded-lg right-0 block`} />
-            </motion.div>
-          )}
-        </AnimatePresence>
+      <form onSubmit={(e) => handelSaveData(e)} className="w-[90%] md:w-[50%] bg-slate-50 border border-gray-700 rounded-lg p-4 mx-24 flex flex-col items-center justify-center gap-4">
 
-
-        <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
+        <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2" >
 
           <MdFastfood className="text-xl text-gray-700" />
           <input
+          minLength={3}
+          maxLength={12}
+          required
             type="text"
-            required={true}
             value={allState.title}
             onChange={(e) => setAllState({ ...allState, title: e.target.value })}
             placeholder="Give me a title..."
@@ -150,7 +125,9 @@ const CreatItem = () => {
           <MdFastfood className="text-xl text-gray-700" />
           <input
             type="text"
-            required={true}
+            minLength={3}
+            maxLength={12}
+            required
             value={allState.type}
             onChange={(e) => setAllState({ ...allState, type: e.target.value })}
             placeholder="type"
@@ -166,6 +143,7 @@ const CreatItem = () => {
             ) : (
               !allState.img ? (
                 <>
+                    
                   <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                       <MdCloudUpload className=" text-gray-500 text-[6rem] hover:text-gray-700" />
@@ -174,7 +152,8 @@ const CreatItem = () => {
                       </p>
                     </div>
                     <span className='grid w-0 h-0 items-center justify-center bg-red-400'>
-                      <FileBase required={true} className='w-0 h-0 block text-red-600' type='file' multiple={false} onDone={({ base64 }: any) => setAllState({ ...allState, img: base64 })} />
+                      <input type='file' accept=".jpeg, .png, .jpg" value={allState.img} onChange={(e) => handelImage(e)}/>
+                      {/* <FileBase required className='w-0 h-0 block text-red-600' type='file' multiple={false} onDone={({ base64 }: any) => setAllState({ ...allState, img: base64 })} /> */}
                     </span>
                   </label>
                 </>
@@ -205,9 +184,10 @@ const CreatItem = () => {
         <div className="w-full flex flex-col md:flex-row items-center gap-3">
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
             <MdFoodBank className="text-gray-700 text-2xl" />
+
             <input
-              type="text"
-              required={true}
+              type="number"
+              required
               value={allState.pieces}
               onChange={(e) => setAllState({ ...allState, pieces: e.target.value })}
               placeholder="pieces"
@@ -217,9 +197,10 @@ const CreatItem = () => {
 
           <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
             <MdAttachMoney className="text-gray-700 text-2xl" />
+
             <input
-              type="text"
-              required={true}
+              type="number"
+              required
               value={allState.price}
               onChange={(e) => setAllState({ ...allState, price: e.target.value })}
               placeholder="Price"
@@ -232,7 +213,9 @@ const CreatItem = () => {
           <MdFastfood className="text-xl text-gray-700" />
           <input
             type="text"
-            required={true}
+            minLength={12}
+            maxLength={100}
+            required
             value={allState.desc}
             onChange={(e) => setAllState({ ...allState, desc: e.target.value })}
             placeholder="desc"
@@ -242,9 +225,9 @@ const CreatItem = () => {
 
         <div className="flex items-center justify-between w-full">
           <button
-            type="button"
+            type="submit"
             className="ml-0  w-24   border-none outline-none bg-emerald-500 px-2 py-2 rounded-lg text-lg text-white font-semibold"
-            onClick={handelSaveData}
+            onSubmit={handelSaveData}
           >
             Save
           </button>
@@ -257,8 +240,7 @@ const CreatItem = () => {
           </button>
 
         </div>
-      </div>
-
+      </form>
     </div>
   )
 }

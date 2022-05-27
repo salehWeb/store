@@ -9,15 +9,3 @@ export const getCard = () => async (dispatch) => {
         console.log(error);
     }
 }
-
-export const postCard = (data) => async (dispatch) => {
-    try {
-        if (data) {
-            const res = await API.postCard(data)
-            dispatch({ type: actionTypes.POSTCARD, payload: { msg: res } })
-        }
-    } catch (error) {
-        console.log(error);
-        dispatch({ type: actionTypes.POSTCARD, payload: { msg: 'Request failed Place try agin' + error.message } })
-    }
-}

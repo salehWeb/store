@@ -32,7 +32,7 @@ const User = ({item, index, setUsers, users}: any) => {
     }
 
     return (
-        <tr key={item._id} className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
+        <tr key={item._id + index} className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
             <th scope="row" className="px-5 py-[10px] font-medium text-gray-900 whitespace-nowrap">
                 {item.name}
             </th>
