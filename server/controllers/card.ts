@@ -103,3 +103,30 @@ export const deletItem = async (req: any, res: any) => {
         console.log(error)
     }
 }
+
+export const commentItem = async (req: any, res: any) => {
+    const itemID = req.params.id
+    const userID = req.userId || req.userID
+    const userData = req.body.user
+    const comment = req.body.comment
+    try {
+        const result = await card.findByIdAndUpdate(itemID, {comments: {...userData, _id: userID, comment: comment}}, { new: true })
+        res.status(201).json(result)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message })
+        console.log(error)
+    }
+}
+
+export const UserPayment = async (req: any, res: any) => {
+    const item = req.body.item
+    const userData = req.body.user
+    const userID = req.userId || req.userID
+    try {
+        const result = await card.findByIdAndUpdate(item.id, { payment: {...userData, _id: userID, total: item.qun}}, { new: true })
+        res.status(201).json(result)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message })
+        console.log(error)
+    }
+}

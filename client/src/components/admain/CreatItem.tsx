@@ -17,7 +17,8 @@ const CreatItem = () => {
 
 
   const [allState, setAllState] = useState(defaulValue)
-  const [lodaing, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+  const [isLoadingBtn, setLoadingBtn] = useState(false)
   const [isUpData, setIsUpData] = useState(false)
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const CreatItem = () => {
   }, [])
 
 
+
   const handelCansel = () => {
     setAllState(defaulValue)
   }
@@ -53,7 +55,7 @@ const CreatItem = () => {
 
   const handelSaveData = async (e: any) => {
     e.preventDefault()
-
+    setLoadingBtn(true)
 
     if (isUpData) {
       await upDataCard(isUpData, allState).then(res => console.log(res)).catch(err => console.log(err))
@@ -61,12 +63,13 @@ const CreatItem = () => {
     else {
       await postCard(allState).then(async res => {
         console.log(res);
-        if (res.data._message) {
+        if (res.data.message) {
           await Swal.fire({
             icon: 'error',
             title: 'Filed',
-            text: `${res.data._message}`
+            text: `${res.data.message}`
           })
+          setLoadingBtn(false)
         } else {
           if (res.data.msg) {
             await Swal.fire({
@@ -74,6 +77,7 @@ const CreatItem = () => {
               title: 'success',
               text: `${res.data.msg}`
             })
+            setLoadingBtn(false)
             setAllState(defaulValue)
           }
         }
@@ -82,24 +86,24 @@ const CreatItem = () => {
   }
 
 
-const convertToBase64 = (file: any) => {
-  return new Promise((resolve, reject) => {
-    const fileReader = new FileReader();
-    fileReader.readAsDataURL(file);
-    fileReader.onload = () => {
-      resolve(fileReader.result);
-    };
-    fileReader.onerror = (error) => {
-      reject(error);
-    };
-  });
-};
+  const convertToBase64 = (file: any) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
 
-const handelImage = async (e: any)  => {
-  const file = e.target.files[0];
-  const base64 = await convertToBase64(file)
-  setAllState({...allState, img: base64 })
-}
+  const handelImage = async (e: any) => {
+    const file = e.target.files[0];
+    const base64 = await convertToBase64(file)
+    setAllState({ ...allState, img: base64 })
+  }
 
 
   return (
@@ -110,9 +114,9 @@ const handelImage = async (e: any)  => {
 
           <MdFastfood className="text-xl text-gray-700" />
           <input
-          minLength={3}
-          maxLength={12}
-          required
+            minLength={3}
+            maxLength={12}
+            required
             type="text"
             value={allState.title}
             onChange={(e) => setAllState({ ...allState, title: e.target.value })}
@@ -138,12 +142,11 @@ const handelImage = async (e: any)  => {
 
         <div className="flex justify-center items-center flex-col border-2 border-dotted border-gray-300 mx-[200px] w-full h-[225px] md:h-[300px] cursor-pointer">
           <>
-            {lodaing ? (
+            {isLoading ? (
               <Loader />
             ) : (
               !allState.img ? (
                 <>
-                    
                   <label className="w-full h-full flex flex-col items-center justify-center cursor-pointer">
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2">
                       <MdCloudUpload className=" text-gray-500 text-[6rem] hover:text-gray-700" />
@@ -152,8 +155,7 @@ const handelImage = async (e: any)  => {
                       </p>
                     </div>
                     <span className='grid w-0 h-0 items-center justify-center bg-red-400'>
-                      <input type='file' accept=".jpeg, .png, .jpg" value={allState.img} onChange={(e) => handelImage(e)}/>
-                      {/* <FileBase required className='w-0 h-0 block text-red-600' type='file' multiple={false} onDone={({ base64 }: any) => setAllState({ ...allState, img: base64 })} /> */}
+                      <input type='file' accept=".jpeg, .png, .jpg" multiple={false} value={allState.img} onChange={(e) => handelImage(e)} />
                     </span>
                   </label>
                 </>
@@ -224,13 +226,19 @@ const handelImage = async (e: any)  => {
         </div>
 
         <div className="flex items-center justify-between w-full">
-          <button
-            type="submit"
-            className="ml-0  w-24   border-none outline-none bg-emerald-500 px-2 py-2 rounded-lg text-lg text-white font-semibold"
-            onSubmit={handelSaveData}
-          >
-            Save
-          </button>
+          {isLoadingBtn ? (
+            <div className="ml-0  w-24   border-none outline-none flex justify-center items-center bg-emerald-500 px-2 py-2 rounded-lg text-lg text-white font-semibold" >
+              <Loader />
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="ml-0  w-24   border-none outline-none bg-emerald-500 px-2 py-2 rounded-lg text-lg text-white font-semibold"
+              onSubmit={handelSaveData}
+            >
+              Save
+            </button>
+          )}
           <button
             type="button"
             className="ml-0  w-24  border-none outline-none bg-red-500 px-2 py-2 rounded-lg text-lg text-white font-semibold"

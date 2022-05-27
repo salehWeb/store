@@ -35,3 +35,9 @@ export const upDataCard = async (id, data) =>  await API.patch(`/card/${id}`, da
 export const deletUser = async (id) => await API.delete(`/adman/deletuser/${id}`)
 
 export const deletItem = async (id) => await API.delete(`/adman/deletitem/${id}`)
+
+export const commentItem = async (id, data) => await API.patch(`/comment/${id}`, data)
+
+export const SingWithGoogle = async (data) => await API.post('login/Sing_inGoogle', data)
+
+export const loginWithGoogle = async (data) => await API.post('login/LoginGoogle', data)

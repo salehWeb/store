@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
 import Swal from 'sweetalert2'
-import { getUser } from '../../server'
+import { getUser, loginWithGoogle } from '../../server/index'
 import { useNavigate } from 'react-router-dom'
-
 import { GoogleLogin } from 'react-google-login';
 import { Client_ID } from '../../Secret.js';
+import { Loader } from '../tools'
 
 const Login = () => {
   const history = useNavigate()
@@ -18,6 +18,7 @@ const Login = () => {
   const [forms, setForms] = useState(DefultFormVaule)
   const [eye, setEye] = useState(false)
   const [dispeldButtton, setDispeldButtton] = useState(false)
+  const [googleBtn, setDispeldGoogle] = useState(false)
 
 
 
@@ -33,15 +34,52 @@ const Login = () => {
 
   const handelSuccess = async (res: any) => {
 
-    const { profileObj, tokenId } = await res
-    const user: Object = { profile: profileObj, token: tokenId }
-    await Swal.fire({
-      icon: 'success',
-      title: 'success'
-    })
-    console.log(user)
-    localStorage.setItem('profile', JSON.stringify(user))
+    let msg: any;
+    let data: any;
 
+    const { profileObj } = await res
+
+    console.log(profileObj.email)
+
+    await loginWithGoogle({ email: profileObj.email }).then((r) => {
+      msg = r.data.msg
+      data = r.data
+      console.log(r)
+
+    }).catch(async (e) => {
+      setDispeldGoogle(false)
+      return await Swal.fire({
+        icon: 'error',
+        title: 'filed',
+        text: `${e.message}`
+      })
+    })
+
+    if (msg === ' login sucsas ') {
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'success',
+        text: `${msg}`
+      })
+      localStorage.setItem('profile', JSON.stringify(data.user))
+
+
+      setForms(DefultFormVaule)
+      setDispeldGoogle(false)
+
+    }
+
+    else if (msg === ' the email is wrong try agin!. or sing in if do not have an account ') {
+
+      await Swal.fire({
+        icon: 'error',
+        title: 'email is wrong !',
+        text: `${msg}`
+      })
+
+      setDispeldGoogle(false)
+    }
   }
 
   const handelFailure = async (err: any) => {
@@ -66,7 +104,7 @@ const Login = () => {
       data = r
       console.log(data)
       console.log(data.data)
-      localStorage.setItem('profile', JSON.stringify(data.data))
+
     }).catch(async (e) => {
       setDispeldButtton(false)
       return await Swal.fire({
@@ -84,20 +122,10 @@ const Login = () => {
         text: `${msg}`
       })
 
-
+      localStorage.setItem('profile', JSON.stringify(data.data))
       setForms(DefultFormVaule)
       setDispeldButtton(false)
 
-    }
-    else if (msg === ' password is wrong Try agin!. ') {
-
-      await Swal.fire({
-        icon: 'error',
-        title: 'password is wrong !',
-        text: `${msg}`
-      })
-
-      setDispeldButtton(false)
     }
     else if (msg === ' the email is wrong try agin!. or sing in if do not have an account ') {
 
@@ -119,8 +147,6 @@ const Login = () => {
         <div className="container px-6 py-12 w-full h-full">
           <div className="flex justify-center items-center w-full h-full text-gray-800 ">
             <form onSubmit={(e) => handelSubmit(e)} className='lg:min-w-[66%] min-w-[80%] bg-white rounded-md shadow-lg p-4'>
-
-
               <h1 className='text-2xl mb-4'>Login <hr className='mt-2' /></h1>
               <div className="mb-6">
                 <label>Email address</label>
@@ -195,20 +221,24 @@ const Login = () => {
 
               <GoogleLogin
                 clientId={Client_ID}
+                disabled={googleBtn}
                 render={(prop: any) => (
-                  <a
-                    className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
-                    style={{ backgroundColor: "#55acee" }}
-                    role="button"
-                    href='#a'
-                    data-mdb-ripple="true"
-                    data-mdb-ripple-color="light"
-                    onClick={prop.onClick}
-
-                  >
-                    <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
-                    <p className="flex text-md  lg:text-lg">with Google</p>
-                  </a>
+                  googleBtn ? (
+                    <Loader />
+                  ) : (
+                    <a
+                      className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
+                      style={{ backgroundColor: "#55acee" }}
+                      role="button"
+                      href='#a'
+                      data-mdb-ripple="true"
+                      data-mdb-ripple-color="light"
+                      onClick={prop.onClick}
+                    >
+                      <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
+                      <p className="flex text-md  lg:text-lg">with Google</p>
+                    </a>
+                  )
                 )}
                 onSuccess={handelSuccess}
                 onFailure={handelFailure}

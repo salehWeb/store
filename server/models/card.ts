@@ -13,7 +13,7 @@ const cardSchema = new mongoose.Schema({
         default: new Date()
     },
 
-    discounts: {
+    discount: {
         type: Number, default: 0
     },
 
@@ -21,7 +21,8 @@ const cardSchema = new mongoose.Schema({
         type: [{
             name: { type: String, required: true },
             email: { type: String, required: true },
-            _id: { type: String, required: true }
+            _id: { type: String, required: true },
+            comments: { type: String, required: true }
         }], 
         default: []
     },
@@ -30,7 +31,8 @@ const cardSchema = new mongoose.Schema({
         type: [{
             name: { type: String, required: true },
             email: { type: String, required: true },
-            _id: { type: String, required: true }
+            _id: { type: String, required: true },
+            total: { type: Number, required: true}
         }], 
         default: []
     },

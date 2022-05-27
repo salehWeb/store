@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true, min: 3, max: 10 },
 
-    password: { type: String, required: true, min: 8, max: 18, unique: true },
+    password: { type: String, required: false, min: 8, max: 18},
 
     email: { type: String, required: true, unique: true, min: 14 },
 

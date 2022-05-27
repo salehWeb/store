@@ -2,9 +2,12 @@ import { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
 import Swal from 'sweetalert2'
-import { setUser } from '../../server'
+import { setUser, SingWithGoogle } from '../../server'
+import GoogleLogin from 'react-google-login'
+import { Client_ID } from '../../Secret'
 
 const Singin = () => {
+
   const DefultFormVaule: any = {
     name: '',
     password: '',
@@ -26,21 +29,83 @@ weweeggewffw
     setEye(!eye)
   }
 
+  const handelSuccess = async (res: any) => {
+
+    const { profileObj, tokenId } = await res
+    const user: Object = { profile: profileObj, token: tokenId }
+    const userData = {
+      email: profileObj.email,
+      name: profileObj.name
+    }
+    let msg: any;
+    await SingWithGoogle(userData).then((r) => msg = r.data).catch(async (e) => {
+      setDispeldButtton(false)
+      console.log(e)
+      return await Swal.fire({
+        icon: 'error',
+        title: 'filed',
+        text: `${e.message}`
+      })
+    })
+
+    if (msg.msg === " acount sucssfuly created ") {
+      console.log(msg)
+      await Swal.fire({
+        icon: 'success',
+        title: 'success',
+        text: `${msg.msg}`
+      })
+
+      setDispeldButtton(false)
+      setForms(DefultFormVaule)
+
+    }
+
+    if (msg.msg === " this account is already exist!. try login.") {
+      console.log(msg)
+
+      await Swal.fire({
+        icon: 'error',
+        title: 'felid',
+        text: `${msg.msg}`
+      })
+
+      setDispeldButtton(false)
+    console.log(user)
+    }
+  }
+
+
+
+  const handelFailure = async (err: any) => {
+    if (err.message) {
+      return await Swal.fire({
+        icon: 'error',
+        title: 'filed',
+        text: `${err.message}`
+      })
+    }
+  }
+
 
 
 
   const handelSubmit = async (e: any) => {
+
+
     let msg: any;
     setDispeldButtton(true)
     e.preventDefault()
 
     await setUser(forms).then((r) => msg = r.data.msg).catch(async (e) => {
       setDispeldButtton(false)
+
       return await Swal.fire({
         icon: 'error',
         title: 'filed',
         text: `${e.message}`
       })
+      
     })
 
     if (msg === " acount sucssfuly created ") {
@@ -163,23 +228,31 @@ weweeggewffw
                 <p className="text-center font-semibold mx-4 mb-0">OR</p>
               </div>
 
-              <a
-                className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
-                style={{ backgroundColor: "#55acee" }}
-                role="button"
-                href='#d'
-                data-mdb-ripple="true"
-                data-mdb-ripple-color="light"
-              >
+              <GoogleLogin
+                clientId={Client_ID}
+                render={(prop: any) => (
+                  <a
+                    className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
+                    style={{ backgroundColor: "#55acee" }}
+                    role="button"
+                    href='#a'
+                    data-mdb-ripple="true"
+                    data-mdb-ripple-color="light"
+                    onClick={prop.onClick}
+                  >
+                    <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
+                    <p className="flex text-md  lg:text-lg">with Google</p>
+                  </a>
+                )}
+                onSuccess={handelSuccess}
+                onFailure={handelFailure}
+              />
 
-                <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
-                <p className="flex text-md  lg:text-lg">with Google</p>
-              </a>
             </form>
           </div>
-                </div>
-    </section>
-      </>
+        </div>
+      </section>
+    </>
   )
 }
 
