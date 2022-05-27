@@ -1,7 +1,6 @@
 import card from "../models/card";
 
 
-
 export const getOneCard = async (req: any, res: any) => {
     const id = req.params.id
     try {
@@ -77,6 +76,18 @@ export const upDataProdectd = async (req: any, res: any) => {
     try {
         const result = await card.findByIdAndUpdate(id, {...data, createdAt: new Date().toISOString()})
         res.status(201).json(result)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message})
+        console.log(error)
+    }
+}
+
+export const deletItem = async (req: any, res: any) => {
+    const id = req.params.id
+    console.log(id)
+    try {
+        await card.findByIdAndDelete(id)
+        res.status(201).json({msg: 'delete it sucses'})
     } catch (error: any) {
         res.status(201).json({ msg: error.message})
         console.log(error)

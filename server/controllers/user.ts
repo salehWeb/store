@@ -118,3 +118,15 @@ export const getAllUsers = async (req: any, res: any) => {
         res.status(200).json({ msg: error.message })
     }
 }
+
+export const deletUser = async (req: any, res: any) => {
+    const id = req.params.id
+    console.log(id)
+    try {
+        await user.findByIdAndDelete(id)
+        res.status(201).json({msg: 'delete it sucses'})
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message})
+        console.log(error)
+    }
+}

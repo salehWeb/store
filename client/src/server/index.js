@@ -31,3 +31,7 @@ export const sesrshQurey = async (sershVul) => await API.get(`/sersh?qurey=${ser
 export const getAllUSers = async () => await API.get('/adman/users')
 
 export const upDataCard = async (id, data) =>  await API.patch(`/card/${id}`, data)
+
+export const deletUser = async (id) => await API.delete(`/adman/deletuser/${id}`)
+
+export const deletItem = async (id) => await API.delete(`/adman/deletitem/${id}`)

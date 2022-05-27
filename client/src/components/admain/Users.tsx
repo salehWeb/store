@@ -1,14 +1,11 @@
 import { useEffect, useState } from 'react'
 import { getAllUSers } from '../../server/index'
-import moment from 'moment'
+import User from './User'
 
 const Users = () => {
 
     const [users, setUsers] = useState([])
 
-const handelDelet = (id: any) => {
-    console.log('user' + id);
-}
 
 
     useEffect(() => {
@@ -17,9 +14,7 @@ const handelDelet = (id: any) => {
                 setUsers(item.data)
             })
         }
-
         Users()
-
     }, [])
 
 
@@ -48,23 +43,7 @@ const handelDelet = (id: any) => {
                     </thead>
                     <tbody>
                         {users && users.map((item: any, index: number) => (
-                            <tr key={item._id} className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
-                                <th scope="row" className="px-5 py-[10px] font-medium text-gray-900 whitespace-nowrap">
-                                    {} 
-                                </th>
-                                <td className="px-5 py-[10px]">
-                                    {item.email}
-                                </td>
-                                <td className="px-5 py-[10px]">
-                                    {moment(item.createdAt).fromNow()}
-                                </td>
-                                <td className="px-5 py-[10px] text-right">
-                                    <div className="font-medium cursor-pointer text-blue-600 hover:underline">Send Messages</div>
-                                </td>
-                                <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">
-                                    <div className="font-medium cursor-pointer text-red-600 hover:underline">Delete</div>
-                                </td>
-                            </tr>
+                            <User item={item} index={index} setUsers={setUsers} users={users}/>
                         ))}
                     </tbody>
                 </table>

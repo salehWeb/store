@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { getCard } from '../../server/index'
-import moment from 'moment'
+import Item from './Item'
 
 const AboutCob = () => {
-  // const dispatch = useDispatch()
   const [card, setCard] = useState([])
+
 
   const getCards = async () => {
     await getCard().then(res => setCard(res.data))
@@ -14,13 +14,6 @@ const AboutCob = () => {
     getCards()
   }, [])
 
-  const handelEdait = (id: any) => {
-    console.log('ubdata' + id)
-  }
-
-  const handelDelet = (id: any) => {
-    setCard(card.filter((item: any) => item._id !== id))
-  }
 
 
   return (
@@ -59,32 +52,7 @@ const AboutCob = () => {
           </thead>
           <tbody>
             {card && card.map((item: any, index: number) => (
-              <tr key={item._id} className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
-                <th scope="row" className="px-5 py-[10px] font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                  {item.title}
-                </th>
-                <td className="px-5 py-[10px]">
-                  {item.type}
-                </td>
-                <td className="px-5 py-[10px]">
-                  {item.pieces}
-                </td>
-                <td className="px-5 py-[10px]">
-                  ${item.price}
-                </td>
-                <td className="px-5 py-[10px]">
-                  {moment(item.createdAt).fromNow()}
-                </td>
-                <td className="px-5 py-[10px]">
-                  {item.likes.length}
-                </td>
-                <td  className="px-5 py-[10px] text-right">
-                  <a href={`/adman/CreatItem?id=${item._id}`} className="font-medium cursor-pointer text-blue-600 hover:underline">Edit</a>
-                </td>
-                <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">
-                  <div className="font-medium cursor-pointer text-red-600 hover:underline">Delete</div>
-                </td>
-              </tr>
+              <Item item={item} index={index} card={card} setCard={setCard}/>
             ))}
           </tbody>
         </table>
