@@ -22,17 +22,7 @@ const cardSchema = new mongoose.Schema({
             name: { type: String, required: true },
             email: { type: String, required: true },
             _id: { type: String, required: true },
-            comments: { type: String, required: true }
-        }], 
-        default: []
-    },
-
-    payment: { 
-        type: [{
-            name: { type: String, required: true },
-            email: { type: String, required: true },
-            _id: { type: String, required: true },
-            total: { type: Number, required: true}
+            comment: { type: String, required: true, min: 3, max: 40 }
         }], 
         default: []
     },
@@ -50,4 +40,3 @@ const cardSchema = new mongoose.Schema({
 const card = mongoose.model('card', cardSchema)
 
 export default card
-

@@ -103,7 +103,7 @@ export const reggstarGoogle = async (req: any, res: any) => {
         })
 
 
-        res.status(200).json({ msg: " login sucsas ", user: { email: isHaveAcount.email, name: isHaveAcount.name, createdAt: isHaveAcount.createdAt, isAdman: isHaveAcount.isAdman }, token })
+        res.status(200).json({ msg: " login sucsas ", user: { email: isHaveAcount.email, name: isHaveAcount.name, isAdman: isHaveAcount.isAdman }, token })
 
 
     } catch (error: any) {
@@ -135,7 +135,7 @@ export const reggstar = async (req: any, res: any, next: any) => {
         })
 
 
-        res.status(200).json({ msg: " login sucsas ", user: { email: isHaveAcount.email, name: isHaveAcount.name, createdAt: isHaveAcount.createdAt }, token })
+        res.status(200).json({ msg: " login sucsas ", user: { email: isHaveAcount.email, name: isHaveAcount.name }, token })
 
 
     } catch (error: any) {

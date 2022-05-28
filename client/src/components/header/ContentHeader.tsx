@@ -31,6 +31,9 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
 
     const [cards, setCards] = useState(0)
 
+    const isUser = localStorage.getItem('profile')
+    const user = isUser && JSON.parse(isUser).user.name
+
 
 
     return (
@@ -73,7 +76,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                         </li>
                         <li className={classes.li}>
                             <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                                whileTap={{ scale: 0.6 }} src={Profiles} alt='profile'
+                                whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user}.svg`} alt='profile'
                             />
                         </li>
                         <li className={classes.li + ' relative  mr-4'}>
@@ -87,22 +90,6 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
 
 
 
-            {/* 
-                        {open && (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.6 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                exit={{ opacity: 0, scale: 0.6 }}
-                                className="w-40 right-2 text-center bg-gray-50 shadow-xl flex flex-col rounded-lg absolute">
-                                <p onClick={handelLogout} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
-                                <Link to={'/creatItem'}>
-                                    <p onClick={handelMune} className='border-b-[1px] border-gray-400'></p>
-                                    <p onClick={handelMune} className='hover:bg-gray-300 rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mt-1 flex flex-row items-center content-between justify-between'>New Item <MdLibraryAdd /> </p>
-                                </Link>
-                            </motion.div>
-                        )} */}
-
-
 
             {/*  mobil view  */}
                 
@@ -112,20 +99,16 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                     exit={{ opacity: 0, x: 200 }}
                     className='flex items-center relative justify-between md:hidden'>
 
-                    {/* <div onClick={handelReduric} className="flex relative items-center justify-center"> */}
-                    {/* <MdShoppingCart className='text-gray-600 text-2xl cursor-pointer' /> */}
-
 
                     <li className={classes.li}>
                         <motion.img onClick={handelMune} className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                            whileTap={{ scale: 0.6 }} src={Profiles} alt='profile' />
+                            whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user}.svg`} alt='profile' />
                     </li>
 
-                    {/* </div> */}
                     <li className={classes.li}>
                         <Link to='/' className="flex items-center gap-2">
                             <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />
-                            <p className='font-bold text-xl text-gray-800 cursor-pointer'> City </p>
+                            <p className='font-bold text-xl text-gray-800 cursor-pointer'> Selexome </p>
                         </Link>
                     </li>
 
@@ -150,27 +133,7 @@ const ContentHeader = ({ userFind, MdDesignServices, MdHome, MdRestaurant, MdAcc
                             </div>
                         </div>
                     </div>
-*/}
-                {/* {open && (
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.6 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.6 }}
-                            className="w-40 right-2 text-center bg-gray-50 shadow-xl flex flex-col rounded-lg absolute">
-                            <p className={classes.p} onClick={handelMune} >Home <MdHome /></p>
-                            <p className={classes.p} onClick={handelMune} >Menu <MdRestaurant /></p>
-                            <p className={classes.p} onClick={handelMune} >About Us <MdAccountBalance /></p>
-                            <p className={classes.p} onClick={handelMune} >Service <MdDesignServices /></p>
-                            <p className='border-b-[1px] border-gray-400'></p>
-                            <p onClick={handelLogout} className='hover:bg-gray-300 hover:shadow-md rounded-lg transition-all duration-100 text-base ease-in-out cursor-pointer px-2 py-2 mb-1 flex flex-row items-center content-between justify-between'>{userFind ? 'logout' : 'login'}{userFind ? <MdLogout /> : <MdLogin />}</p>
-                            <Link to={'/creatItem'}>
-                                <p className='border-b-[1px] border-gray-400'></p>
-                                <p className={classes.p}
-                                    onClick={handelMune}
-                                >New Item <MdLibraryAdd /> </p>
-                            </Link>
-                        </motion.div>
-                    )} */}
+                */}
         </>
     )
 }

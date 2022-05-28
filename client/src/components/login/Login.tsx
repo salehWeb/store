@@ -62,7 +62,7 @@ const Login = () => {
         title: 'success',
         text: `${msg}`
       })
-      localStorage.setItem('profile', JSON.stringify(data.user))
+      localStorage.setItem('profile', JSON.stringify({user: data.user, token: data.token }))
 
 
       setForms(DefultFormVaule)
@@ -101,9 +101,7 @@ const Login = () => {
 
     await getUser(forms).then((r) => {
       msg = r.data.msg
-      data = r
-      console.log(data)
-      console.log(data.data)
+      data = r.data
 
     }).catch(async (e) => {
       setDispeldButtton(false)
@@ -122,7 +120,7 @@ const Login = () => {
         text: `${msg}`
       })
 
-      localStorage.setItem('profile', JSON.stringify(data.data))
+      localStorage.setItem('profile', JSON.stringify({ user: data.user, token: data.token }))
       setForms(DefultFormVaule)
       setDispeldButtton(false)
 

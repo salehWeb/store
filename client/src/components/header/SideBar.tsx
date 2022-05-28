@@ -5,7 +5,7 @@ import { MdHome, MdShoppingCart } from 'react-icons/md'
 const SideBar = ({ cards }: any) => {
     const [open, setOpen] = useState(false)
     const haveAnacount = localStorage.getItem('profile')
-    const isAdman = haveAnacount && JSON.parse(haveAnacount).profile?.email === 'salehwebdev2004@gmail.com'
+    const isAdman = haveAnacount && JSON.parse(haveAnacount).user?.isAdman
 
     return (
         <>
@@ -47,7 +47,7 @@ const SideBar = ({ cards }: any) => {
                                             <span className="flex-1 ml-3 whitespace-nowrap">Home</span>
                                         </a>
                                     </li>
-                                    {isAdman && (
+                                    {isAdman === true && (
                                         <>
                                             <li>
                                                 <a href="/adman/users" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">

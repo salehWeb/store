@@ -1,6 +1,6 @@
 import  express  from "express";
 import { auth, isAdman } from '../middleware/auth'
-import { postCard, getCard, sershQurey, likesprodacetd, getOneCard, upDataProdectd, commentItem, UserPayment } from '../controllers/card'
+import { postCard, getCard, sershQurey, likesprodacetd, getOneCard, upDataProdectd, commentItem } from '../controllers/card'
 
 const router = express.Router()
 
@@ -17,7 +17,5 @@ router.patch('/card/:id', auth, isAdman, upDataProdectd)
 router.post('/creatItem', auth, isAdman, postCard)
 
 router.patch('/comment/:id', auth, commentItem)
-
-router.patch('/payment', auth, UserPayment)
 
 export default router

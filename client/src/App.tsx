@@ -9,11 +9,12 @@ import NotFound from './components/notfound/NotFound'
 import Singin from './components/login/Singin';
 import Login from './components/login/Login';
 import Users from './components/admain/Users';
+import ItemPage from './components/user/ItemPage';
 
 function App() {
 
   const isHaveAcount = localStorage.getItem('profile')
-  const isAdman = isHaveAcount && JSON.parse(isHaveAcount).profile?.email === 'salehwebdev2004@gmail.com'
+  const isAdman = isHaveAcount && JSON.parse(isHaveAcount).user?.isAdman
 
 
   const hederRefer: any = React.useRef()
@@ -43,7 +44,8 @@ function App() {
               <Route path='/card' element={<Cart />} />
               <Route path='/login' element={<Login />} />
               <Route path='/singin' element={<Singin />} />
-              {isAdman
+              <Route path='/item' element={<ItemPage />} />
+              {isAdman === true
                 && (
                   <>
                     <Route path='/adman' element={<AboutCob />} />
