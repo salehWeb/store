@@ -26,13 +26,13 @@ export const postCard = async (req: any, res: any) => {
     const errors = validationResult(req)
 
     if (!errors.isEmpty()) {
-        return res.status(200).json({errors: [ errors.array() ]})
+        return res.status(200).json({ errors: [errors.array()] })
     }
 
     try {
         const newCard = new card({ ...data, createdAt: new Date().toISOString() })
         await newCard.save()
-        res.status(201).json({ msg: 'sucses created'})
+        res.status(201).json({ msg: 'sucses created' })
     } catch (error) {
         res.status(200).json(error)
         console.log(error);
@@ -62,22 +62,33 @@ export const getImg = async (req: any, res: any) => {
 
 export const sershQurey = async (req: any, res: any) => {
     const sersh = req.query.qurey
-    const data = await card.find({ $or: [{ title: sersh }, { type: sersh }, { desc: sersh }, { _id: sersh }] })
+    try {
+        const data = await card.find({ $or: [{ title: { $regex: sersh, $options: 'i' } }, { type: { $regex: sersh, $options: 'i' } }, { desc: { $regex: sersh, $options: 'i' } }, { _id: sersh }] })
 
-    res.status(200).json({ data })
+        res.status(200).json({ data })
+    } catch (error: any) {
+        console.log(error);
+        res.status(201).json(error.message)
+    }
 }
 
 export const likesprodacetd = async (req: any, res: any) => {
-    const data = await req.body
-    console.log(data);
+    const { name, email: userEmail } = await req.body
+    const userId = req.userId
+    const prodectId = req.params.id
+    const isLIked = await card.findById(prodectId).where("likes.email").equals(userEmail)
     try {
-        const updataed = await card.findByIdAndUpdate(data._id, data, { new: true })
+
+        if (isLIked) {
+            return res.status(202).json("disLike")
+        }
+        const updataed = await card.findByIdAndUpdate(prodectId, { $push: { likes: [{ _id: userId, name, email: userEmail }] } }, { new: true })
         res.status(202).json(updataed)
+
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
         console.log(error)
     }
-
 }
 
 export const upDataProdectd = async (req: any, res: any) => {
@@ -110,7 +121,7 @@ export const commentItem = async (req: any, res: any) => {
     const userData = req.body.user
     const comment = req.body.comment
     try {
-        const result = await card.findByIdAndUpdate(itemID, {comments: {...userData, _id: userID, comment: comment}}, { new: true })
+        const result = await card.findByIdAndUpdate(itemID, { comments: { ...userData, _id: userID, comment: comment } }, { new: true })
         res.status(201).json(result)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
