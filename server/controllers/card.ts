@@ -1,5 +1,7 @@
 import card from "../models/card";
-import { body, validationResult, check } from 'express-validator'
+import { body, validationResult } from 'express-validator'
+import { v4 as uuidv4 } from 'uuid';
+
 
 export const getOneCard = async (req: any, res: any) => {
     const id = req.params.id
@@ -76,13 +78,14 @@ export const likesprodacetd = async (req: any, res: any) => {
     const { name, email: userEmail } = await req.body
     const userId = req.userId
     const prodectId = req.params.id
-    const isLIked = await card.findById(prodectId).where("likes.email").equals(userEmail)
+    const isLIked = await card.findById(prodectId, { likes: 1, _id: 0 }).where("likes.email").equals(userEmail)
     try {
 
         if (isLIked) {
-            return res.status(202).json("disLike")
+            const data = await card.findByIdAndUpdate(prodectId, { $pull: { likes: { _id: userId, name: name, email: userEmail } } }, { new: true, likes: 1, _id: 0 })
+            return res.status(202).json(data)
         }
-        const updataed = await card.findByIdAndUpdate(prodectId, { $push: { likes: [{ _id: userId, name, email: userEmail }] } }, { new: true })
+        const updataed = await card.findByIdAndUpdate(prodectId, { $push: { likes: [{ _id: userId, name, email: userEmail }] } }, { new: true, likes: 1, _id: 0 })
         res.status(202).json(updataed)
 
     } catch (error: any) {
@@ -117,14 +120,39 @@ export const deletItem = async (req: any, res: any) => {
 
 export const commentItem = async (req: any, res: any) => {
     const itemID = req.params.id
-    const userID = req.userId || req.userID
-    const userData = req.body.user
+    const id = uuidv4();
+    const { email, name } = req.body.user
     const comment = req.body.comment
     try {
-        const result = await card.findByIdAndUpdate(itemID, { comments: { ...userData, _id: userID, comment: comment } }, { new: true })
+        const result = await card.findByIdAndUpdate(itemID, { $push: { comments: { email: email, name: name, _id: id, comment: comment } } }, { new: true })
         res.status(201).json(result)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
         console.log(error)
+    }
+}
+
+export const upDataComment = async (req: any, res: any) => {
+    const itemID = req.params.id
+    const commentId = req.body.id
+    const { email, name } = req.body.user
+    const newComment = req.body.comment
+    res.status(201).json({ msg: " hello world upDataComment " })
+}
+
+
+export const deleteComment = async (req: any, res: any) => {
+    const itemID = req.params.id
+    const id = req.body.id;
+    console.log(id)
+    const { email, name } = req.body.user
+    console.log(email, name)
+    
+    try {
+        const updataed = await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: id, name: name, email: email } } }, { new: true })
+        res.status(202).json(updataed)
+    }
+    catch (error: any) {
+        res.status(202).json(error.message)
     }
 }

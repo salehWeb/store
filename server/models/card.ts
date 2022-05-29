@@ -22,7 +22,8 @@ const cardSchema = new mongoose.Schema({
             name: { type: String, required: true },
             email: { type: String, required: true },
             _id: { type: String, required: true },
-            comment: { type: String, required: true, min: 3, max: 40 }
+            comment: { type: String, required: true },
+            creatAt: { type: Date, default: new Date() }
         }], 
         default: []
     },

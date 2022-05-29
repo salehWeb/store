@@ -1,32 +1,61 @@
 import React, { useEffect, useState } from 'react'
-import { sesrshQurey } from '../../server'
+import { commentItem, sesrshQurey, deleteComment } from '../../server'
 import { motion } from 'framer-motion';
 import { Loader } from '../tools';
 import { BsCartDashFill } from 'react-icons/bs';
+import { CgMoreR } from 'react-icons/cg'
 
 
 
 const ItemPage = () => {
     const [item, setItem] = useState<any>()
+    const [comment, setComment] = useState("")
+    const isHaveAcount = localStorage.getItem('profile')
+    const isAdman = isHaveAcount && JSON.parse(isHaveAcount).user?.isAdman
+    const user = isHaveAcount && JSON.parse(isHaveAcount).user
+
+
+    const getItem = async () => {
+        await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
+            await setItem(res.data.data[0])
+            console.log(user)
+        }).catch(error => console.log(error))
+    }
+
+    const handelSubmitComment = async (e: any) => {
+        e.preventDefault()
+
+        const {email, name} = user
+
+        const data = {comment: comment, user: { email, name }}
+        console.log(data);
+        await commentItem(item._id, data).then(res => {
+            getItem()
+        }).catch(err => console.log(err))
+    }
+
+
 
     useEffect(() => {
-        const getItem = async () => {
-            await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
-                await setItem(res.data.data[0])
-            })
-                .catch(error => console.log(error))
-        }
+
         getItem()
     }, [])
+
+    const handelMore = (id: any) => {
+        const {email, name} = user
+        deleteComment(item._id, { id, user: { email, name }}).then(res => console.log(res)).catch(err => console.log(err))
+    }
 
     const handelLikes = () => {
         console.log('like')
     }
 
+
+
     const likesC = true
     return (
         <div className='flex items-center justify-center w-full min-h-[60vh] rounded-lg bg-Blur'>
-            {item && (
+            {item ? (
                 <motion.div
                     initial={{ x: 400, opacity: 0, scale: 0.2 }}
                     animate={{ x: 0, opacity: 1, scale: 1 }}
@@ -74,8 +103,31 @@ const ItemPage = () => {
                                 </motion.button>
                             </div>
                         </div>
+                        {item.comments && item.comments.map((item: any) => (
+                            <div className="flex justify-center items-center bg-white min-w-full max-h-20">
+                                {item.email === user.email && (
+                                    <CgMoreR onClick={() => handelMore(item._id)} />
+                                )}
+                                <div className="flex h-5 w-5">
+                                    <img src={`https://avatars.dicebear.com/api/bottts/${item.name}.svg`} alt={item.name} className="object-contain flex w-full h-full" />
+                                </div>
+                                <p className="text-md">{item.comment}</p>
+                            </div>
+                        ))}
+                        <form className="flex" onSubmit={(e) => handelSubmitComment(e)}>
+                            <input
+                                required
+                                value={comment}
+                                onChange={(e) => setComment(e.target.value)}
+                                type='text' className='flex' />
+                            <button type='submit' className='flex'>
+                                submit
+                            </button>
+                        </form>
                     </div>
                 </motion.div>
+            ) : (
+                <Loader />
             )}
         </div>
     )

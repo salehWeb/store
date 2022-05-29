@@ -4,7 +4,7 @@ import Loader from '../tools/Loader'
 import { motion } from 'framer-motion'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../../context/actionTypes'
-import { getCartUser, likesProdectd } from '../../server'
+import { deleteComment, getCartUser, likesProdectd } from '../../server'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
@@ -36,9 +36,12 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     }, [likesC, userEmail, data._id])
 
     const handelLikes = async () => {
-        console.log({email: userEmail, name: userName})
+
+
         await likesProdectd(data._id, {email: userEmail, name: userName}).then(res => console.log(res))
         .catch(error => console.log(error))
+        
+
         // setLikes(!likesC)
         // let DATA: any;
 

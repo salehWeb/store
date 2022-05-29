@@ -9,9 +9,6 @@ API.interceptors.request.use((req) => {
     return req
 })
 
-
-
-
 export const getCard = async () => await API.get(`/`)
 
 export const postCard = async (data) => await API.post(`/creatItem`, data)
@@ -36,7 +33,11 @@ export const deletUser = async (id) => await API.delete(`/adman/deletuser/${id}`
 
 export const deletItem = async (id) => await API.delete(`/adman/deletitem/${id}`)
 
-export const commentItem = async (id, data) => await API.patch(`/comment/${id}`, data)
+export const commentItem = async (id, data) => await API.patch(`/comment/creat/${id}`, data)
+
+export const deleteComment = async (id, data) => await API.patch(`/comment/delete/${id}`, data)
+
+export const updataComment = async (id, data) => await API.patch(`/comment/updata/${id}`, data)
 
 export const SingWithGoogle = async (data) => await API.post('login/Sing_inGoogle', data)
 
