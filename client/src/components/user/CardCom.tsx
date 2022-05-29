@@ -14,7 +14,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
     const haveAnacount = localStorage.getItem('profile')
 
-    const {user } = haveAnacount && JSON.parse(haveAnacount)
+    const { user } = haveAnacount && JSON.parse(haveAnacount)
 
 
     const handeNone = () => {
@@ -30,46 +30,34 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
 
     useEffect(() => {
-        getCartUser(data._id).then(res => {
-            setLikes(res.data.likes.includes(userEmail))
-        }).catch(error => console.log(error))
+        const getLikes = async () => {
+            await getCartUser(data._id).then((res: any) => {
+                res.data.likes.map((item: any) => {
+                    console.log(item)
+                    if (item.email === userEmail) {
+                        setLikes(true)
+                    } else {
+                        setLikes(false)
+                    }
+                })
+            }).catch((error: any) => console.log(error))
+        }
+        getLikes()
     }, [likesC, userEmail, data._id])
 
     const handelLikes = async () => {
-
-
-        await likesProdectd(data._id, {email: userEmail, name: userName}).then(res => console.log(res))
-        .catch(error => console.log(error))
-        
-
-        // setLikes(!likesC)
-        // let DATA: any;
-
-
-        // await getCartUser(data._id).then(async res => {
-        //     DATA = res.data
-
-
-        //     if (!res.data.likes.email.includes(userEmail)) {
-        //         DATA = { ...DATA, likes: [userEmail] }
-
-        //         await likesProdectd(DATA._id, DATA.likes.length === 0 ? DATA :
-
-        //             { ...res.data, likes: [...res.data.likes, { userEmail, userName }] })
-        //             .then(resed => {
-        //                 // console.log(res)
-        //                 console.log(resed.data)
-        //             })
-        //             .catch(error => console.log(error))
-        //     } else {
-        //         await likesProdectd(res.data._id, res.data.likes.length === 1 ? { ...res.data, likes: [] } :
-        //             { ...res.data, likes: res.data.likes.filter((item: any) => item !== userEmail) })
-        //             .then((res: any) => {
-        //                 console.log(res.data);
-        //             }).catch(error => console.log(error))
-        //     }
-
-        // }).catch(err => console.log(err))
+        setLikes(!likesC)
+        await likesProdectd(data._id, { email: userEmail, name: userName }).then(res => {
+            res.data.likes.map((item: any) => {
+                console.log(item)
+                if (item.email === userEmail) {
+                    setLikes(true)
+                } else {
+                    setLikes(false)
+                }
+            })
+        })
+            .catch(error => console.log(error))
     }
 
 

@@ -3,6 +3,7 @@ import { deletItem } from '../../server/index'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import { Loader } from '../tools'
+import { Link } from 'react-router-dom'
 
 const Item = ({ item, index, card, setCard }: any) => {
     const [isLoading, setIsLoading] = useState(false)
@@ -50,7 +51,7 @@ const Item = ({ item, index, card, setCard }: any) => {
                 {item.likes.length}
             </td>
             <td className="px-5 py-[10px] text-right">
-                <a href={`/adman/CreatItem?id=${item._id}`} className="font-medium cursor-pointer text-blue-600 hover:underline">Edit</a>
+                <Link to={`/adman/CreatItem?id=${item._id}`} className="font-medium cursor-pointer text-blue-600 hover:underline">Edit</Link>
             </td>
             {isLoading ? (
                 <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">

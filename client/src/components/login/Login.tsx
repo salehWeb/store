@@ -3,7 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { BsEyeSlash, BsEye } from 'react-icons/bs'
 import Swal from 'sweetalert2'
 import { getUser, loginWithGoogle } from '../../server/index'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { GoogleLogin } from 'react-google-login';
 import { Client_ID } from '../../Secret.js';
 import { Loader } from '../tools'
@@ -26,11 +26,6 @@ const Login = () => {
     setEye(!eye)
   }
 
-  /*  
-  sadsafew
-  wefewfew@gmail.com
-  weweeggewffw
-  */
 
   const handelSuccess = async (res: any) => {
 
@@ -62,6 +57,7 @@ const Login = () => {
         title: 'success',
         text: `${msg}`
       })
+      history("/Welcom")
       localStorage.setItem('profile', JSON.stringify({user: data.user, token: data.token }))
 
 
@@ -119,6 +115,7 @@ const Login = () => {
         title: 'success',
         text: `${msg}`
       })
+      history("/Welcom")
 
       localStorage.setItem('profile', JSON.stringify({ user: data.user, token: data.token }))
       setForms(DefultFormVaule)
@@ -185,7 +182,7 @@ const Login = () => {
               </div>
 
               <div className="flex justify-center items-center mb-6">
-                <p>do not have an acount <a href='/singin' className="underline text-blue-600 cursor-pointer">Sing  in</a></p>
+                <p>do not have an acount <Link to='/singin' className="underline text-blue-600 cursor-pointer">Sing  in</Link></p>
               </div>
 
               <button
@@ -224,18 +221,17 @@ const Login = () => {
                   googleBtn ? (
                     <Loader />
                   ) : (
-                    <a
+                    <div
                       className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
                       style={{ backgroundColor: "#55acee" }}
                       role="button"
-                      href='#a'
                       data-mdb-ripple="true"
                       data-mdb-ripple-color="light"
                       onClick={prop.onClick}
                     >
                       <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
                       <p className="flex text-md  lg:text-lg">with Google</p>
-                    </a>
+                    </div>
                   )
                 )}
                 onSuccess={handelSuccess}

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { commentItem, sesrshQurey, deleteComment } from '../../server'
+import { useEffect, useState } from 'react'
+import { commentItem, sesrshQurey, deleteComment, likesProdectd } from '../../server'
 import { motion } from 'framer-motion';
 import { Loader } from '../tools';
-import { BsCartDashFill } from 'react-icons/bs';
 import { CgMoreR } from 'react-icons/cg'
-
 
 
 const ItemPage = () => {
     const [item, setItem] = useState<any>()
     const [comment, setComment] = useState("")
+    const [likesC, setLikes] = useState(false)
     const isHaveAcount = localStorage.getItem('profile')
     const isAdman = isHaveAcount && JSON.parse(isHaveAcount).user?.isAdman
     const user = isHaveAcount && JSON.parse(isHaveAcount).user
@@ -17,7 +16,7 @@ const ItemPage = () => {
 
     const getItem = async () => {
         await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
-            await setItem(res.data.data[0])
+            setItem(res.data.data[0])
             console.log(user)
         }).catch(error => console.log(error))
     }
@@ -25,9 +24,9 @@ const ItemPage = () => {
     const handelSubmitComment = async (e: any) => {
         e.preventDefault()
 
-        const {email, name} = user
+        const { email, name } = user
 
-        const data = {comment: comment, user: { email, name }}
+        const data = { comment: comment, user: { email, name } }
         console.log(data);
         await commentItem(item._id, data).then(res => {
             getItem()
@@ -37,22 +36,31 @@ const ItemPage = () => {
 
 
     useEffect(() => {
-
         getItem()
     }, [])
 
     const handelMore = (id: any) => {
-        const {email, name} = user
-        deleteComment(item._id, { id, user: { email, name }}).then(res => console.log(res)).catch(err => console.log(err))
+        const { email, name } = user
+        deleteComment(item._id, { id, user: { email, name } }).then(res => console.log(res)).catch(err => console.log(err))
     }
 
-    const handelLikes = () => {
-        console.log('like')
+    const handelLikes = async () => {
+        setLikes(!likesC)
+        const { email, name } = user
+        await likesProdectd(item._id, { email, name }).then(res => {
+            res.data.likes.map((item: any) => {
+                console.log(item)
+                if (item.email === email) {
+                    setLikes(true)
+                } else {
+                    setLikes(false)
+                }
+            })
+        })
+            .catch(error => console.log(error))
     }
 
 
-
-    const likesC = true
     return (
         <div className='flex items-center justify-center w-full min-h-[60vh] rounded-lg bg-Blur'>
             {item ? (

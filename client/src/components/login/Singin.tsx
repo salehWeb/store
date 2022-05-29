@@ -5,20 +5,16 @@ import Swal from 'sweetalert2'
 import { setUser, SingWithGoogle } from '../../server'
 import GoogleLogin from 'react-google-login'
 import { Client_ID } from '../../Secret'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Singin = () => {
-
+  const history = useNavigate()
   const DefultFormVaule: any = {
     name: '',
     password: '',
     email: ''
   }
 
-  /*  
-sadsafew
-wefewfew@gmail.com
-weweeggewffw
-*/
 
   const [forms, setForms] = useState(DefultFormVaule)
   const [eye, setEye] = useState(false)
@@ -55,6 +51,7 @@ weweeggewffw
         title: 'success',
         text: `${msg.msg}`
       })
+      history('/login')
 
       setDispeldButtton(false)
       setForms(DefultFormVaule)
@@ -115,7 +112,7 @@ weweeggewffw
         title: 'success',
         text: `${msg}`
       })
-
+      history('/login')
       setDispeldButtton(false)
       setForms(DefultFormVaule)
 
@@ -199,7 +196,7 @@ weweeggewffw
               </div>
 
               <div className='justify-center items-center flex mb-4 self-center'> all ready have an acount
-                <a className="underline text-blue-600 cursor-pointer ml-2" href='/login'>login</a>
+                <Link to='/login' className="underline text-blue-600 cursor-pointer ml-2" >login</Link>
               </div>
 
               <button
@@ -231,18 +228,17 @@ weweeggewffw
               <GoogleLogin
                 clientId={Client_ID}
                 render={(prop: any) => (
-                  <a
+                  <div
                     className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
                     style={{ backgroundColor: "#55acee" }}
                     role="button"
-                    href='#a'
                     data-mdb-ripple="true"
                     data-mdb-ripple-color="light"
                     onClick={prop.onClick}
                   >
                     <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
                     <p className="flex text-md  lg:text-lg">with Google</p>
-                  </a>
+                  </div>
                 )}
                 onSuccess={handelSuccess}
                 onFailure={handelFailure}

@@ -10,6 +10,7 @@ import Singin from './components/login/Singin';
 import Login from './components/login/Login';
 import Users from './components/admain/Users';
 import ItemPage from './components/user/ItemPage';
+import Welcom from './components/login/Welcom';
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
               <Route path='/login' element={<Login />} />
               <Route path='/singin' element={<Singin />} />
               <Route path='/item' element={<ItemPage />} />
+              <Route path='/Welcom' element={<Welcom />} />
               {isAdman === true
                 && (
                   <>
