@@ -9,7 +9,7 @@ import NotFound from './components/notfound/NotFound'
 import Singin from './components/login/Singin';
 import Login from './components/login/Login';
 import Users from './components/admain/Users';
-import ItemPage from './components/user/ItemPage';
+import ItemPage from './components/itemPage/ItemPage';
 import Welcom from './components/login/Welcom';
 
 function App() {

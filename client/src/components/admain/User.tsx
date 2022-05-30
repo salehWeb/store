@@ -12,23 +12,37 @@ const User = ({ item, index, setUsers, users }: any) => {
 
     const handelDelet = async (id: any) => {
         setIsLoading(true)
-        await deletUser(id).then(async item => {
-            await Swal.fire({
-                icon: 'success',
-                title: 'success',
-                text: `${item.data.msg}`
-            })
-            setIsLoading(false)
-            setUsers(users.filter((item: any) => item._id !== id))
-        }).catch(async err => {
-            await Swal.fire({
-                icon: 'error',
-                title: 'Filed',
-                text: `${err.data.msg}`
-            })
-            setIsLoading(false)
-            setUsers(users.filter((item: any) => item._id !== id))
+
+        Swal.fire({
+            title: 'Do you want to delete user',
+            showCancelButton: true,
+            showConfirmButton: true,
+            confirmButtonText: 'Delete',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                await deletUser(id).then(async item => {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'success',
+                        text: `${item.data.msg}`
+                    })
+                    setIsLoading(false)
+                    setUsers(users.filter((item: any) => item._id !== id))
+                }).catch(async err => {
+                    await Swal.fire({
+                        icon: 'error',
+                        title: 'Filed',
+                        text: `${err.data.msg}`
+                    })
+                    setIsLoading(false)
+                    setUsers(users.filter((item: any) => item._id !== id))
+                })
+            } else {
+                setIsLoading(false)
+                Swal.fire('Changes are not saved', '', 'info')
+            }
         })
+
     }
 
     return (

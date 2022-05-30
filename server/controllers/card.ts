@@ -44,7 +44,7 @@ export const postCard = async (req: any, res: any) => {
 
 export const getCard = async (req: any, res: any) => {
     try {
-        const data: any = await card.find({}, { img: 0 }).sort({_id: -1})
+        const data: any = await card.find({}, { img: 0 }).sort({ _id: -1 })
         res.status(201).json(data)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
@@ -65,8 +65,10 @@ export const getImg = async (req: any, res: any) => {
 export const sershQurey = async (req: any, res: any) => {
     const sersh = req.query.qurey
     try {
-        const data = await card.find({ $or: [{ title: { $regex: sersh, $options: 'i' } }, 
-        { type: { $regex: sersh, $options: 'i' } }, { desc: { $regex: sersh, $options: 'i' } }, { _id: sersh }] }).sort({_id: -1})
+        const data = await card.find({
+            $or: [{ title: { $regex: sersh, $options: 'i' } },
+            { type: { $regex: sersh, $options: 'i' } }, { desc: { $regex: sersh, $options: 'i' } }, { _id: sersh }]
+        }).sort({ _id: -1 })
 
         res.status(200).json({ data })
     } catch (error: any) {
@@ -138,22 +140,30 @@ export const upDataComment = async (req: any, res: any) => {
     const commentId = req.body.id
     const { email, name } = req.body.user
     const newComment = req.body.comment
-    res.status(201).json({ msg: " hello world upDataComment " })
+    try {
+        await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: commentId, name: name, email: email } } }, { new: true }).then(async () => {
+            const result = await card.findByIdAndUpdate(itemID, { $push: { comments: { email: email, name: name, _id: commentId, comment: newComment } } }, { new: true })
+            res.status(201).json(result)
+        })
+
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message })
+    }
 }
 
 
 export const deleteComment = async (req: any, res: any) => {
     const itemID = req.params.id
     const id = req.body.id;
-    console.log(id)
     const { email, name } = req.body.user
-    console.log(email, name)
-    
+    console.log(id, email, name);
+
     try {
         const updataed = await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: id, name: name, email: email } } }, { new: true })
         res.status(202).json(updataed)
     }
     catch (error: any) {
         res.status(202).json(error.message)
+        console.log(error);
     }
 }
