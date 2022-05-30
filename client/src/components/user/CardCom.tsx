@@ -110,7 +110,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             initial={{ x: 400, opacity: 0, scale: 0.2 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ opacity: 0.8, x: 700, scale: 1 }}
-            key={data._id} className="w-full my-6 h-fit ease-in-out duration-100 transition-all flex bg-white rounded-lg">
+            key={data._id} className="w-full my-6 h-fit ease-in-out duration-100 transition-all drop-shadow-lg flex bg-white rounded-lg">
             <div className="flex  w-[50%] h-fit flex-row flex-wrap justify-between rounded-lg">
 
                 {!image ? (

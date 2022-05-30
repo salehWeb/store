@@ -44,7 +44,7 @@ export const postCard = async (req: any, res: any) => {
 
 export const getCard = async (req: any, res: any) => {
     try {
-        const data: any = await card.find({}, { img: 0 })
+        const data: any = await card.find({}, { img: 0 }).sort({_id: -1})
         res.status(201).json(data)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
@@ -65,7 +65,8 @@ export const getImg = async (req: any, res: any) => {
 export const sershQurey = async (req: any, res: any) => {
     const sersh = req.query.qurey
     try {
-        const data = await card.find({ $or: [{ title: { $regex: sersh, $options: 'i' } }, { type: { $regex: sersh, $options: 'i' } }, { desc: { $regex: sersh, $options: 'i' } }, { _id: sersh }] })
+        const data = await card.find({ $or: [{ title: { $regex: sersh, $options: 'i' } }, 
+        { type: { $regex: sersh, $options: 'i' } }, { desc: { $regex: sersh, $options: 'i' } }, { _id: sersh }] }).sort({_id: -1})
 
         res.status(200).json({ data })
     } catch (error: any) {

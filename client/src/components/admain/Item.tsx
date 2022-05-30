@@ -3,9 +3,12 @@ import { deletItem } from '../../server/index'
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import { Loader } from '../tools'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Item = ({ item, index, card, setCard }: any) => {
+
+    const history = useNavigate()
+
     const [isLoading, setIsLoading] = useState(false)
 
     
@@ -30,9 +33,14 @@ const Item = ({ item, index, card, setCard }: any) => {
         })
     }
 
+
+    const handelRidarict = () => {
+        history(`/item?id=${item._id}`)
+    }
+
     return (
-        <tr key={item._id + index} className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
-            <th scope="row" className="px-5 py-[10px] font-medium text-gray-900 dark:text-white whitespace-nowrap">
+        <tr key={item._id + index}  className={`${Math.round(index / 2) === index / 2 ? 'bg-white hover:bg-gray-50' : 'bg-gray-100 hover:bg-white'} border-b`}>
+            <th scope="row" onClick={handelRidarict} className="px-5 py-[10px] hover:underline hover:text-blue-600 cursor-pointer font-medium text-gray-900 dark:text-white whitespace-nowrap">
                 {item.title}
             </th>
             <td className="px-5 py-[10px]">

@@ -52,7 +52,7 @@ const AboutCob = () => {
           </thead>
           <tbody>
             {card && card.map((item: any, index: number) => (
-              <Item item={item} index={index} card={card} setCard={setCard}/>
+              <Item item={item} key={item._id} index={index} card={card} setCard={setCard}/>
             ))}
           </tbody>
         </table>

@@ -6,21 +6,24 @@ const Users = () => {
 
     const [users, setUsers] = useState([])
 
+    const Users = async () => {
+        await getAllUSers().then(item => {
+            setUsers(item.data)
+            console.log(item.data)
+        })
+    }
 
-
-    useEffect(() => {
-        const Users = async () => {
-            await getAllUSers().then(item => {
-                setUsers(item.data)
-            })
-        }
+    useEffect( () => {
         Users()
+
     }, [])
+
+
 
 
     return (
         <div className="min-h-[60vh] flex justify-center items-center">
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg lg:flex hidden">
+            <div className="relative overflow-x-auto shadow-md sm:rounded-lg flex ">
                 <table className="w-full text-sm text-left text-gray-500">
                     <thead className="text-xs text-gray-300 uppercase bg-gray-700">
                         <tr>
@@ -34,16 +37,13 @@ const Users = () => {
                                 join at
                             </th>
                             <th scope="col" className="px-5 py-[10px]">
-                                <span className="sr-only">send messages</span>
-                            </th>
-                            <th scope="col" className="px-5 py-[10px]">
                                 <span className="sr-only">Delete</span>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users && users.map((item: any, index: number) => (
-                            <User item={item} index={index} setUsers={setUsers} users={users}/>
+                        {users.length >= 1 && users.map((item: any, index: number) => (
+                            <User key={item._id} item={item} index={index} setUsers={setUsers} users={users}/>
                         ))}
                     </tbody>
                 </table>

@@ -18,11 +18,9 @@ const Header = ({ haed }: any) => {
     const  { user } : any = useSelector<typeof  type>((state) => state.auth)
 
 
-    
+
+
     useEffect(() => {
-        if (localStorage.getItem('user')) {
-            dispatch({type: actionTypes.GET_USER})
-        }
     }, [dispatch])
 
     useEffect(() => {

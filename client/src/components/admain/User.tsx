@@ -1,13 +1,13 @@
 import moment from 'moment'
 import Swal from 'sweetalert2'
 import Loader from '../tools/Loader'
-import {useState } from 'react'
-import {deletUser}  from '../../server/index'
+import { useState } from 'react'
+import { deletUser } from '../../server/index'
 
 
 
-const User = ({item, index, setUsers, users}: any) => {
-    
+const User = ({ item, index, setUsers, users }: any) => {
+
     const [isLoading, setIsLoading] = useState(false)
 
     const handelDelet = async (id: any) => {
@@ -41,9 +41,6 @@ const User = ({item, index, setUsers, users}: any) => {
             </td>
             <td className="px-5 py-[10px]">
                 {moment(item.createdAt).fromNow()}
-            </td>
-            <td className="px-5 py-[10px] text-right">
-                <div className="font-medium cursor-pointer text-blue-600 hover:underline">Send Messages</div>
             </td>
             {isLoading ? (
                 <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">

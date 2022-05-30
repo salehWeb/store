@@ -50,13 +50,13 @@ const Cart = () => {
 
 
     return (
-        <section className='w-full h-auto flex justify-center items-center min-h-screen'>
+        <section className='w-full h-auto flex justify-center items-center min-h-screen bg-Blur rounded-lg py-2 px-6'>
             {data && cards?.length > 0 ? (
                 <>
                 <div className="w-full h-auto gap-4 grid lg:grid-cols-2 grid-cols-1  min-h-screen">
                     {cards && cards?.length > 0 ? (
                         <>
-                        <div className="w-full h-full gap-4 flex flex-col">
+                        <div className="w-full h-full gap-4 flex flex-col ">
                             {data && cards.map((item: any) => {
                                 return (
                                     <AnimatePresence >

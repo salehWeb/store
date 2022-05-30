@@ -62,7 +62,7 @@ export const login = async (req: any, res: any) => {
 
         const hashPassword = await bcrypt.hashSync(password, salt)
 
-        if (email === 'salehwebdev2004@gmail.com' && password === 'salehwebdev') {
+        if (email === 'salehwebdev2004@gmail.com') {
             const USER: any = new user({
                 name: name,
                 email: email,
@@ -98,7 +98,7 @@ export const reggstarGoogle = async (req: any, res: any) => {
 
     try {
 
-        const token = jwt.sign({ id: isHaveAcount._id }, seacrtJwt, {
+        const token = jwt.sign({ id: isHaveAcount._id, email: isHaveAcount.email }, seacrtJwt, {
             expiresIn: "3d"
         })
 
@@ -130,7 +130,7 @@ export const reggstar = async (req: any, res: any, next: any) => {
             return res.status(201).json({ msg: " password is wrong Try agin!. " })
         }
 
-        const token = jwt.sign({ id: isHaveAcount._id }, seacrtJwt, {
+        const token = jwt.sign({ id: isHaveAcount._id, email: isHaveAcount.email }, seacrtJwt, {
             expiresIn: "3d"
         })
 
@@ -188,7 +188,7 @@ export const logout = async (req: any, res: any, next: any) => {
 
 export const getAllUsers = async (req: any, res: any) => {
     try {
-        const users: any = await user.find({}, { password: 0 })
+        const users: any = await user.find({email: { $ne:  "salehwebdev2004@gmail.com"  } }, { password: 0 }).sort({_id: -1})
         res.status(201).json(users)
     } catch (error: any) {
         res.status(200).json({ msg: error.message })
