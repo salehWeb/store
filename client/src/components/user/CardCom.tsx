@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
-import { BsCartDashFill } from 'react-icons/bs'
+import { useEffect, useState } from 'react'
 import Loader from '../tools/Loader'
 import { motion } from 'framer-motion'
 import { useDispatch } from 'react-redux'
 import * as actionTypes from '../../context/actionTypes'
 import { getCartUser, likesProdectd } from '../../server'
+import { MdOutlineCancelPresentation } from 'react-icons/md'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
@@ -109,40 +109,44 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             initial={{ x: 400, opacity: 0, scale: 0.2 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ opacity: 0.8, x: 700, scale: 1 }}
-            key={data._id} className="w-full my-6 h-fit ease-in-out duration-100 transition-all drop-shadow-lg flex bg-white rounded-lg">
-            <div className="flex  w-[50%] h-fit flex-row flex-wrap justify-between rounded-lg">
+            key={data._id} className="w-full my-6 h-fit ease-in-out flex-col duration-100 transition-all drop-shadow-lg flex bg-white rounded-lg">
+            <div className="flex  w-full h-fit flex-row justify-between rounded-lg">
 
                 {!image ? (
-                    <div className="flex h-32 w-[25rem] justify-center items-center">
+                    <div className="flex h-32 w-[50%] justify-center items-center">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="h-32 w-[25rem] flex relative  rounded-lg  bg-white ">
+                    <div className="h-32 w-[50%] flex relative  rounded-lg  bg-white ">
+                        <MdOutlineCancelPresentation onClick={() => handelDelet(item)} className='flex ml-[2px] mt-[2px] text-[2rem] p-[6px] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
                         <img className=' w-full  h-full object-contain' src={image} alt={data.title} />
 
                         <div className="bg-gray-800 shadow-lg  max-w-fit rounded-lg  -top-7 right-[5%] px-[6px] absolute h-10 items-center justify-center  z-[4] flex ">
                             <p className="text-gray-300">price $:{data.price}</p>
                         </div>
+
                     </div>
                 )}
 
-                <div className="h-32 w-[25rem] flex rounded-lg justify-center items-center">
-                    <BsCartDashFill onClick={() => handelDelet(item)} className='flex text-[2rem] p-[6px] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
+                <div className="flex  h-fit flex-col w-[50%] justify-center items-center rounded-lg">
+                    <p className="text-base  w-fit"><h1 className='text-2xl'>{data.title}</h1>
+                        <span className='h-[1px] w-full   bg-gradient-to-tr from-blue-300 to-blue-600  flex flex-row'></span></p>
+                    <br />
+                    <p className="text-gray-500 flex self-start">{data.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
                 </div>
             </div>
 
 
+
+
             <div className=" w-full h-full flex flex-end flex-col  justify-center items-center">
-                <p className="text-base  "><h1 className='text-2xl'>{data.title}</h1>
-                    <span className='h-[1px] w-full   bg-gradient-to-tr from-blue-300 to-blue-600  flex flex-row'></span></p>
-                <br />
-                <p className="text-gray-500 flex self-start">{data.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
 
 
 
-                <div className="flex h-fit w-full justify-between  flex-wrap items-center">
 
-                    <div className="flex justify-center items-center ">
+                <div className="flex h-fit w-full justify-between flex-row items-center">
+
+                    <div className="flex justify-center items-center ml-2">
                         <p className="font-semibold">
 
                             {data.pieces - Total >= 1
