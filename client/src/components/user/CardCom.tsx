@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { BsCartDashFill } from 'react-icons/bs'
 import Loader from '../tools/Loader'
 import { motion } from 'framer-motion'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import * as actionTypes from '../../context/actionTypes'
-import { deleteComment, getCartUser, likesProdectd } from '../../server'
+import { getCartUser, likesProdectd } from '../../server'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
@@ -49,7 +49,6 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         setLikes(!likesC)
         await likesProdectd(data._id, { email: userEmail, name: userName }).then(res => {
             res.data.likes.map((item: any) => {
-                console.log(item)
                 if (item.email === userEmail) {
                     setLikes(true)
                 } else {
@@ -121,8 +120,8 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                     <div className="h-32 w-[25rem] flex relative  rounded-lg  bg-white ">
                         <img className=' w-full  h-full object-contain' src={image} alt={data.title} />
 
-                        <div className="bg-gray-800 shadow-lg   rounded-lg  -top-7 left-[30%] lg:w-[39%] px-[6px] h-10 items-center justify-center flex  absolute">
-                            <p className="text-gray-500">price $:{data.price}</p>
+                        <div className="bg-gray-800 shadow-lg  max-w-fit rounded-lg  -top-7 right-[5%] px-[6px] absolute h-10 items-center justify-center  z-[4] flex ">
+                            <p className="text-gray-300">price $:{data.price}</p>
                         </div>
                     </div>
                 )}

@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { deleteComment } from '../../server/index'
 
 
-const Comments = ({ item, setData, user, setIsUpdata, setComment, id }: any) => {
+const Comments = ({ item, setData, user, setIsUpdata, setComment, id, getItem }: any) => {
     const [isVasbl, setIsVasbl] = useState(false)
 
 
@@ -20,7 +20,9 @@ const Comments = ({ item, setData, user, setIsUpdata, setComment, id }: any) => 
         const { email, name} = user
         const commentId = item._id
         console.log(commentId)
-        await deleteComment(id, { id: commentId, user: { email, name } }).then(res => console.log(res)).catch(err => console.log(err))
+        await deleteComment(id, { id: commentId, user: { email, name } }).then(res => {
+            getItem()
+        }).catch(err => console.log(err))
     }
 
     const handelUpdata = () => {
