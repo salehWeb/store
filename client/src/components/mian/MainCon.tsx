@@ -5,18 +5,22 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getCard } from '../../context/Cardactions'
 import { sesrshQurey } from '../../server'
+import { useNavigate } from 'react-router-dom'
 
 
 const MainCon = () => {
+  const history = useNavigate()
   const dispatch: any = useDispatch()
   const [flag, setFlag] = useState(true)
   const [slide, setSlide] = useState(0)
   const { data }: any = useSelector((state: any) => state.card)
-  const [serchVul, setSerch] = useState<any>([])
+  const [serchVul, setSerch] = useState<any>(null)
+  const [rerender, setRerender] = useState(false);
 
   useEffect(() => {
     dispatch(getCard())
   }, [dispatch])
+
 
   useEffect(() => {
 
@@ -34,9 +38,10 @@ const MainCon = () => {
     const getSerch = async () => {
       if (!serchVul && window.location.search.split('=')[1]) {
         const serch = window.location.search.split('=')[1]
-        const { data }: any = await sesrshQurey(serch)
-        setSerch(data.data)
+        const data: any = await sesrshQurey(serch)
+        setSerch(data.data.data)
       }
+      setRerender(true)
       console.log(serchVul);
     }
     getSerch()
@@ -49,17 +54,22 @@ const MainCon = () => {
     }
   }
 
-  useEffect(() => {
-    console.log(serchVul.length);
-  } ,[serchVul])
+  const handelRestSearch = () => {
+    setSerch(null)
+    history("/")
+  }
 
   return (
     <div className='w-full h-auto flex flex-col items-center justify-center'>
       <section className='w-full'>
-        {serchVul && serchVul.length >= 1 && (
+        <div className='w-full flex justify-end items-center'>
+          <div onClick={handelRestSearch} className="hover:rounded-2xl cursor-pointer rounded-lg ease-in-out duration-75 p-2 transition-all items-center justify-center text-xl text-center shadow-lg hover:bg-blue-200 hover:drop-shadow-lg bg-Blur  flex">
+            Rest Search
+          </div>
+        </div>
+        {serchVul && serchVul.length >= 1 ? (
           <RowCon slide={slide} data={serchVul} flag={!flag} />
-        ) }
-        {/* : (
+        ) : (
           <>
             <div className="w-full items-center justify-center mt-6">
               <p className="text-2xl font-semibold mb-4 capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 mr-auto">
@@ -74,7 +84,7 @@ const MainCon = () => {
             <CardCon data={data} slide={slide} />
             <RowCon slide={slide} data={data} flag={!flag} />
           </>
-        )} */}
+        )}
 
       </section>
     </div>
