@@ -110,15 +110,15 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ opacity: 0.8, x: 700, scale: 1 }}
             key={data._id} className="w-full my-6 h-fit ease-in-out flex-col duration-100 transition-all drop-shadow-lg flex bg-white rounded-lg">
-            <div className="flex  w-full h-fit flex-row justify-between rounded-lg">
+            <div className="flex  w-full h-fit flex-row flex-wrap justify-between rounded-lg">
 
                 {!image ? (
-                    <div className="flex h-32 w-[50%] justify-center items-center">
+                    <div className="flex h-32 justify-center items-center">
                         <Loader />
                     </div>
                 ) : (
-                    <div className="h-32 w-[50%] flex relative  rounded-lg  bg-white ">
-                        <MdOutlineCancelPresentation onClick={() => handelDelet(item)} className='flex ml-[2px] mt-[2px] text-[2rem] p-[6px] cursor-pointer hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
+                    <div className="h-32  flex relative  rounded-lg justify-center items-center w-full bg-white ">
+                        <MdOutlineCancelPresentation onClick={() => handelDelet(item)} className='flex ml-[2px] top-0 left-0 mt-[2px] text-[2rem] p-[6px] cursor-pointer absolute hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
                         <img className=' w-full  h-full object-contain' src={image} alt={data.title} />
 
                         <div className="bg-gray-800 shadow-lg  max-w-fit rounded-lg  -top-7 right-[5%] px-[6px] absolute h-10 items-center justify-center  z-[4] flex ">
@@ -128,11 +128,11 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                     </div>
                 )}
 
-                <div className="flex  h-fit flex-col w-[50%] justify-center items-center rounded-lg">
+                <div className="flex  h-fit flex-col justify-center items-center rounded-lg">
                     <p className="text-base  w-fit"><h1 className='text-2xl'>{data.title}</h1>
                         <span className='h-[1px] w-full   bg-gradient-to-tr from-blue-300 to-blue-600  flex flex-row'></span></p>
                     <br />
-                    <p className="text-gray-500 flex self-start">{data.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
+                    <p className="text-gray-500 flex self-start px-4">{data.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
                 </div>
             </div>
 
@@ -140,7 +140,6 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
 
             <div className=" w-full h-full flex flex-end flex-col  justify-center items-center">
-
 
 
 
