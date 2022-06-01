@@ -2,26 +2,41 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { IoFastFood } from 'react-icons/io5'
 import RowCon from '../row/RowCon';
+import { getLovedItem } from '../../server';
 
 
 
 
-const CardCon = ({ data }: any) => {
+const CardCon = ({ data, slide }: any) => {
 
   let result: any = []
 
   const [filter, setFilter] = useState("");
-  const [res, SetRes] = useState(result);
+  const [res, SetRes] = useState(result)
+  const [loved, setLoved] = useState([])
 
+  useEffect(() => {
+    const getMostLOvedItems = async () => {
+      await getLovedItem().then((res) => {
+        setLoved(res.data)
+        console.log(loved);
+      }
+      ).catch((error: any) => console.log(error))
+    }
+    getMostLOvedItems()
+  }, [])
 
-
+  useEffect(() => {
+  }, [data])
 
   useEffect(() => {
     if (data) {
       const handel = async () => {
         for (let i: any = 0; i < data?.length; i++) {
           if (result.indexOf(data[i].type) === -1) {
+
             result.push(data[i].type)
+
           }
         }
         SetRes(result)
@@ -31,16 +46,24 @@ const CardCon = ({ data }: any) => {
     }
   }, [data, result])
 
+
+
+
   return (
 
     <section className="w-full my-6" id="menu">
       <div
         className="w-full flex flex-col items-center justify-center">
-        <p className="text-2xl font-semibold capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-orange-400 to-orange-600 mr-auto">
-          Our Hot Dishes
-        </p>
 
-        <div className="w-full flex items-center justify-start lg:justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
+        {loved && loved.length >= 1 && (
+          <RowCon flag={true} slide={slide} data={loved} />
+        )}
+
+        <p className="text-2xl mt-10 font-semibold mb-4 capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 mr-auto">
+          Products types
+        </p>
+        <div className="w-full flex items-center flex-wrap justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
+
           {
             res.map((type: any) => (
               <motion.div

@@ -24,10 +24,7 @@ const Header = ({ haed }: any) => {
     const [sersh, setSersh] = useState('')
 
     const handelSersh = async () => {
-        if (sersh) {
-            console.log(sersh);
-        }
-        await sesrshQurey(sersh).then(res => console.log(res)).catch(err => console.log(err))
+        history(`/?serch=${sersh.split(' ').join('') }`)
     }
 
     const [cards, setCards] = useState(0)

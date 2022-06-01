@@ -108,12 +108,12 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         <motion.div
             initial={{ x: 400, opacity: 0, scale: 0.2 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
-            exit={{ opacity: 0.8, x: 700, scale: 1 }}
+            exit={{ opacity: 0.8, x: -600, scale: 1 }}
             key={data._id} className="w-full my-6 h-fit ease-in-out flex-col duration-100 transition-all drop-shadow-lg flex bg-white rounded-lg">
             <div className="flex  w-full h-fit flex-row flex-wrap justify-between rounded-lg">
 
                 {!image ? (
-                    <div className="flex h-32 justify-center items-center">
+                    <div className="flex h-32 w-full justify-center items-center">
                         <Loader />
                     </div>
                 ) : (

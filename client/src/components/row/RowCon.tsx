@@ -34,19 +34,19 @@ const RowCon = ({ flag, slide, data }: any) => {
     const cardRef: any = useRef<HTMLDivElement>()
 
     useEffect(() => {
-        slideRef.current.scrollLeft = slide * cardRef?.current?.clientWidth
+        slideRef.current.scrollLeft = slide * slideRef?.current?.clientWidth
     }, [slide, cardRef])
 
     return (
 
-        <div ref={slideRef} className={`w-full flex items-center gap-3  my-12 scroll-smooth  
+        <div ref={slideRef} className={`w-full flex items-center gap-3   scroll-smooth  
         ${flag
                 ? "overflow-x-scroll scrollbar-none"
-                : "overflow-x-hidden flex-wrap justify-center"
+                : "overflow-x-hidden flex-wrap justify-center my-12"
             }`}>
                 
             {!data ? <Loader /> : data.map((item: any) => (
-                    <RowChald  items={items}  key={item._id} cardRef={cardRef} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
+                    <RowChald  items={items}  key={item._id}  item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
             ))}
 
         </div>

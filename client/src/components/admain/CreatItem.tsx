@@ -5,6 +5,7 @@ import Loader from '../tools/Loader'
 import { postCard } from '../../server/index'
 import { sesrshQurey, upDataCard } from '../../server/index';
 import Swal from 'sweetalert2'
+import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
 
 
 
@@ -12,7 +13,7 @@ const CreatItem = () => {
 
   const defaulValue: any = {
     title: '', pieces: '', price: '', type: '',
-    img: '', desc: ''
+    img: '', desc: '', discount: '',
   }
 
 
@@ -85,7 +86,6 @@ const CreatItem = () => {
     }
   }
 
-
   const convertToBase64 = (file: any) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
@@ -125,9 +125,8 @@ const CreatItem = () => {
           />
         </div>
 
-        <div className="w-full py-2 border-b border-gray-300 flex items-center gap-2">
-          <MdFastfood className="text-xl text-gray-700" />
-          <input
+        <div className="w-full py-2 border-b border-gray-300 flex justify-around items-center gap-2">
+          {/* <input
             type="text"
             minLength={3}
             maxLength={12}
@@ -136,7 +135,65 @@ const CreatItem = () => {
             onChange={(e) => setAllState({ ...allState, type: e.target.value })}
             placeholder="type"
             className="w-full h-full text-lg bg-transparent outline-none border-none placeholder:text-gray-400 text-gray-600"
-          />
+          /> */}
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                type
+              </InputLabel>
+              <NativeSelect
+                defaultValue={`other`}
+                required
+                onChange={(e) => setAllState({ ...allState, type: e.target.value })}
+                inputProps={{
+                  name: 'type',
+                  id: 'uncontrolled-native',
+                }}
+              >
+
+                <option value="drink">Drink</option>
+                <option value="meat">Meat</option>
+                <option value="pasta">Pasta</option>
+                <option value="salad">Salad</option>
+                <option value="soup">Soup</option>
+                <option value="vegetable">Vegetable</option>
+                <option value="chicken">Chicken</option>
+                <option value="purger">Burger</option>
+                <option value="Pizza">Pizza</option>
+                <option value="other">Other</option>
+
+              </NativeSelect>
+            </FormControl>
+          </Box>
+          <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth>
+              <InputLabel variant="standard" htmlFor="uncontrolled-native">
+                discount
+              </InputLabel>
+              <NativeSelect
+                defaultValue={`0`}
+                required
+                onChange={(e) => setAllState({ ...allState, discount: e.target.value })}
+                inputProps={{
+                  name: 'discount',
+                  id: 'uncontrolled-native',
+                }}
+              >
+
+                <option value="0">none</option>
+                <option value={`10`}>10%</option>
+                <option value={`20`}>20%</option>
+                <option value={`30`}>30%</option>
+                <option value={`40`}>40%</option>
+                <option value={`50`}>50%</option>
+                <option value={`60`}>60%</option>
+                <option value={`70`}>70%</option>
+                <option value={`80`}>80%</option>
+                <option value={`90`}>90%</option>
+
+              </NativeSelect>
+            </FormControl>
+          </Box>
         </div>
 
 

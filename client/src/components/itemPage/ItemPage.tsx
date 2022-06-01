@@ -193,13 +193,13 @@ const ItemPage = () => {
                                     <button
                                         type="submit"
                                         className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded drop-shadow-md
-                                        hover:bg-white hover:text-blue-600 hover:rounded-3xl hover:border hover:border-blue-600 transition-all duration-[130ms] ease-in-out">
+                                        hover:bg-white hover:drop-shadow-2xl hover:text-blue-600 hover:rounded-3xl hover:border hover:border-blue-600 transition-all duration-[130ms] ease-in-out">
                                         {isUpdata ? "Updata" : "Comment"}
                                     </button>
                                     <button
                                         onClick={handelCansel}
                                         className="px-3 py-2 text-sm text-blue-600 border border-blue-500 drop-shadow-md 
-                                        hover:bg-blue-600 hover:text-white hover:rounded-3xl transition-all duration-[130ms] ease-in-out">
+                                        hover:bg-blue-600 hover:drop-shadow-2xl hover:text-white hover:rounded-3xl transition-all duration-[130ms] ease-in-out">
                                         Cancel
                                     </button>
                                 </div>
@@ -209,7 +209,7 @@ const ItemPage = () => {
 
                         <div className="flex justify-center  items-center gap-6 flex-col h-auto w-full rounded-lg">
                             {item.comments && item.comments.map((items: any) => (
-                                <Comments getItem={getItem} item={items} user={user} setData={setData} key={item._id} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
+                                <Comments getItem={getItem} item={items} user={user} setData={setData} key={items._id} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
                             ))}
 
                         </div>

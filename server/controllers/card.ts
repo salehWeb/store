@@ -63,14 +63,22 @@ export const getImg = async (req: any, res: any) => {
 }
 
 export const sershQurey = async (req: any, res: any) => {
-    const sersh = req.query.qurey
+    const serch = req.query.qurey
     try {
-        const data = await card.find({
-            $or: [{ title: { $regex: sersh, $options: 'i' } },
-            { type: { $regex: sersh, $options: 'i' } }, { desc: { $regex: sersh, $options: 'i' } }, { _id: sersh }]
-        }, {img: 0}).sort({ _id: -1 }).limit(10)
+        if(serch.length === 24) {
+            const data: any = await card.find({ _id: serch }, { img: 0 })
+            res.status(201).json({ data })
+        } else {
+            const data = await card.find({ $or: [ 
+                { title: { $regex: serch, $options: 'i' } }, 
+                { type: { $regex: serch, $options: 'i' } }, 
+                { desc: { $regex: serch, $options: 'i' } }
+            ]}, {img: 0})
+            .limit(10)
+    
+            res.status(200).json({ data })
+        }
 
-        res.status(200).json({ data })
     } catch (error: any) {
         console.log(error);
         res.status(201).json(error.message)
@@ -94,6 +102,15 @@ export const likesprodacetd = async (req: any, res: any) => {
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
         console.log(error)
+    }
+}
+
+export const getMostLOvedItems = async (req: any, res: any) => {
+    try {
+        const data = await card.find({}, { img: 0 }).sort({ likes: -1 }).limit(9)
+        res.status(201).json(data)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message })
     }
 }
 

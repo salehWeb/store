@@ -58,9 +58,9 @@ const history  = useNavigate()
                             <MdAddTask className='text-white' />
                         </motion.div>
                     ) : (
-                        <motion.div whileTap={{ scale: 0.6, options: 0.6 }} className="w-8 h-8 rounded-full bg-gradient-to-tr from-red-300 to-red-600 flex items-center justify-center cursor-pointer hover:shadow-md ">
+                        <div  className="w-8 h-8  duration-75 rounded-full bg-gradient-to-tr  from-red-300 to-red-600 flex items-center justify-center cursor-pointer hover:shadow-md ">
                             <MdShoppingCart onClick={() => handelAdd(item)} className='text-white' />
-                        </motion.div>
+                        </div>
                     )}
                     <p className="text-gray-700 md:text-lg flex justify-between text-semibold text-base">{item.title}</p>
             </div>

@@ -42,3 +42,5 @@ export const updataComment = async (id, data) => await API.patch(`/comment/updat
 export const SingWithGoogle = async (data) => await API.post('login/Sing_inGoogle', data)
 
 export const loginWithGoogle = async (data) => await API.post('login/LoginGoogle', data)
+
+export const getLovedItem = async () => await API.get("/loved")
