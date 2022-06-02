@@ -22,6 +22,18 @@ const reducer = (state = {}, action) => {
                 ...state,
                 total: action.payload
             }
+        case actionTypes.GET_SEARCH:
+            return {
+                ...state,
+                search: action.payload,
+                isSearching: true
+            }
+        case actionTypes.REST_SAERCH:
+            return {
+                ...state,
+                search: [],
+                isSearching: false
+            }
         default: return state
     }
 }
