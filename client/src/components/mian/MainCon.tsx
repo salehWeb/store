@@ -80,9 +80,8 @@ const MainCon = () => {
                 Rest Search
               </div>
             </div>
-            {serchVul.length >= 1 ? (
+            { serchVul?.length >= 1 ? (
             <RowCon slide={slide} data={serchVul} flag={!flag} />
-
             ) : (
               <div className="flex justify-center items-center w-full min-h-[50vh]">
                 <div className="flex items-center text-center text-2xl">

@@ -1,6 +1,7 @@
 import  express  from "express";
 import { auth, isAdman } from '../middleware/auth'
 import { postCard, getCard, sershQurey, likesprodacetd, getOneCard, upDataProdectd, commentItem, upDataComment, deleteComment, getMostLOvedItems } from '../controllers/card'
+import { getPayemanet } from "../controllers/payment";
 
 const router = express.Router()
 
@@ -23,5 +24,7 @@ router.patch('/comment/updata/:id', auth, upDataComment)
 router.patch('/comment/delete/:id', auth, deleteComment)
 
 router.get('/loved', getMostLOvedItems)
+
+router.post('/payments', auth, getPayemanet)
 
 export default router

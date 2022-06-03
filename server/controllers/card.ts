@@ -1,9 +1,10 @@
 import card from "../models/card";
 import { body, validationResult } from 'express-validator'
 import { v4 as uuidv4 } from 'uuid';
+import {Request, Response} from 'express'
 
 
-export const getOneCard = async (req: any, res: any) => {
+export const getOneCard = async (req: Request, res: Response) => {
     const id = req.params.id
     try {
         const data = await card.findById(id, { likes: 1, _id: 1 })
@@ -15,8 +16,8 @@ export const getOneCard = async (req: any, res: any) => {
 }
 
 
-export const postCard = async (req: any, res: any) => {
-    const data = await req.body;
+export const postCard = async (req: Request, res: Response) => {
+    const data = req.body;
 
     body(data.desc).isString().isLength({ min: 12 })
     body(data.title).isString().isLength({ min: 3 })
@@ -42,7 +43,7 @@ export const postCard = async (req: any, res: any) => {
 
 }
 
-export const getCard = async (req: any, res: any) => {
+export const getCard = async (req: Request, res: Response) => {
     try {
         const data: any = await card.find({}, { img: 0 }).sort({ _id: -1 })
         res.status(201).json(data)
@@ -52,7 +53,7 @@ export const getCard = async (req: any, res: any) => {
 }
 
 
-export const getImg = async (req: any, res: any) => {
+export const getImg = async (req: Request, res: Response) => {
     const id = req.params.id
     try {
         const { img }: any = await card.findById(id, { img: 1, _id: 0 })
@@ -62,8 +63,8 @@ export const getImg = async (req: any, res: any) => {
     }
 }
 
-export const sershQurey = async (req: any, res: any) => {
-    const serch = req.query.qurey
+export const sershQurey = async (req: Request, res: Response) => {
+    const serch: any = req.query.qurey
     try {
         if(serch.length === 24) {
             const data: any = await card.find({ _id: serch }, { img: 0 })
@@ -85,7 +86,7 @@ export const sershQurey = async (req: any, res: any) => {
     }
 }
 
-export const likesprodacetd = async (req: any, res: any) => {
+export const likesprodacetd = async (req: any, res: Response) => {
     const { name, email: userEmail } = await req.body
     const userId = req.userId
     const prodectId = req.params.id
@@ -105,7 +106,7 @@ export const likesprodacetd = async (req: any, res: any) => {
     }
 }
 
-export const getMostLOvedItems = async (req: any, res: any) => {
+export const getMostLOvedItems = async (req: Request, res: Response) => {
     try {
         const data = await card.find({}, { img: 0 }).sort({ likes: -1 }).limit(9)
         res.status(201).json(data)
@@ -114,7 +115,7 @@ export const getMostLOvedItems = async (req: any, res: any) => {
     }
 }
 
-export const upDataProdectd = async (req: any, res: any) => {
+export const upDataProdectd = async (req: Request, res: Response) => {
     const id = req.params.id
     const data = await req.body
     try {
@@ -126,7 +127,7 @@ export const upDataProdectd = async (req: any, res: any) => {
     }
 }
 
-export const deletItem = async (req: any, res: any) => {
+export const deletItem = async (req: Request, res: Response) => {
     const id = req.params.id
     console.log(id)
     try {
@@ -138,7 +139,7 @@ export const deletItem = async (req: any, res: any) => {
     }
 }
 
-export const commentItem = async (req: any, res: any) => {
+export const commentItem = async (req: Request, res: Response) => {
     const itemID = req.params.id
     const id = uuidv4();
     const { email, name } = req.body.user
@@ -152,7 +153,7 @@ export const commentItem = async (req: any, res: any) => {
     }
 }
 
-export const upDataComment = async (req: any, res: any) => {
+export const upDataComment = async (req: Request, res: Response) => {
     const itemID = req.params.id
     const commentId = req.body.id
     const { email, name } = req.body.user
@@ -169,7 +170,7 @@ export const upDataComment = async (req: any, res: any) => {
 }
 
 
-export const deleteComment = async (req: any, res: any) => {
+export const deleteComment = async (req: Request, res: Response) => {
     const itemID = req.params.id
     const id = req.body.id;
     const { email, name } = req.body.user

@@ -126,16 +126,6 @@ const CreatItem = () => {
         </div>
 
         <div className="w-full py-2 border-b border-gray-300 flex justify-around items-center gap-2">
-          {/* <input
-            type="text"
-            minLength={3}
-            maxLength={12}
-            required
-            value={allState.type}
-            onChange={(e) => setAllState({ ...allState, type: e.target.value })}
-            placeholder="type"
-            className="w-full h-full text-lg bg-transparent outline-none border-none placeholder:text-gray-400 text-gray-600"
-          /> */}
           <Box sx={{ minWidth: 120 }}>
             <FormControl fullWidth>
               <InputLabel variant="standard" htmlFor="uncontrolled-native">
@@ -181,15 +171,15 @@ const CreatItem = () => {
               >
 
                 <option value="0">none</option>
-                <option value={`10`}>10%</option>
-                <option value={`20`}>20%</option>
-                <option value={`30`}>30%</option>
-                <option value={`40`}>40%</option>
-                <option value={`50`}>50%</option>
-                <option value={`60`}>60%</option>
-                <option value={`70`}>70%</option>
-                <option value={`80`}>80%</option>
-                <option value={`90`}>90%</option>
+                <option value={`0.10`}>10%</option>
+                <option value={`0.20`}>20%</option>
+                <option value={`0.30`}>30%</option>
+                <option value={`0.40`}>40%</option>
+                <option value={`0.50`}>50%</option>
+                <option value={`0.60`}>60%</option>
+                <option value={`0.70`}>70%</option>
+                <option value={`0.80`}>80%</option>
+                <option value={`0.90`}>90%</option>
 
               </NativeSelect>
             </FormControl>

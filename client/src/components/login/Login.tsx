@@ -144,7 +144,7 @@ const Login = () => {
             <form onSubmit={(e) => handelSubmit(e)} className='lg:min-w-[66%] min-w-[80%] bg-white rounded-md shadow-lg p-4'>
               <h1 className='text-2xl mb-4'>Login <hr className='mt-2' /></h1>
               <div className="mb-6">
-                <label>Email address</label>
+                <label className="sr-only">Email address</label>
                 <input
                   type="email"
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -157,7 +157,7 @@ const Login = () => {
               </div>
 
               <div className="mb-6 relative">
-                <label>Password</label>
+                <label className="sr-only">Password</label>
                 <input
                   type={eye ? 'text' : 'password'}
                   className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"

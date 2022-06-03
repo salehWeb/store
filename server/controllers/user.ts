@@ -1,12 +1,13 @@
 import user from '../models/user'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import {Request, Response} from 'express'
 import dotenv from 'dotenv'
 dotenv.config()
 
 const seacrtJwt: any = process.env.SEACRT_JWT
 
-export const loginGoogle = async (req: any, res: any) => {
+export const loginGoogle = async (req: Request, res: Response) => {
     const { name, email }: any = await req.body
     const isHaveAcount: any = await user.findOne({ email: email })
 
@@ -46,7 +47,7 @@ export const loginGoogle = async (req: any, res: any) => {
 }
 
 
-export const login = async (req: any, res: any) => {
+export const login = async (req: Request, res: Response) => {
     const { name, email, password }: any = await req.body
     const isHaveAcount: any = await user.findOne({ email: email })
 
@@ -91,7 +92,7 @@ export const login = async (req: any, res: any) => {
     }
 }
 
-export const reggstarGoogle = async (req: any, res: any) => {
+export const reggstarGoogle = async (req: Request, res: Response) => {
     const { email }: any = await req.body
     console.log(email)
     const isHaveAcount: any = await user.findOne({ email: email })
@@ -118,7 +119,7 @@ export const reggstarGoogle = async (req: any, res: any) => {
 }
 
 
-export const reggstar = async (req: any, res: any, next: any) => {
+export const reggstar = async (req: Request, res: Response, next: any) => {
     const { name, email, password }: any = await req.body
     const isHaveAcount: any = await user.findOne({ email: email })
 
@@ -157,7 +158,7 @@ export const reggstar = async (req: any, res: any, next: any) => {
 
 
 
-export const logout = async (req: any, res: any, next: any) => {
+export const logout = async (req: Request, res: Response, next: any) => {
     const { name, email, password }: any = await req.body
     const isHaveAcount: any = await user.findOne({ email: email })
     try {
@@ -186,7 +187,7 @@ export const logout = async (req: any, res: any, next: any) => {
 
 
 
-export const getAllUsers = async (req: any, res: any) => {
+export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const users: any = await user.find({email: { $ne:  "salehwebdev2004@gmail.com"  } }, { password: 0 }).sort({_id: -1})
         res.status(201).json(users)
@@ -195,7 +196,7 @@ export const getAllUsers = async (req: any, res: any) => {
     }
 }
 
-export const deletUser = async (req: any, res: any) => {
+export const deletUser = async (req: Request, res: Response) => {
     const id = req.params.id
     console.log(id)
     try {

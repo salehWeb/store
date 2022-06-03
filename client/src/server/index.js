@@ -44,3 +44,5 @@ export const SingWithGoogle = async (data) => await API.post('login/Sing_inGoogl
 export const loginWithGoogle = async (data) => await API.post('login/LoginGoogle', data)
 
 export const getLovedItem = async () => await API.get("/loved")
+
+export const postPayments  = async (data) => await API.post("/payments", data)
