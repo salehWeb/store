@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getPaymentyId } from '../../server'
+import { Loader } from '../tools'
 import ItemPay from './ItemPay'
 
 const ItemsPaent = () => {
@@ -35,7 +36,7 @@ const ItemsPaent = () => {
                                     item name
                                 </th>
                                 <th scope="col" className="px-5 py-[10px]">
-                                    item number
+                                    quantity
                                 </th>
                                 <th scope="col" className="px-5 py-[10px]">
                                     price
@@ -53,11 +54,13 @@ const ItemsPaent = () => {
                         </tbody>
                     </table>
                 </div>
+
             ) : (
-                <div className="text-center">
-                    <h1>No payment found</h1>
+                <div className="text-center w-full flex justify-center items-center">
+                    <Loader />
                 </div>
             )}
+
 
         </div>
     )

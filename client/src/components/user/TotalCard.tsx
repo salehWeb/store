@@ -73,9 +73,10 @@ const TotalCard = ({ Total }: any) => {
                     dispatch({ type: actionTypes.SET_TOTAL, payload: 0 })
                     dispatch({ type: actionTypes.REST_CARD_ITEMS })
 
-
+                    history('/')
+                    
                     setitems(0)
-
+                    
                     setLoadingBtn(false)
                 } 
                 else {

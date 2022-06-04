@@ -23,7 +23,7 @@ const EmtyCart = () => {
                     animate={{ x: 0, opacity: 1, scale: 1 }}
                     exit={{ opacity: 0.8, x: -700, scale: 1 }}
                     className=" ease-in-out transition-all duration-100  flex flex-col justify-center items-center">
-                    <div className="bg-Blur rounded-lg p-8 flex-row flex justify-center items-center">
+                    <div className="bg-Blur rounded-lg p-8 lg:flex-row xl:flex-row md:flex-row  flex-col flex justify-center items-center">
                         <h1 className='text-2xl  justify-center items-center'>look like your cart is empty!.</h1>
                         <motion.img
                             initial={{ x: 400, opacity: 0, scale: 0.8 }}

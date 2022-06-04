@@ -16,6 +16,14 @@ const paymentSchema = new mongoose.Schema({
             }
         ],
     },
+    isSendIt: {
+        type: Boolean,
+        default: false
+    },
+    isCancel: {
+        type: Boolean,
+        default: false
+    },
     user: {
         type: {
             name: { type: String, required: true },

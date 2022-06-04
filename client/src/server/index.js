@@ -50,3 +50,9 @@ export const postPayments  = async (data) => await API.post("/payments", data)
 export const getPaments = async () => await API.get("/adman/admanPayment")
 
 export const getPaymentyId = async (id) => await API.get(`/adman/payment/${id}`)
+
+export const senPayments = async (id, data) => await API.post(`/adman/payment/send/${id}`, data)
+
+export const canselePayment = async (id) => await API.get(`/adman/payment/canselPayment/${id}`)
+
+export const getHistoryPayments = async (page, total) => await API.get(`/adman//history/payment?pagetion=${page}?total=${total || null}`)

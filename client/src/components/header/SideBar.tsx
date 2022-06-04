@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdHome, MdOutlinePayment, MdShoppingCart } from 'react-icons/md'
 import { Link } from 'react-router-dom'
-import { IoMdCreate} from 'react-icons/io'
+import { AiOutlineHistory } from 'react-icons/ai'
+import { IoMdCreate } from 'react-icons/io'
 
 const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
     const [open, setOpen] = useState(false)
@@ -69,16 +70,22 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
                                                     <span className="flex-1 ml-3 whitespace-nowrap">Products</span>
                                                 </Link>
                                             </li>
-                                            <li> 
+                                            <li>
                                                 <Link to="/adman/creatItem" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                                                     <IoMdCreate className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"></IoMdCreate>
                                                     <span className="flex-1 ml-3 whitespace-nowrap">Creat Product</span>
                                                 </Link>
                                             </li>
-                                            <li> 
+                                            <li>
                                                 <Link to="/adman/payments" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                                                     <MdOutlinePayment className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"></MdOutlinePayment>
                                                     <span className="flex-1 ml-3 whitespace-nowrap">Payments</span>
+                                                </Link>
+                                            </li>
+                                            <li>
+                                                <Link to="/admin/payments/history" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
+                                                    <AiOutlineHistory className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"></AiOutlineHistory>
+                                                    <span className="flex-1 ml-3 whitespace-nowrap">History Payments</span>
                                                 </Link>
                                             </li>
                                         </>

@@ -13,6 +13,7 @@ import ItemPage from './components/itemPage/ItemPage';
 import Welcom from './components/login/Welcom';
 import Payments from './components/admain/Payments';
 import ItemsPaent from './components/admain/ItemsPaent';
+import HistoryPayments from './components/admain/HistoryPayments';
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
                     <Route path='/adman/users' element={<Users />} />
                     <Route path='/adman/payments' element={<Payments />} />
                     <Route path='/admin/payments/item' element={<ItemsPaent />} />
+                    <Route path='/admin/payments/history' element={<HistoryPayments />} />
                   </>
                 )}
                 <Route path='/*' element={<NotFound />} />
