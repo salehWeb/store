@@ -11,6 +11,8 @@ import Login from './components/login/Login';
 import Users from './components/admain/Users';
 import ItemPage from './components/itemPage/ItemPage';
 import Welcom from './components/login/Welcom';
+import Payments from './components/admain/Payments';
+import ItemsPaent from './components/admain/ItemsPaent';
 
 function App() {
 
@@ -53,6 +55,8 @@ function App() {
                     <Route path='/adman' element={<AboutCob />} />
                     <Route path='/adman/creatItem' element={<CreatItem />} />
                     <Route path='/adman/users' element={<Users />} />
+                    <Route path='/adman/payments' element={<Payments />} />
+                    <Route path='/admin/payments/item' element={<ItemsPaent />} />
                   </>
                 )}
                 <Route path='/*' element={<NotFound />} />

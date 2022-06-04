@@ -27,3 +27,33 @@ export const getPayemanet = async (req: any, res: Response) => {
     }
 
 }
+
+export const admanPayment = async (req: Request, res: Response) => {
+
+    try {
+
+        const data = await payment.find()
+        res.status(201).json(data)
+
+    } 
+    catch (error: any) {
+        console.log(error);
+        res.status(201).json({ msg: error.message })
+    }
+
+}
+
+export const getPayment = async (req: Request, res: Response) => {
+const id = req.params.id
+    try {
+
+        const data = await payment.findById(id, {items: 1})
+        res.status(201).json(data)
+        console.log(id);
+    } 
+    catch (error: any) {
+        console.log(error);
+        res.status(201).json({ msg: error.message })
+    }
+    
+}

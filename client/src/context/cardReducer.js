@@ -34,6 +34,12 @@ const reducer = (state = {}, action) => {
                 search: [],
                 isSearching: false
             }
+        case actionTypes.REST_CARD_ITEMS:
+            JSON.stringify(localStorage.setItem('cardItems', '[]'))
+            return {
+                ...state,
+                cards: []
+            }
         default: return state
     }
 }

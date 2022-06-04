@@ -4,14 +4,18 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { postPayments } from '../../server'
 import Loader from '../tools/Loader'
+import { useDispatch } from 'react-redux'
+import * as actionTypes from '../../context/actionTypes'
 
 const TotalCard = ({ Total }: any) => {
-
+    const dispatch = useDispatch() 
     const history = useNavigate() 
     const haveItems = localStorage.getItem('cardItems')
     const items = haveItems && JSON.parse(haveItems).length
     const [Items, setitems] = useState(items)
     const [LoadingBtn, setLoadingBtn] = useState(false)
+
+    useEffect(() => { }, [dispatch])
 
     useEffect(() => { setitems(items) }, [haveItems, items])
 
@@ -54,7 +58,7 @@ const TotalCard = ({ Total }: any) => {
             }
 
             await postPayments({ items, user }).then(async res => {
-                console.log(res.data.msg);
+                console.log("fuck u");
                 if (res.data.msg === "sucses created") {
                     await Swal.fire({
                         title: 'Payment Successful',
@@ -66,9 +70,11 @@ const TotalCard = ({ Total }: any) => {
                         },
                     })
 
-                    localStorage.removeItem('cardItems')
+                    dispatch({ type: actionTypes.SET_TOTAL, payload: 0 })
+                    dispatch({ type: actionTypes.REST_CARD_ITEMS })
+
+
                     setitems(0)
-                    history('/')
 
                     setLoadingBtn(false)
                 } 

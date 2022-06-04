@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { MdHome, MdShoppingCart } from 'react-icons/md'
+import { MdHome, MdOutlinePayment, MdShoppingCart } from 'react-icons/md'
 import { Link } from 'react-router-dom'
+import { IoMdCreate} from 'react-icons/io'
 
 const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
     const [open, setOpen] = useState(false)
@@ -23,15 +24,15 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
                         <p className='text-sm text-white font-semibold'>{cards}</p>
                     </div>
                 ) : null}
-                <span aria-hidden="true" className={`${open && ' -rotate-[315deg] translate-y-2 '} block h-[2px] w-8 mb-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
+                <span aria-hidden="true" className={`${open && ' -rotate-[315deg] translate-y-[9px] '} block h-[2px] w-8 mb-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
                 <span aria-hidden="true" className={`block  h-[2px] w-8 bg-current transform transition duration-[600ms] ease-in-out ${open && 'opacity-0'} `}></span>
-                <span aria-hidden="true" className={`${open && ' rotate-[315deg] -translate-y-2 '} block h-[2px] w-8 mt-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
+                <span aria-hidden="true" className={`${open && ' rotate-[315deg] -translate-y-[9px] '} block h-[2px] w-8 mt-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
             </div>
 
             <AnimatePresence>
                 {
                     open && (
-                        <motion.div className="w-64 absolute top-[38px] -right-[11px] border-t-[1px]" aria-label="Sidebar"
+                        <motion.div className="w-64 absolute top-[80px] drop-shadow-xl -right-[11px] border-t-[1px]" aria-label="Sidebar"
                             initial={{ x: 400, opacity: 0.8, scale: 0.6 }}
                             animate={{ x: 0, opacity: 1, scale: 1 }}
                             exit={{ opacity: 0.8, x: 400, scale: 0.6 }}
@@ -68,10 +69,16 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
                                                     <span className="flex-1 ml-3 whitespace-nowrap">Products</span>
                                                 </Link>
                                             </li>
-                                            <li>
+                                            <li> 
                                                 <Link to="/adman/creatItem" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
-                                                    <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd"></path></svg>
+                                                    <IoMdCreate className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"></IoMdCreate>
                                                     <span className="flex-1 ml-3 whitespace-nowrap">Creat Product</span>
+                                                </Link>
+                                            </li>
+                                            <li> 
+                                                <Link to="/adman/payments" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
+                                                    <MdOutlinePayment className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"></MdOutlinePayment>
+                                                    <span className="flex-1 ml-3 whitespace-nowrap">Payments</span>
                                                 </Link>
                                             </li>
                                         </>

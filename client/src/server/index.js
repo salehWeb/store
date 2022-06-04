@@ -46,3 +46,7 @@ export const loginWithGoogle = async (data) => await API.post('login/LoginGoogle
 export const getLovedItem = async () => await API.get("/loved")
 
 export const postPayments  = async (data) => await API.post("/payments", data)
+
+export const getPaments = async () => await API.get("/adman/admanPayment")
+
+export const getPaymentyId = async (id) => await API.get(`/adman/payment/${id}`)
