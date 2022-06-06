@@ -6,7 +6,7 @@ import * as actionTypes from '../../context/actionTypes'
 import Loader from '../tools/Loader'
 import RowChald from './RowChald'
 
-const RowCon = ({ flag, slide, data }: any) => {
+const RowCon = ({ flag, data, loved }: any) => {
     const dispatch = useDispatch()
 
 
@@ -15,7 +15,7 @@ const RowCon = ({ flag, slide, data }: any) => {
     const { cards } = useSelector((state: any) => state.card)
 
     const [items, setItems] = useState(cards)
-    
+
     useEffect(() => { setItems(cards) }, [cards])
 
 
@@ -29,25 +29,35 @@ const RowCon = ({ flag, slide, data }: any) => {
         dispatch({ type: actionTypes.SET_CARD })
     }
 
-
+    const [scrollWidth, setScrollWidth] = useState(0)
     const slideRef: any = useRef<HTMLDivElement>()
-    const cardRef: any = useRef<HTMLDivElement>()
-
+    
     useEffect(() => {
-        slideRef.current.scrollLeft = slide * slideRef?.current?.clientWidth
-    }, [slide, cardRef])
+        setScrollWidth(slideRef?.current?.scrollWidth - slideRef?.current?.offsetWidth)
+    }, [])
 
     return (
 
-        <div ref={slideRef} className={`w-full flex items-center gap-3   scroll-smooth  
+        <div ref={slideRef} className={`w-full flex items-center gap-3  scroll-smooth  
         ${flag
-                ? "overflow-x-scroll scrollbar-none"
+                ? "overflow-x-scroll scrollbar-none "
                 : "overflow-x-hidden flex-wrap justify-center my-12"
             }`}>
-                
-            {!data ? <Loader /> : data.map((item: any) => (
-                    <RowChald  items={items}  key={item._id}  item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion}/>
-            ))}
+            {loved ? (
+                <motion.div drag="x"
+                whileTap={{cursor: "grabbing"}}
+                dragConstraints={{ right: 0, left: -scrollWidth }}
+                className="w-full flex gap-4 cursor-grab flex-row items-center justify-between">
+                    {!data ? <Loader /> : data.map((item: any) => (
+                        <RowChald loved={loved} items={items} key={item._id} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
+                    ))}
+                </motion.div>
+            ) : (
+                !data ? <Loader /> : data.map((item: any) => (
+                    <RowChald loved={loved} items={items} key={item._id} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
+                ))
+            )}
+
 
         </div>
     )

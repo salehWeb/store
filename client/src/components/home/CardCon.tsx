@@ -56,7 +56,7 @@ const CardCon = ({ data, slide }: any) => {
         className="w-full flex flex-col items-center justify-center">
 
         {loved && loved.length >= 1 && (
-          <RowCon flag={true} slide={slide} data={loved} />
+          <RowCon loved={true} flag={true} slide={slide} data={loved} />
         )}
 
         <p className="text-2xl mt-10 font-semibold mb-4 capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 mr-auto">

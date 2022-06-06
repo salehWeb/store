@@ -3,7 +3,7 @@ import { getImage } from '../../server'
 import Loader from '../tools/Loader'
 import { useNavigate } from 'react-router-dom';
 
-const RowChald = ({ cardRef, item, items, MdShoppingCart, MdAddTask, handelAdd, motion }: any) => {
+const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }: any) => {
     const history = useNavigate()
     const [image, setImage] = useState('')
 
@@ -28,7 +28,7 @@ const RowChald = ({ cardRef, item, items, MdShoppingCart, MdAddTask, handelAdd, 
 
     return (
 
-        <div ref={cardRef} key={item._id} className="bg-Blur h-[270px] min-w-[180px]  md:min-w-[220px] rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg flex flex-col shadow-xl relative">
+        <div key={item._id} className={`bg-Blur h-[270px]  min-w-[180px] md:min-w-[220px] flex flex-col   rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg shadow-xl relative`}>
             <div className="w-full flex flex-col items-center justify-between -p-2">
                 <div className="w-full flex justify-between items-center mb-16">
                     {item.discount !== 0 ?
