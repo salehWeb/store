@@ -44,16 +44,15 @@ const TotalCard = ({ Total }: any) => {
             const isData = data && JSON.parse(data)
 
             for (let i = 0; i < isData.length; i++) {
-                const { _id, title, price, Total, discount } = isData[i]
+                const { _id, title, price, Total, discount }: any = isData[i]
 
                 const item = {
                     _id,
                     title,
                     price,
-                    q: Total / price,
+                    q: Total / (price - price * discount),
                     discount
                 }
-
                 items.push(item)
             }
 

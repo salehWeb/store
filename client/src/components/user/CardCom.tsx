@@ -9,15 +9,18 @@ import { MdOutlineCancelPresentation } from 'react-icons/md'
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
-    const [Total, setTotal] = useState(data.Total / data.price || 1)
+    const [Total, setTotal] = useState(data.Total / (data.price * data.discount) || 1)
     const [likesC, setLikes] = useState(false)
     const [likeLength, setLikeLength] = useState(data?.likes?.length)
 
     const haveAnacount = localStorage.getItem('profile')
 
+
     const { user } = haveAnacount && JSON.parse(haveAnacount)
 
-
+    // make total with discount
+    console.log(Cards);
+    console.log(Total);
     const handeNone = () => {
         let baby = 0;
         Cards.reduce((total: any, curnt: any) => {
@@ -53,10 +56,10 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         setLikes(!likesC)
         if (!likesC) {
 
-        setLikeLength(likeLength + 1)
+            setLikeLength(likeLength + 1)
         } else {
             setLikeLength(likeLength - 1)
-        } 
+        }
         await likesProdectd(data._id, { email: userEmail, name: userName }).then(res => console.log(res))
             .catch(error => console.log(error))
     }
@@ -66,16 +69,14 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     useEffect(() => {
 
         if (!data.Total) {
-            data.Total = data.price
+            data.Total = data.price - (data.price * data.discount)
         }
-
-
 
         handeNone()
 
         localStorage.setItem('cardItems', JSON.stringify(Cards))
-        dispatch({ type: actionTypes.SET_CARD })
 
+        dispatch({ type: actionTypes.SET_CARD })
 
     }, [Total, dispatch])
 
@@ -96,14 +97,22 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         if (Total < data.pieces) {
             setTotal(Total + 1)
             const totrfdo = Total + 1
-            data.Total = totrfdo * data.price
+            data.Total = totrfdo * (data.price - data.price * data.discount)
         }
     }
 
     const handleEncramnt = () => {
         setTotal(Total - 1)
         const totrfdo = Total - 1
-        data.Total = totrfdo * data.price
+        console.log(data.Total)
+        data.Total = totrfdo * (data.price - data.price * data.discount)
+        console.log(
+            {
+                "data Total": data.Total,
+                "data price": data.price,
+                "data discount": data.discount
+            }
+        );
     }
 
     return (
@@ -123,8 +132,38 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                         <MdOutlineCancelPresentation onClick={() => handelDelet(item)} className='flex ml-[2px] top-0 left-0 mt-[2px] text-[2rem] p-[6px] cursor-pointer absolute hover:from-red-400 hover:text-red-700 transition-all bg-gradient-to-tr from-red-300 to-red-60  text-red-500  rounded-lg ' />
                         <img className=' w-full  h-full object-contain' src={image} alt={data.title} />
 
+
+                        {data.discount !== 0 && (
+                            <div className="shadow-lg max-w-fit rounded-full  -top-7 left-[5%] drop-shadow-lg absolute h-10 items-center justify-center  z-[4] flex ">
+                                <p className="text-gray-100 md:text-lg p-1 rounded-full bg-red-600  flex justify-between text-semibold text-base">{String(data.discount).split(".")[1]}0%</p>
+
+                            </div>
+                        )}
+
                         <div className="bg-gray-800 shadow-lg  max-w-fit rounded-lg  -top-7 right-[5%] px-[6px] absolute h-10 items-center justify-center  z-[4] flex ">
-                            <p className="text-gray-300">price $:{data.price}</p>
+
+                            {data.discount !== 0 ?
+                                (
+                                    <>
+
+                                        <div className="flex justify-between items-center gap-8 flex-col">
+                                            <p className='text-lg text-gray-100 font-semibold flex-row flex'>
+                                                <span className='text-sm text-blue-600'>$</span>
+                                                <span className="line-through mr-3">
+                                                    {data.price}
+                                                </span>
+                                                <span className='text-sm text-blue-600'>$</span>
+                                                {data.price - (data.price * data.discount)}
+                                            </p>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="flex justify-between items-center gap-8">
+                                        <p className='text-lg text-gray-100 font-semibold flex-row flex'>
+                                            <span className='text-sm text-blue-600'>$</span>{data.price}
+                                        </p>
+                                    </div>
+                                )}
                         </div>
 
                     </div>

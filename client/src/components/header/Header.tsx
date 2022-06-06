@@ -7,7 +7,7 @@ import { useEffect, useState } from "react"
 import { getNewPAymentsSendat, sesrshQurey } from "../../server/index"
 import SideBar from "./SideBar"
 
-const Header = ({ haed }: any) => {
+const Header = () => {
     const history = useNavigate()
 
     const dispatch = useDispatch()
@@ -68,7 +68,7 @@ const Header = ({ haed }: any) => {
 
 
     return (
-        <header className={`${haed ? ' rounded-[25px] mt-1 px-8 ' : ' px-4  md:px-16'} w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
+        <header className={` px-4  md:px-16 w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
             <div className="hidden h-full w-full md:flex justify-center ">
                 <Link to='/' className="flex items-center gap-2">
                     <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />

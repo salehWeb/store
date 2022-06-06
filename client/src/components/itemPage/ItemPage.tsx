@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { commentItem, sesrshQurey, likesProdectd, updataComment, getImage } from '../../server'
+import { commentItem, sesrshQurey, likesProdectd, updataComment, getImage, getCartUser } from '../../server'
 import { motion } from 'framer-motion';
 import { Loader } from '../tools';
 import Comments from './Comments';
@@ -14,9 +14,11 @@ const ItemPage = () => {
     const isHaveAcount = localStorage.getItem('profile')
     const user = isHaveAcount && JSON.parse(isHaveAcount).user
     const [image, setImage] = useState("")
-    const [likeLength, setLikeLength] = useState(item?.likes?.length)
+    const [likeLength, setLikeLength] = useState(item?.likes?.length || 0)
 
-    useEffect(() => { }, [item])
+    useEffect(() => {
+        setLikeLength(item?.likes?.length)
+    }, [item])
 
     const isAdmanasc = async (id: string) => await getImage(id).then((item: any) => item.data)
 
@@ -70,6 +72,27 @@ const ItemPage = () => {
         }
     }
 
+
+    const userEmail: any = `${user.email}`
+    const userName: any = `${user.name}`
+
+    useEffect(() => {
+        const getLikes = async () => {
+            await getCartUser(item._id).then((res: any) => {
+                setLikeLength(res.data.likes.length)
+                res.data.likes.map((item: any) => {
+                    console.log(item)
+                    if (item.email === userEmail) {
+                        setLikes(true)
+                    } else {
+                        setLikes(false)
+                    }
+                })
+            }).catch((error: any) => console.log(error))
+        }
+        getLikes()
+    }, [])
+
     useEffect(() => {
         getItem()
     }, [])
@@ -112,8 +135,37 @@ const ItemPage = () => {
                                     </div>
                                 )}
 
+                                {item.discount !== 0 && (
+                                    <div className="shadow-lg max-w-fit rounded-full  -top-7 left-[5%] drop-shadow-lg absolute h-10 items-center justify-center  z-[4] flex ">
+                                        <p className="text-gray-100 md:text-lg p-1 rounded-full bg-red-600  flex justify-between text-semibold text-base">{String(item.discount).split(".")[1]}0%</p>
+
+                                    </div>
+                                )}
+
                                 <div className="bg-gray-800 shadow-lg  max-w-fit rounded-lg  -top-7 right-[5%] px-[6px] absolute h-10 items-center justify-center  z-[4] flex ">
-                                    <p className="text-gray-300">price $:{item.price}</p>
+
+                                    {item.discount !== 0 ?
+                                        (
+                                            <>
+
+                                                <div className="flex justify-between items-center gap-8 flex-col">
+                                                    <p className='text-lg text-gray-100 font-semibold flex-row flex'>
+                                                        <span className='text-sm text-blue-600'>$</span>
+                                                        <span className="line-through mr-3">
+                                                            {item.price}
+                                                        </span>
+                                                        <span className='text-sm text-blue-600'>$</span>
+                                                        {item.price - (item.price * item.discount)}
+                                                    </p>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <div className="flex justify-between items-center gap-8">
+                                                <p className='text-lg text-gray-100 font-semibold flex-row flex'>
+                                                    <span className='text-sm text-blue-600'>$</span>{item.price}
+                                                </p>
+                                            </div>
+                                        )}
                                 </div>
                             </div>
                         </div>

@@ -4,7 +4,7 @@ import { MdHome, MdOutlinePayment, MdShoppingCart } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { AiOutlineHistory } from 'react-icons/ai'
 import { IoMdCreate } from 'react-icons/io'
-import {BiLogOut} from 'react-icons/bi'
+import { BiLogOut } from 'react-icons/bi'
 
 const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout }: any) => {
     const [open, setOpen] = useState(false)
@@ -21,11 +21,20 @@ const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout
         <>
 
             <div onClick={() => setOpen(!open)} className="block w-8  left-1/2 top-1/2  z-[2] ">
-                {cards > 0 ? (
-                    <div className="w-5 h-5 z-[100] absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
-                        <p className='text-sm text-white font-semibold'>{cards + newPAyment}</p>
-                    </div>
-                ) : null}
+                {isAdman ? (
+                    cards || newPAyment > 0 ? (
+                        <div className="w-5 h-5 z-[100] absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
+                            <p className='text-sm text-white font-semibold'>{cards + newPAyment}</p>
+                        </div>
+                    ) : null
+                ) : (
+                    cards > 0 ? (
+                        <div className="w-5 h-5 z-[100] absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
+                            <p className='text-sm text-white font-semibold'>{cards}</p>
+                        </div>
+                    ) : null
+                )}
+
                 <span aria-hidden="true" className={`${open && ' -rotate-[315deg] translate-y-[9px] '} block h-[2px] w-8 mb-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
                 <span aria-hidden="true" className={`block  h-[2px] w-8 bg-current transform transition duration-[600ms] ease-in-out ${open && 'opacity-0'} `}></span>
                 <span aria-hidden="true" className={`${open && ' rotate-[315deg] -translate-y-[9px] '} block h-[2px] w-8 mt-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
@@ -130,7 +139,7 @@ const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout
             </AnimatePresence >
 
 
-            
+
         </>
     )
 }

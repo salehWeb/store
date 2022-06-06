@@ -21,18 +21,6 @@ function App() {
   const isAdman = isHaveAcount && JSON.parse(isHaveAcount).user?.isAdman
 
 
-  const hederRefer: any = React.useRef()
-  const [scrollPosition, setScrollPosition] = React.useState(0);
-
-  const handleScroll = () => {
-    const position = hederRefer.current.scrollTop;
-    setScrollPosition(position);
-  };
-
-
-  React.useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-  }, [scrollPosition, hederRefer]);
 
 
 
@@ -40,8 +28,8 @@ function App() {
   return (
     <StyledEngineProvider injectFirst>
       <AnimatePresence exitBeforeEnter>
-        <div ref={hederRefer} onScroll={handleScroll} className="w-screen h-screen flex flex-col bg-slate-50 overflow-y-auto">
-          <Header haed={scrollPosition > 10 ? true : false} />
+        <div className="w-screen h-screen flex flex-col bg-slate-50 overflow-y-auto">
+          <Header />
           <main className='md:mt-16 mt-16 sm:px-4 px-8 py-4 w-full h-auto bg-blue-100 '>
             <Routes>
               <Route path='/' element={<MainCon />} />
