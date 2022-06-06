@@ -14,7 +14,7 @@ const ItemPage = () => {
     const isHaveAcount = localStorage.getItem('profile')
     const user = isHaveAcount && JSON.parse(isHaveAcount).user
     const [image, setImage] = useState("")
-
+    const [likeLength, setLikeLength] = useState(item?.likes?.length)
 
     useEffect(() => { }, [item])
 
@@ -76,15 +76,13 @@ const ItemPage = () => {
 
     const handelLikes = async () => {
         setLikes(!likesC)
+        if (!likesC) {
+            setLikeLength(likeLength + 1)
+        } else {
+            setLikeLength(likeLength - 1)
+        }
         const { email, name } = user
         await likesProdectd(item._id, { email, name }).then(res => {
-            res.data.likes.map((item: any) => {
-                if (item.email === email) {
-                    setLikes(true)
-                } else {
-                    setLikes(false)
-                }
-            })
         })
             .catch(error => console.log(error))
     }
@@ -126,10 +124,12 @@ const ItemPage = () => {
                             <div className="flex items-start flex-col mr-3 w-full">
                                 <motion.button
                                     whileTap={{ scale: 0.6 }}
-                                    onClick={handelLikes} className={` flex items-center transition-all justify-center w-9 h-9 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+                                    onClick={handelLikes} className={`flex-none flex flex-col items-center ease-in-out duration-[50] transition-all justify-center w-10 h-10 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+
                                     <svg width="20" height="20" fill="currentColor" aria-hidden="true">
                                         <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
                                     </svg>
+                                    <span className="flex text-xs text-gray-400">{likeLength}</span>
                                 </motion.button>
                             </div>
 

@@ -11,6 +11,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const [image, setImage] = useState('')
     const [Total, setTotal] = useState(data.Total / data.price || 1)
     const [likesC, setLikes] = useState(false)
+    const [likeLength, setLikeLength] = useState(data?.likes?.length)
 
     const haveAnacount = localStorage.getItem('profile')
 
@@ -32,6 +33,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     useEffect(() => {
         const getLikes = async () => {
             await getCartUser(data._id).then((res: any) => {
+                setLikeLength(res.data.likes.length)
                 res.data.likes.map((item: any) => {
                     console.log(item)
                     if (item.email === userEmail) {
@@ -43,19 +45,19 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             }).catch((error: any) => console.log(error))
         }
         getLikes()
-    }, [likesC, userEmail, data._id])
+    }, [userEmail, data._id])
+
+
 
     const handelLikes = async () => {
         setLikes(!likesC)
-        await likesProdectd(data._id, { email: userEmail, name: userName }).then(res => {
-            res.data.likes.map((item: any) => {
-                if (item.email === userEmail) {
-                    setLikes(true)
-                } else {
-                    setLikes(false)
-                }
-            })
-        })
+        if (!likesC) {
+
+        setLikeLength(likeLength + 1)
+        } else {
+            setLikeLength(likeLength - 1)
+        } 
+        await likesProdectd(data._id, { email: userEmail, name: userName }).then(res => console.log(res))
             .catch(error => console.log(error))
     }
 
@@ -184,10 +186,12 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                     <div className="flex justify-center items-center mr-3 ">
                         <motion.button
                             whileTap={{ scale: 0.6 }}
-                            onClick={handelLikes} className={`flex-none flex items-center ease-in-out duration-[50] transition-all justify-center w-9 h-9 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+                            onClick={handelLikes} className={`flex-none flex flex-col items-center ease-in-out duration-[50] transition-all justify-center w-10 h-10 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+
                             <svg width="20" height="20" fill="currentColor" aria-hidden="true">
                                 <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
                             </svg>
+                            <span className="flex text-xs text-gray-400">{likeLength}</span>
                         </motion.button>
                     </div>
                 </div>

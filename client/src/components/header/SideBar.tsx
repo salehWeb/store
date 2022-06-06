@@ -4,8 +4,9 @@ import { MdHome, MdOutlinePayment, MdShoppingCart } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { AiOutlineHistory } from 'react-icons/ai'
 import { IoMdCreate } from 'react-icons/io'
+import {BiLogOut} from 'react-icons/bi'
 
-const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
+const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout }: any) => {
     const [open, setOpen] = useState(false)
     const haveAnacount = localStorage.getItem('profile')
     const isAdman = haveAnacount && JSON.parse(haveAnacount).user?.isAdman
@@ -22,7 +23,7 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
             <div onClick={() => setOpen(!open)} className="block w-8  left-1/2 top-1/2  z-[2] ">
                 {cards > 0 ? (
                     <div className="w-5 h-5 z-[100] absolute -top-2 -right-2 rounded-full flex items-center justify-center bg-red-600">
-                        <p className='text-sm text-white font-semibold'>{cards}</p>
+                        <p className='text-sm text-white font-semibold'>{cards + newPAyment}</p>
                     </div>
                 ) : null}
                 <span aria-hidden="true" className={`${open && ' -rotate-[315deg] translate-y-[9px] '} block h-[2px] w-8 mb-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
@@ -33,13 +34,13 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
             <AnimatePresence>
                 {
                     open && (
-                        <motion.div className="w-64 absolute top-[80px] drop-shadow-xl -right-[11px] border-t-[1px]" aria-label="Sidebar"
+                        <motion.div className="w-64 absolute top-[40px] drop-shadow-xl min-h-screen -right-[0px] overflow-auto " aria-label="Sidebar"
                             initial={{ x: 400, opacity: 0.8, scale: 0.6 }}
                             animate={{ x: 0, opacity: 1, scale: 1 }}
                             exit={{ opacity: 0.8, x: 400, scale: 0.6 }}
                             transition={{ duration: 0.4 }}
                         >
-                            <div className="overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
+                            <div className=" overflow-y-auto py-4 px-3 bg-gray-50 rounded dark:bg-gray-800">
                                 <ul className="space-y-2">
                                     <li>
                                         <Link to="/card" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
@@ -80,6 +81,9 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
                                                 <Link to="/adman/payments" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
                                                     <MdOutlinePayment className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900"></MdOutlinePayment>
                                                     <span className="flex-1 ml-3 whitespace-nowrap">Payments</span>
+                                                    {newPAyment >= 1 && (
+                                                        <span className="inline-flex justify-center items-center p-3 ml-3 w-3 h-3 text-sm font-medium text-blue-600 bg-blue-200 rounded-full ">{newPAyment}</span>
+                                                    )}
                                                 </Link>
                                             </li>
                                             <li>
@@ -95,6 +99,12 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
                                             <svg className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd"></path></svg>
                                             <span className="flex-1 ml-3 whitespace-nowrap">Log In</span>
                                         </Link>
+                                    </li>
+                                    <li onClick={handelLogout}
+                                        className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100"
+                                    >
+                                        <BiLogOut className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" />
+                                        <span>{haveAnacount ? 'Logout' : 'Login'}</span>
                                     </li>
                                     <li>
                                         <Link to="/singin" className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
@@ -118,6 +128,9 @@ const SideBar = ({ cards, handelSersh, sersh, setSersh }: any) => {
                     )
                 }
             </AnimatePresence >
+
+
+            
         </>
     )
 }

@@ -46,6 +46,7 @@ export const postCard = async (req: Request, res: Response) => {
 export const getCard = async (req: Request, res: Response) => {
     try {
         const data: any = await card.find({}, { img: 0 }).sort({ _id: -1 })
+        console.log(__dirname)
         res.status(201).json(data)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })

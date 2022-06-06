@@ -1,6 +1,7 @@
 import payment from '../models/payments'
 import card from '../models/card'
 import { Request, Response } from 'express'
+import { truncate } from 'fs/promises'
 
 export const getPayemanet = async (req: any, res: Response) => {
     const { user, items } = req.body
@@ -101,7 +102,7 @@ export const getHistoryPayments = async (req: Request, res: Response) => {
 
 
         if (!clientTotal) {
-                const total = await payment.countDocuments()
+                const total = await payment.countDocuments({$or: [{isSendIt: truncate}, {isCancel: truncate}]})
                 const data = await payment.find({$or: [ { isCancel: true}, { isSendIt: true} ]}, { _id: 0 }).skip(pagetion * 8).limit(8)
                 return res.status(201).json({data, total: total})
         } 
@@ -117,3 +118,14 @@ export const getHistoryPayments = async (req: Request, res: Response) => {
         res.status(201).json({ msg: error.message })
     }
 }
+
+export const getNewPaymentsSendat = async (req: Request, res: Response) => {
+    try {
+        const total = await payment.countDocuments({isSendIt: false, isCancel: false})
+        res.status(201).json(total)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message })
+        console.log(error);
+    }
+}
+

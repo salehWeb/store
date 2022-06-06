@@ -4,8 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import * as actionTypes from '../../context/actionTypes'
 import { useEffect, useState } from "react"
-import { sesrshQurey } from "../../server"
-
+import { getNewPAymentsSendat, sesrshQurey } from "../../server/index"
 import SideBar from "./SideBar"
 
 const Header = ({ haed }: any) => {
@@ -34,7 +33,7 @@ const Header = ({ haed }: any) => {
     const [cards, setCards] = useState(0)
 
     const isUser = localStorage.getItem('profile')
-    const user = isUser && JSON.parse(isUser).user.name
+    const user = isUser && JSON.parse(isUser).user
 
     const handelLogout = () => {
         if (isUser) {
@@ -45,6 +44,19 @@ const Header = ({ haed }: any) => {
         }
     }
 
+    const [newPAyment, setNewPayment] = useState(0)
+
+    useEffect(() => {
+        if (user.isAdman) {
+            const getNewPayment = async () => {
+                await getNewPAymentsSendat().then(res => {
+                    setNewPayment(res.data)
+                    console.log(res.data)
+                }).catch(err => console.log(err))
+            }
+            getNewPayment()
+        }
+    }, [])
 
 
     const classes = {
@@ -57,26 +69,23 @@ const Header = ({ haed }: any) => {
 
     return (
         <header className={`${haed ? ' rounded-[25px] mt-1 px-8 ' : ' px-4  md:px-16'} w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
-            <div className="hidden h-full w-full md:flex justify-between ">
+            <div className="hidden h-full w-full md:flex justify-center ">
                 <Link to='/' className="flex items-center gap-2">
                     <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />
                     <p className='font-bold text-xl text-gray-800 cursor-pointer'> Selexome </p>
                 </Link>
-                <div className="flex justify-center gap-8 items-center">
+                <div className="flex justify-end w-full gap-8 items-center">
                     <motion.ul
                         initial={{ opacity: 0, x: 200 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: 200 }}
                         className='flex items-center gap-8'>
-                        <li className={classes.li}><Link to="/">Home</Link></li>
-                        <li onClick={handelLogout}
-                            className={classes.li}
-                        >{isUser ? 'Logout' : 'Login'}</li>
 
-                        <li className="flex justify-center ">
-                            <div className="max-w-[350px] min-w-[150px] flex focus:drop-shadow-2xl ">
+
+                        <li className="flex justify-center">
+                            <div className="  flex focus:w-full focus:drop-shadow-xl ">
                                 <div className=" relative flex items-center w-full">
-                                    <input type="search" value={sersh} onChange={(e) => setSersh(e.target.value)} className="relative rounded-2xl focus:drop-shadow-2xl flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal max-h-fit text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
+                                    <input type="search" value={sersh} onChange={(e) => setSersh(e.target.value)} className="relative focus:w-full rounded-2xl focus:drop-shadow-2xl flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal max-h-fit text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" placeholder="Search" aria-label="Search" aria-describedby="button-addon2" />
                                     <button onClick={handelSersh} className=" px-3 ml-2 hover:rounded-2xl rounded py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700  focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out flex items-center" type="button" id="button-addon2">
                                         <svg aria-hidden="true" focusable="false" data-prefix="fas" className="w-4" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                             <path fill="currentColor" d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>
@@ -87,11 +96,11 @@ const Header = ({ haed }: any) => {
                         </li>
                         <li className={classes.li}>
                             <motion.img className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                                whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user}.svg`} alt='profile'
+                                whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user.name}.svg`} alt='profile'
                             />
                         </li>
                         <li className=' text-base text-gray-600 duration-100 transition-all cursor-pointer ease-in-out relative mr-4'>
-                            <SideBar cards={cards} />
+                            <SideBar handelLogout={handelLogout} newPAyment={newPAyment} cards={cards} />
                         </li>
 
                     </motion.ul>
@@ -126,7 +135,7 @@ const Header = ({ haed }: any) => {
 
 
                 <li className=' text-base text-gray-600 duration-100 transition-all cursor-pointer ease-in-out relative mr-4 '>
-                    <SideBar handelSersh={handelSersh} sersh={sersh} setSersh={setSersh} cards={cards} />
+                    <SideBar handelLogout={handelLogout} newPAyment={newPAyment} handelSersh={handelSersh} sersh={sersh} setSersh={setSersh} cards={cards} />
                 </li>
             </motion.ul>
         </header >
