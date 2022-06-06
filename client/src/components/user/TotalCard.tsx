@@ -116,17 +116,17 @@ const TotalCard = ({ Total }: any) => {
                     `one item`}
             </p>
             <div className="flex justify-center items-center">
-                <h1 className="flex font-semibold text-xl text-black p-2">total $:{Total}</h1>
+                <h1 className="flex font-semibold text-xl text-black p-2">total $:{Total.toFixed(2)}</h1>
             </div>
             <hr className='bg-black w-full h-[1px]' />
             {!LoadingBtn ? (
-            <Button onClick={handelPayment} variant='outlined' className='bg-gradient-to-tr m-4 flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r'><span className="z-10 text-white text-base">check out!</span></Button>
+            <div onClick={handelPayment}  className='bg-gradient-to-tr m-4 p-2 rounded-md shadow-md flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r'><span className="z-10 text-white text-md font-semibold cursor-pointer p-2 uppercase">check out!</span></div>
             ) : (
-                <Button disabled variant='outlined' className='bg-gradient-to-tr m-4 flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r justify-center items-center'><Loader /></Button>
+                <div  className='bg-gradient-to-tr m-4 p-2 rounded-md shadow-md flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r justify-center items-center'><Loader /></div>
             )}
             <div className="w-full flex justify-center items-center">
                 <p className="text-gray-700 justify-center items-center"> do Not have an count !</p>
-                <Link to='/singin' className='text-blue-600 hover:underline'>Sing in</Link>
+                <Link to='/singin#top' className='text-blue-600 hover:underline'>Sing in</Link>
             </div>
         </section>
     )

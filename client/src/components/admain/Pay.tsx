@@ -68,7 +68,7 @@ const Pay = ({ item, index, setPayments }: any) => {
                 {item.user.email}
             </td>
             <td className="px-5 py-[10px]">
-                ${item.total}
+                ${item.total.toFixed(2)}
             </td>
             <td className="px-5 py-[10px]">
                 <Link to={`/admin/payments/item?id=${item._id}`}>

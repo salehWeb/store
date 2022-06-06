@@ -183,7 +183,7 @@ const Singin = () => {
                   value={forms.password}
                   onChange={(e) => setForms({ ...forms, password: e.target.value })}
                 />
-                <div className="border absolute transition-all duration-150 ease-in-out top-[25px] right-[1px] h-[44px] rounded-lg p-2 cursor-pointer hover:bg-slate-100"
+                <div className="border absolute transition-all duration-150 ease-in-out top-[1px] right-[1px] h-[44px] rounded-lg p-2 cursor-pointer hover:bg-slate-100"
                   onClick={handelEye}
                 >
                   {eye ? (
@@ -196,7 +196,7 @@ const Singin = () => {
               </div>
 
               <div className='justify-center items-center flex mb-4 self-center'> all ready have an acount
-                <Link to='/login' className="underline text-blue-600 cursor-pointer ml-2" >login</Link>
+                <Link to='/login#top' className="underline text-blue-600 cursor-pointer ml-2" >login</Link>
               </div>
 
               <button
@@ -229,15 +229,13 @@ const Singin = () => {
                 clientId={Client_ID}
                 render={(prop: any) => (
                   <div
-                    className="px-7 py-3 text-white font-medium relative text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
-                    style={{ backgroundColor: "#55acee" }}
+                    className="px-7 font-medium bg-gray-300 text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
                     role="button"
                     data-mdb-ripple="true"
                     data-mdb-ripple-color="light"
                     onClick={prop.onClick}
                   >
-                    <FcGoogle className=' flex w-10 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full absolute left-0 bg-white shadow-md ' />
-                    <p className="flex text-md  lg:text-lg">with Google</p>
+                    <FcGoogle className=' flex w-10 h-8 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full  ' />
                   </div>
                 )}
                 onSuccess={handelSuccess}

@@ -5,15 +5,14 @@ import Loader from '../tools/Loader'
 import { postCard } from '../../server/index'
 import { sesrshQurey, upDataCard } from '../../server/index';
 import Swal from 'sweetalert2'
-import { Box, FormControl, InputLabel, NativeSelect } from '@mui/material';
 
 
 
 const CreatItem = () => {
 
   const defaulValue: any = {
-    title: '', pieces: '', price: '', type: '',
-    img: '', desc: '', discount: '',
+    title: '', pieces: '', price: '', type: 'Other',
+    img: '', desc: '', discount: '0',
   }
 
 
@@ -125,65 +124,49 @@ const CreatItem = () => {
           />
         </div>
 
-        <div className="w-full py-2 border-b border-gray-300 flex justify-around items-center gap-2">
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                type
-              </InputLabel>
-              <NativeSelect
-                defaultValue={`other`}
-                required
-                onChange={(e) => setAllState({ ...allState, type: e.target.value })}
-                inputProps={{
-                  name: 'type',
-                  id: 'uncontrolled-native',
-                }}
-              >
+        <div className="w-full py-2 border-b border-gray-300 flex justify-between items-center gap-2">
 
-                <option value="drink">Drink</option>
-                <option value="meat">Meat</option>
-                <option value="pasta">Pasta</option>
-                <option value="salad">Salad</option>
-                <option value="soup">Soup</option>
-                <option value="vegetable">Vegetable</option>
-                <option value="chicken">Chicken</option>
-                <option value="purger">Burger</option>
-                <option value="Pizza">Pizza</option>
-                <option value="other">Other</option>
 
-              </NativeSelect>
-            </FormControl>
-          </Box>
-          <Box sx={{ minWidth: 120 }}>
-            <FormControl fullWidth>
-              <InputLabel variant="standard" htmlFor="uncontrolled-native">
-                discount
-              </InputLabel>
-              <NativeSelect
-                defaultValue={`0`}
-                required
-                onChange={(e) => setAllState({ ...allState, discount: e.target.value })}
-                inputProps={{
-                  name: 'discount',
-                  id: 'uncontrolled-native',
-                }}
-              >
+          <div className="flex items-center justify-center w-full flex-col">
+            <label htmlFor="small" className="flex mb-2 text-sm font-medium  text-gray-900">Discount</label>
+            <select id="small"
+              required
+              value={allState.discount}
+              onChange={(e) => setAllState({ ...allState, discount: e.target.value })}
+              className="flex p-2 mb-6 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 ">
+              <option selected value="0">none</option>
+              <option value={`0.10`}>10%</option>
+              <option value={`0.20`}>20%</option>
+              <option value={`0.30`}>30%</option>
+              <option value={`0.40`}>40%</option>
+              <option value={`0.50`}>50%</option>
+              <option value={`0.60`}>60%</option>
+              <option value={`0.70`}>70%</option>
+              <option value={`0.80`}>80%</option>
+              <option value={`0.90`}>90%</option>
+            </select>
+          </div>
 
-                <option value="0">none</option>
-                <option value={`0.10`}>10%</option>
-                <option value={`0.20`}>20%</option>
-                <option value={`0.30`}>30%</option>
-                <option value={`0.40`}>40%</option>
-                <option value={`0.50`}>50%</option>
-                <option value={`0.60`}>60%</option>
-                <option value={`0.70`}>70%</option>
-                <option value={`0.80`}>80%</option>
-                <option value={`0.90`}>90%</option>
 
-              </NativeSelect>
-            </FormControl>
-          </Box>
+          <div className="flex items-center justify-center w-full flex-col">
+            <label htmlFor="small" className="flex mb-2 text-sm font-medium  text-gray-900">Type</label>
+            <select id="small"
+              required
+              value={allState.type}
+              onChange={(e) => setAllState({ ...allState, type: e.target.value })}
+              className="flex p-2 mb-6 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 ">
+              <option value="drink">Drink</option>
+              <option value="meat">Meat</option>
+              <option value="pasta">Pasta</option>
+              <option value="salad">Salad</option>
+              <option value="soup">Soup</option>
+              <option value="vegetable">Vegetable</option>
+              <option value="chicken">Chicken</option>
+              <option value="purger">Burger</option>
+              <option value="Pizza">Pizza</option>
+              <option selected value="Other">Other</option>
+            </select>
+          </div>
         </div>
 
 

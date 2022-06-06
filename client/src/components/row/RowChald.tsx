@@ -43,7 +43,7 @@ const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }:
                                         {item.price}
                                         </span>
                                         <span className='text-sm text-blue-600'>$</span>
-                                        {item.price - (item.price * item.discount)}
+                                        {Number(item.price - (item.price * item.discount)).toFixed(2)}
                                     </p>
                                 </div>
                             </>

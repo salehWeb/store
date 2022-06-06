@@ -9,11 +9,17 @@ import { MdOutlineCancelPresentation } from 'react-icons/md'
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
     const [image, setImage] = useState('')
-    const [Total, setTotal] = useState(data.Total / (data.price * data.discount) || 1)
+    const [Total, setTotal] = useState(1)
     const [likesC, setLikes] = useState(false)
     const [likeLength, setLikeLength] = useState(data?.likes?.length)
 
     const haveAnacount = localStorage.getItem('profile')
+
+    useEffect(() => {
+        if (data) {
+            setTotal(data.Total / (data.price - (data.price * data.discount)))
+        }
+    }, [])
 
 
     const { user } = haveAnacount && JSON.parse(haveAnacount)
@@ -106,13 +112,6 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         const totrfdo = Total - 1
         console.log(data.Total)
         data.Total = totrfdo * (data.price - data.price * data.discount)
-        console.log(
-            {
-                "data Total": data.Total,
-                "data price": data.price,
-                "data discount": data.discount
-            }
-        );
     }
 
     return (
@@ -153,7 +152,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
                                                     {data.price}
                                                 </span>
                                                 <span className='text-sm text-blue-600'>$</span>
-                                                {data.price - (data.price * data.discount)}
+                                                {Number(data.price - (data.price * data.discount)).toFixed(2)}
                                             </p>
                                         </div>
                                     </>

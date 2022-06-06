@@ -77,21 +77,24 @@ const ItemPage = () => {
     const userName: any = `${user.name}`
 
     useEffect(() => {
-        const getLikes = async () => {
-            await getCartUser(item._id).then((res: any) => {
-                setLikeLength(res.data.likes.length)
-                res.data.likes.map((item: any) => {
-                    console.log(item)
-                    if (item.email === userEmail) {
-                        setLikes(true)
-                    } else {
-                        setLikes(false)
-                    }
-                })
-            }).catch((error: any) => console.log(error))
+        if (item) {
+            const getLikes = async () => {
+                await getCartUser(item._id).then((res: any) => {
+                    setLikeLength(res.data.likes.length)
+                    res.data.likes.map((item: any) => {
+                        console.log(item)
+                        if (item.email === userEmail) {
+                            setLikes(true)
+                        } else {
+                            setLikes(false)
+                        }
+                    })
+                }).catch((error: any) => console.log(error))
+            }
+            getLikes()
         }
-        getLikes()
-    }, [])
+
+    }, [item])
 
     useEffect(() => {
         getItem()
@@ -155,7 +158,7 @@ const ItemPage = () => {
                                                             {item.price}
                                                         </span>
                                                         <span className='text-sm text-blue-600'>$</span>
-                                                        {item.price - (item.price * item.discount)}
+                                                        {Number(item.price - (item.price * item.discount)).toFixed(2)}
                                                     </p>
                                                 </div>
                                             </>
