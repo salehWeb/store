@@ -35,9 +35,9 @@ const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout
                     ) : null
                 )}
 
-                <span aria-hidden="true" className={`${open && ' -rotate-[315deg] translate-y-[9px] '} block h-[2px] w-8 mb-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
-                <span aria-hidden="true" className={`block  h-[2px] w-8 bg-current transform transition duration-[600ms] ease-in-out ${open && 'opacity-0'} `}></span>
-                <span aria-hidden="true" className={`${open && ' rotate-[315deg] -translate-y-[9px] '} block h-[2px] w-8 mt-[7px] bg-current transform transition duration-[600ms] ease-in-out`}></span>
+                <span aria-hidden="true" className={`${open && ' -rotate-[130deg] translate-y-[9px] '} block h-[2px] w-8 mb-[7px] bg-current transform transition duration-[400ms] ease-in-out`}></span>
+                <span aria-hidden="true" className={`block  h-[2px] w-8 bg-current transform transition duration-[400ms] ease-in-out ${open && 'opacity-0'} `}></span>
+                <span aria-hidden="true" className={`${open && ' rotate-[130deg] -translate-y-[9px] '} block h-[2px] w-8 mt-[7px] bg-current transform transition duration-[400ms] ease-in-out`}></span>
             </div>
 
             <AnimatePresence>

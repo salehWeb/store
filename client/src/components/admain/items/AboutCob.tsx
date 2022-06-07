@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getCard } from '../../server/index'
+import { getCard } from '../../../server/index'
 import Item from './Item'
 
 const AboutCob = () => {

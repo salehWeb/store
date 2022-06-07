@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getAllUSers } from '../../server/index'
+import { getAllUSers } from '../../../server/index'
 import User from './User'
 
 const Users = () => {

@@ -5,7 +5,7 @@ import { truncate } from 'fs/promises'
 
 export const getPayemanet = async (req: any, res: Response) => {
     const { user, items } = req.body
-    const data = await card.find({ _id: { $in: items } }, { price: 1, _id: 0 })
+    const data: any = await card.find({ _id: { $in: items } }, { price: 1, _id: 0 })
 
     const total = () => {
         let total = 0
@@ -16,7 +16,7 @@ export const getPayemanet = async (req: any, res: Response) => {
         return total
     }
 
-    console.log(items)
+    console.log(data)
 
     try {
         const newPament = new payment({ items, total: total(), user: { email: user.email, name: user.name, _id: req.userId }, sendAt: new Date().toISOString() })
@@ -34,7 +34,7 @@ export const admanPayment = async (req: Request, res: Response) => {
     try {
 
         const data = await payment.find({ isSendIt: false, isCancel: false })
-        
+
         res.status(201).json(data)
 
     }
@@ -68,7 +68,7 @@ export const sendPayment = async (req: Request, res: Response) => {
     try {
 
         items.map(async (item: any) => {
-            await card.findByIdAndUpdate(item._id, {$inc:  {pieces: Number(-item.q) } }, { new: true})
+            await card.findByIdAndUpdate(item._id, { $inc: { pieces: Number(-item.q) } }, { new: true })
         })
 
         await payment.findByIdAndUpdate(id, { isSendIt: true }, { new: true })
@@ -96,22 +96,25 @@ export const canselPayment = async (req: Request, res: Response) => {
 }
 
 export const getHistoryPayments = async (req: Request, res: Response) => {
-    const pagetion = Number(req.query.pagetion)
-    const clientTotal = Number(req?.query?.total)
+    const pagetion = req?.query?.pagetion
+    const clientTotal = req?.query?.total
+    console.log(pagetion)
+    console.log(clientTotal)
+
     try {
 
 
         if (!clientTotal) {
-                const total = await payment.countDocuments({$or: [{isSendIt: truncate}, {isCancel: truncate}]})
-                const data = await payment.find({$or: [ { isCancel: true}, { isSendIt: true} ]}, { _id: 0 }).skip(pagetion * 8).limit(8)
-                return res.status(201).json({data, total: total})
-        } 
+            const total = await payment.countDocuments({ $or: [{ isSendIt: true }, { isCancel: true }] })
+            const data = await payment.find({ $or: [{ isCancel: true }, { isSendIt: true }] }).limit(8)
+            res.status(201).json({ data: data, total: total })
+        }
 
         else {
-            const data = await payment.find({}, { _id: 0 }).skip(pagetion * 8).limit(8)
-            return res.status(201).json(data)
+            const data = await payment.find({ $or: [{ isCancel: true }, { isSendIt: true }] }).limit(8)
+            res.status(201).json(data)
         }
-        
+
     }
     catch (error: any) {
         console.log(error);
@@ -121,7 +124,7 @@ export const getHistoryPayments = async (req: Request, res: Response) => {
 
 export const getNewPaymentsSendat = async (req: Request, res: Response) => {
     try {
-        const total = await payment.countDocuments({isSendIt: false, isCancel: false})
+        const total = await payment.countDocuments({ isSendIt: false, isCancel: false })
         res.status(201).json(total)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })

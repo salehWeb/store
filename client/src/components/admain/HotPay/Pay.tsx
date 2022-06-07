@@ -1,8 +1,8 @@
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { canselePayment, senPayments } from '../../server'
-import { Loader } from '../tools'
+import { canselePayment, senPayments } from '../../../server'
+import { Loader } from '../../tools'
 import Swal from "sweetalert2"
 
 const Pay = ({ item, index, setPayments }: any) => {

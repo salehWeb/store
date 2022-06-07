@@ -30,8 +30,6 @@ const MainCon = () => {
     const serch = window.location.search.split('=')[1]
     const getSerch = async () => {
       if (!search && serch) {
-
-
         const { data } = await sesrshQurey(serch.split(' ').join(''))
         dispatch({ type: actionTypes.GET_SEARCH, payload: data.data })
         setSerch(data.data)

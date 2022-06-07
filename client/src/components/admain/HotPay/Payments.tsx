@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getPaments } from '../../server'
-import { Loader } from '../tools'
+import { getPaments } from '../../../server'
+import { Loader } from '../../tools'
 import Pay from './Pay'
 
 const Payments = () => {

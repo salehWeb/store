@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getPaymentyId } from '../../server'
-import { Loader } from '../tools'
+import { getPaymentyId } from '../../../server'
+import { Loader } from '../../tools'
 import ItemPay from './ItemPay'
 
 const ItemsPaent = () => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { getImage } from '../../server'
 import Loader from '../tools/Loader'
 import { useNavigate } from 'react-router-dom';
@@ -38,9 +38,9 @@ const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }:
 
                                 <div className="flex justify-between items-center gap-8 flex-col">
                                     <p className='text-lg text-gray-700 font-semibold flex-row flex'>
-                                    <span className='text-sm text-blue-600'>$</span>
+                                        <span className='text-sm text-blue-600'>$</span>
                                         <span className="line-through mr-2">
-                                        {item.price}
+                                            {item.price}
                                         </span>
                                         <span className='text-sm text-blue-600'>$</span>
                                         {Number(item.price - (item.price * item.discount)).toFixed(2)}

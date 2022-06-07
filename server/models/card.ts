@@ -35,7 +35,7 @@ const cardSchema = new mongoose.Schema({
             _id: { type: String, required: true }
         }],
         default: []
-    }
+    },
 })
 
 const card = mongoose.model('card', cardSchema)

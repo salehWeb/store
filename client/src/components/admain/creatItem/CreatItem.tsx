@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion'
 import { MdFastfood, MdCloudUpload, MdDelete, MdFoodBank, MdAttachMoney } from 'react-icons/md'
-import Loader from '../tools/Loader'
-import { postCard } from '../../server/index'
-import { sesrshQurey, upDataCard } from '../../server/index';
+import Loader from '../../tools/Loader'
+import { postCard } from '../../../server/index'
+import { sesrshQurey, upDataCard } from '../../../server/index';
 import Swal from 'sweetalert2'
 
 
