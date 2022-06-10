@@ -10,7 +10,7 @@ const reducer = (state = {}, action) => {
         case actionTypes.GETCARD:
             return {
                 ...state,
-                data: action.payload.data
+                data: action.payload.data || []
             };
         case actionTypes.SET_CARD:
             return {

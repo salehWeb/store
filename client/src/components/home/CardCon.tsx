@@ -2,18 +2,17 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { IoFastFood } from 'react-icons/io5'
 import RowCon from '../row/RowCon';
-import { getLovedItem } from '../../server';
+import { getLovedItem, sesrshQurey } from '../../server';
+import { Loader } from '../tools';
 
 
 
 
-const CardCon = ({ data, slide }: any) => {
-
-  let result: any = []
-
+const CardCon = ({ data }: any) => {
   const [filter, setFilter] = useState("");
-  const [res, SetRes] = useState(result)
   const [loved, setLoved] = useState([])
+  const [FilterdData, setFilterdata] = useState([])
+  const [LoadingFilter, setLoadingFilter] = useState(false)
 
   useEffect(() => {
     const getMostLOvedItems = async () => {
@@ -28,24 +27,29 @@ const CardCon = ({ data, slide }: any) => {
 
   useEffect(() => {
   }, [data])
-
   useEffect(() => {
-    if (data) {
-      const handel = async () => {
-        for (let i: any = 0; i < data?.length; i++) {
-          if (result.indexOf(data[i].type) === -1) {
-
-            result.push(data[i].type)
-
-          }
+    if (filter) {
+      setLoadingFilter(true)
+      const HandelGetFilterdData = async () => {
+        await sesrshQurey(filter).then((res) => {
+          setFilterdata(res.data.data)
+          console.log(res.data);
+          setLoadingFilter(false)
         }
-        SetRes(result)
+        ).catch((error: any) => {
+          setLoadingFilter(false)
+          console.log(error)
+        })
+
       }
-
-      handel()
+      HandelGetFilterdData()
     }
-  }, [data, result])
 
+  }, [filter])
+
+
+
+  const types = ['drink', 'meat', 'pasta', 'salad', 'soup', 'vegetable', 'chicken', 'purger', 'Pizza', 'Other']
 
 
 
@@ -56,16 +60,16 @@ const CardCon = ({ data, slide }: any) => {
         className="w-full flex flex-col items-center justify-center">
 
         {loved && loved.length >= 1 && (
-          <RowCon loved={true} flag={true} slide={slide} data={loved} />
+          <RowCon loved={true} flag={true} data={loved} />
         )}
 
-        <p className="text-2xl mt-10 font-semibold mb-4 capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 mr-auto">
+        <p className="text-2xl mt-40 font-semibold mb-4 capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 mr-auto">
           Products types
         </p>
         <div className="w-full flex items-center flex-wrap justify-center gap-8 py-6 overflow-x-scroll scrollbar-none">
 
           {
-            res.map((type: any) => (
+            types.map((type: any) => (
               <motion.div
                 whileTap={{ scale: 0.75 }}
                 key={type}
@@ -97,12 +101,26 @@ const CardCon = ({ data, slide }: any) => {
               </motion.div>
             ))}
         </div>
-        <div className="w-full">
-          <RowCon
-            flag={false}
-            data={data?.filter((item: any) => item.type === filter)}
-          />
-        </div>
+        {FilterdData.length >= 1 && (
+          <div className="w-full">
+            <RowCon
+              flag={false}
+              data={FilterdData}
+            />
+          </div>
+        )}
+        {!LoadingFilter && FilterdData.length === 0 && filter && (
+          <div className="w-full flex items-center justify-center">
+            <p className="text-2xl  font-semibold my-6 capitalize  text-gray-700">
+              No results found
+            </p>
+          </div>
+        )}
+        {LoadingFilter && (
+          <div className="w-full flex justify-center items-center">
+            <Loader />
+          </div>
+        )}
       </div>
     </section>
   )

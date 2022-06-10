@@ -1,7 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
 import cardRout from './routes/cardRourt'
-import iamgesRout from './routes/iamgesRout'
 import userRout from './routes/userRout'
 import admanRout from './routes/admanRout'
 import cors from 'cors'
@@ -28,7 +27,6 @@ app.use(cors(corsOptions));
 
 app.use('/', cardRout)
 app.use('/login', userRout)
-app.use('/images', iamgesRout)
 app.use('/adman', admanRout)
 
 

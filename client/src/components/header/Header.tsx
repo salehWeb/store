@@ -47,7 +47,7 @@ const Header = () => {
     const [newPAyment, setNewPayment] = useState(0)
 
     useEffect(() => {
-        if (user.isAdman) {
+        if (user?.isAdman) {
             const getNewPayment = async () => {
                 await getNewPAymentsSendat().then(res => {
                     setNewPayment(res.data)
@@ -96,7 +96,7 @@ const Header = () => {
                         </li>
                         <li className={classes.li}>
                             <motion.img className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                                whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user.name}.svg`} alt='profile'
+                                whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user?.name || "hello world"}.svg`} alt='profile'
                             />
                         </li>
                         <li className=' text-base text-gray-600 duration-100 transition-all cursor-pointer ease-in-out relative mr-4'>

@@ -45,7 +45,7 @@ export const postCard = async (req: Request, res: Response) => {
 
 export const getCard = async (req: Request, res: Response) => {
     try {
-        const data: any = await card.find({}, { img: 0 })
+        const data: any = await card.find()
         res.status(201).json(data)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
@@ -53,28 +53,19 @@ export const getCard = async (req: Request, res: Response) => {
 }
 
 
-export const getImg = async (req: Request, res: Response) => {
-    const id = req.params.id
-    try {
-        const { img }: any = await card.findById(id, { img: 1, _id: 0 })
-        res.status(201).json(img)
-    } catch (error: any) {
-        res.status(201).json({ msg: error.message })
-    }
-}
-
 export const sershQurey = async (req: Request, res: Response) => {
     const serch: any = req.query.qurey
     try {
         if(serch.length === 24) {
-            const data: any = await card.find({ _id: serch }, { img: 0 })
+            const data: any = await card.find({ _id: serch })
             res.status(201).json({ data })
-        } else {
+        } 
+        else {
             const data = await card.find({ $or: [ 
                 { title: { $regex: serch, $options: 'i' } }, 
                 { type: { $regex: serch, $options: 'i' } }, 
                 { desc: { $regex: serch, $options: 'i' } }
-            ]}, {img: 0})
+            ]})
             .limit(10)
     
             res.status(200).json({ data })
@@ -108,7 +99,7 @@ export const likesprodacetd = async (req: any, res: Response) => {
 
 export const getMostLOvedItems = async (req: Request, res: Response) => {
     try {
-        const data = await card.find({}, { img: 0 }).sort({ likes: -1 }).limit(9)
+        const data = await card.find().sort({ likes: -1 }).limit(9)
         res.status(201).json(data)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })

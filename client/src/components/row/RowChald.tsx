@@ -5,26 +5,16 @@ import { useNavigate } from 'react-router-dom';
 
 const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }: any) => {
     const history = useNavigate()
-    const [image, setImage] = useState('')
-
-    const IMAGE = async () => {
-        await getImage(item._id).then((data: any) => {
-            setImage(data.data)
-        })
-    }
 
     useEffect(() => { localStorage.setItem(`cardItems`, JSON.stringify(items)) }, [items])
 
-    useEffect(() => {
-        if (!image) {
-            IMAGE()
-        }
-    }, [])
 
     const handelItemModel = () => {
         history(`/item?id=${item._id}`)
     }
-
+    useEffect(() => {
+        console.log(item)
+    }, [item])
 
     return (
 
@@ -56,18 +46,11 @@ const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }:
                         )}
 
                 </div>
-                {!image ? (
-                    <div className="flex  justify-center items-center w-40 h-40 -mt-8">
-                        <Loader />
-                    </div>
-                ) : (
-                    <motion.div onClick={handelItemModel} whileHover={{ scale: 1.15 }} className='w-40 h-40 -mt-8 drop-shadow-2xl flex cursor-pointer'>
-                        <img src={image} alt={item.title} className='w-full h-full object-contain cursor-pointer' />
-                    </motion.div>
-                )}
-                <>
 
-                </>
+                    <motion.div onClick={handelItemModel} whileHover={{ scale: 1.15 }} className='w-40 h-40 -mt-8 drop-shadow-2xl flex cursor-pointer'>
+                        <img src={item.img} alt={item.title} className='w-full h-full object-contain cursor-pointer' />
+                    </motion.div>
+
             </div>
             <div className="w-full flex flex-wrap items-center justify-between ">
                 {items && items.find((id: any) => id._id === item._id) ?

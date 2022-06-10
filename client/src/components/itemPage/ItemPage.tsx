@@ -3,6 +3,7 @@ import { commentItem, sesrshQurey, likesProdectd, updataComment, getImage, getCa
 import { motion } from 'framer-motion';
 import { Loader } from '../tools';
 import Comments from './Comments';
+import LoderBtn from '../tools/LoderBtn';
 
 
 const ItemPage = () => {
@@ -15,6 +16,8 @@ const ItemPage = () => {
     const user = isHaveAcount && JSON.parse(isHaveAcount).user
     const [image, setImage] = useState("")
     const [likeLength, setLikeLength] = useState(item?.likes?.length || 0)
+    const [isLoading, setIsLoading] = useState(false)
+    const [isLoadingLike, setIsLoadingLike] = useState(false)
 
     useEffect(() => {
         setLikeLength(item?.likes?.length)
@@ -29,6 +32,7 @@ const ItemPage = () => {
             })
         }
     }
+
 
     const getItem = async () => {
         await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
@@ -52,6 +56,7 @@ const ItemPage = () => {
 
     const handelSubmitComment = async (e: any) => {
         e.preventDefault()
+        setIsLoading(true)
         if (!isUpdata) {
             if (comment !== "") {
                 const { email, name } = user
@@ -70,6 +75,7 @@ const ItemPage = () => {
                 getItem()
             }).catch(err => console.log(err))
         }
+        setIsLoading(false)
     }
 
 
@@ -78,7 +84,9 @@ const ItemPage = () => {
 
     useEffect(() => {
         if (item) {
+            setIsLoadingLike(true)
             const getLikes = async () => {
+
                 await getCartUser(item._id).then((res: any) => {
                     setLikeLength(res.data.likes.length)
                     res.data.likes.map((item: any) => {
@@ -92,6 +100,7 @@ const ItemPage = () => {
                 }).catch((error: any) => console.log(error))
             }
             getLikes()
+            setIsLoadingLike(false)
         }
 
     }, [item])
@@ -101,6 +110,7 @@ const ItemPage = () => {
     }, [])
 
     const handelLikes = async () => {
+        setIsLoadingLike(true)
         setLikes(!likesC)
         if (!likesC) {
             setLikeLength(likeLength + 1)
@@ -109,8 +119,10 @@ const ItemPage = () => {
         }
         const { email, name } = user
         await likesProdectd(item._id, { email, name }).then(res => {
+        setIsLoadingLike(false)
         })
             .catch(error => console.log(error))
+        setIsLoadingLike(false)
     }
 
 
@@ -176,16 +188,23 @@ const ItemPage = () => {
 
                         <div className=" w-full h-full flex flex-col rounded-lg drop-shadow-lg bg-white p-4">
 
-                            <div className="flex items-start flex-col mr-3 w-full">
-                                <motion.button
-                                    whileTap={{ scale: 0.6 }}
-                                    onClick={handelLikes} className={`flex-none flex flex-col items-center ease-in-out duration-[50] transition-all justify-center w-10 h-10 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+                            <div className={`flex items-center justify-start self-start  mr-3 w-full`}>
+                                {isLoadingLike ? (
+                                    <div className={`flex items-center -mr-3 justify-center w-10 h-10 `}>
+                                    <LoderBtn Notext={true} />
+                                    </div>
+                                ) : (
+                                    <motion.button
+                                        whileTap={{ scale: 0.6 }}
+                                        onClick={handelLikes} className={`flex-none flex flex-col items-center ease-in-out duration-[50] transition-all justify-center w-10 h-10 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
 
-                                    <svg width="20" height="20" fill="currentColor" aria-hidden="true">
-                                        <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-                                    </svg>
-                                    <span className="flex text-xs text-gray-400">{likeLength}</span>
-                                </motion.button>
+                                        <svg width="20" height="20" fill="currentColor" aria-hidden="true">
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                                        </svg>
+                                        <span className="flex text-xs text-gray-400">{likeLength}</span>
+                                    </motion.button>
+                                )}
+
                             </div>
 
                             <div className="flex items-center justify-center">
@@ -244,13 +263,20 @@ const ItemPage = () => {
                                     </textarea>
                                 </div>
                                 <div className="flex justify-around item-center">
+                                    {isLoading ? (
+                                        <button className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded drop-shadow-md
+                                        hover:bg-white hover:drop-shadow-2xl hover:text-blue-600 hover:rounded-3xl hover:border hover:border-blue-600 transition-all duration-[130ms] ease-in-out" type="submit" disabled>
+                                            <LoderBtn />
+                                        </button>
+                                    ) : (
+                                        <button
+                                            type="submit"
+                                            className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded drop-shadow-md
+                                            hover:bg-white hover:drop-shadow-2xl hover:text-blue-600 hover:rounded-3xl hover:border hover:border-blue-600 transition-all duration-[130ms] ease-in-out">
+                                            {isUpdata ? "Updata" : "Comment"}
+                                        </button>
+                                    )}
 
-                                    <button
-                                        type="submit"
-                                        className="px-3 py-2 text-sm text-blue-100 bg-blue-600 rounded drop-shadow-md
-                                        hover:bg-white hover:drop-shadow-2xl hover:text-blue-600 hover:rounded-3xl hover:border hover:border-blue-600 transition-all duration-[130ms] ease-in-out">
-                                        {isUpdata ? "Updata" : "Comment"}
-                                    </button>
                                     <button
                                         onClick={handelCansel}
                                         className="px-3 py-2 text-sm text-blue-600 border border-blue-500 drop-shadow-md 

@@ -19,6 +19,9 @@ const RowCon = ({ flag, data, loved }: any) => {
     useEffect(() => { setItems(cards) }, [cards])
 
 
+    useEffect(() => {
+        console.log(data)
+    }, [])
 
 
     const handelAdd = async (itemey: any) => {
@@ -31,10 +34,10 @@ const RowCon = ({ flag, data, loved }: any) => {
 
     const [scrollWidth, setScrollWidth] = useState(0)
     const slideRef: any = useRef<HTMLDivElement>()
-    
+
     useEffect(() => {
         setScrollWidth(slideRef?.current?.scrollWidth - slideRef?.current?.offsetWidth)
-    }, [])
+    }, [slideRef?.current?.offsetWidth, slideRef?.current?.scrollWidth])
 
     return (
 
@@ -45,9 +48,9 @@ const RowCon = ({ flag, data, loved }: any) => {
             }`}>
             {loved ? (
                 <motion.div drag="x"
-                whileTap={{cursor: "grabbing"}}
-                dragConstraints={{ right: 0, left: -scrollWidth }}
-                className="w-full flex gap-4 cursor-grab flex-row items-center justify-between">
+                    whileTap={{ cursor: "grabbing" }}
+                    dragConstraints={{ right: 0, left: -scrollWidth }}
+                    className="w-full flex gap-4 cursor-grab flex-row items-center justify-between">
                     {!data ? <Loader /> : data.map((item: any) => (
                         <RowChald loved={loved} items={items} key={item._id} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
                     ))}

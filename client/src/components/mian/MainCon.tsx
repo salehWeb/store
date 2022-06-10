@@ -15,14 +15,14 @@ const MainCon = () => {
   const history = useNavigate()
   const dispatch: any = useDispatch()
   const [flag, setFlag] = useState(true)
-  const { data }: any = useSelector((state: any) => state.card)
+  // const { data }: any = useSelector((state: any) => state.card)
   const [serchVul, setSerch] = useState<any>(null)
   const [rerender, setRerender] = useState(false);
 
-  useEffect(() => {
-    dispatch(getCard())
-  }, [dispatch])
-
+  // useEffect(() => {
+  //   dispatch(getCard())
+  //   console.log(data)
+  // }, [dispatch])
 
 
 
@@ -78,8 +78,7 @@ const MainCon = () => {
                 Our Loved products
               </p>
             </div>
-            <CardCon data={data} />
-            <RowCon data={data} flag={!flag} />
+            <CardCon />
           </>
         )}
 

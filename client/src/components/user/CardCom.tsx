@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux'
 import * as actionTypes from '../../context/actionTypes'
 import { getCartUser, likesProdectd } from '../../server'
 import { MdOutlineCancelPresentation } from 'react-icons/md'
+import LoderBtn from '../tools/LoderBtn'
 
 const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const dispatch = useDispatch()
@@ -12,6 +13,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
     const [Total, setTotal] = useState(1)
     const [likesC, setLikes] = useState(false)
     const [likeLength, setLikeLength] = useState(data?.likes?.length)
+    const [isLoadingLike, setIsLoadingLike] = useState(false)
 
     const haveAnacount = localStorage.getItem('profile')
 
@@ -23,8 +25,6 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
 
     const { user } = haveAnacount && JSON.parse(haveAnacount)
-
-    // make total with discount
     console.log(Cards);
     console.log(Total);
     const handeNone = () => {
@@ -40,6 +40,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
 
     useEffect(() => {
+        setIsLoadingLike(true)
         const getLikes = async () => {
             await getCartUser(data._id).then((res: any) => {
                 setLikeLength(res.data.likes.length)
@@ -54,11 +55,13 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
             }).catch((error: any) => console.log(error))
         }
         getLikes()
+        setIsLoadingLike(false)
     }, [userEmail, data._id])
 
 
 
     const handelLikes = async () => {
+        setIsLoadingLike(true)
         setLikes(!likesC)
         if (!likesC) {
 
@@ -68,6 +71,7 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
         }
         await likesProdectd(data._id, { email: userEmail, name: userName }).then(res => console.log(res))
             .catch(error => console.log(error))
+        setIsLoadingLike(false)
     }
 
 
@@ -222,15 +226,19 @@ const CardCom = ({ item, handelDelet, isAdmanasc, data, Cards }: any) => {
 
                     </div>
                     <div className="flex justify-center items-center mr-3 ">
-                        <motion.button
-                            whileTap={{ scale: 0.6 }}
-                            onClick={handelLikes} className={`flex-none flex flex-col items-center ease-in-out duration-[50] transition-all justify-center w-10 h-10 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
+                        {isLoadingLike ? (
+                            <LoderBtn Notext={true}/>
+                        ) : (
+                            <motion.button
+                                whileTap={{ scale: 0.6 }}
+                                onClick={handelLikes} className={`flex-none flex flex-col items-center ease-in-out duration-[50] transition-all justify-center w-10 h-10 rounded-md ${likesC ? 'text-red-600 shadow-md shadow-red-500 border-red-300' : 'text-slate-300 border-slate-200'} border `} type="button" aria-label="Like">
 
-                            <svg width="20" height="20" fill="currentColor" aria-hidden="true">
-                                <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-                            </svg>
-                            <span className="flex text-xs text-gray-400">{likeLength}</span>
-                        </motion.button>
+                                <svg width="20" height="20" fill="currentColor" aria-hidden="true">
+                                    <path fillRule="evenodd" clipRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                                </svg>
+                                <span className="flex text-xs text-gray-400">{likeLength}</span>
+                            </motion.button>
+                        )}
                     </div>
                 </div>
             </div>

@@ -6,6 +6,7 @@ import { postPayments } from '../../server'
 import Loader from '../tools/Loader'
 import { useDispatch } from 'react-redux'
 import * as actionTypes from '../../context/actionTypes'
+import LoderBtn from '../tools/LoderBtn'
 
 const TotalCard = ({ Total }: any) => {
     const dispatch = useDispatch() 
@@ -122,7 +123,7 @@ const TotalCard = ({ Total }: any) => {
             {!LoadingBtn ? (
             <div onClick={handelPayment}  className='bg-gradient-to-tr m-4 p-2 rounded-md shadow-md flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r'><span className="z-10 text-white text-md font-semibold cursor-pointer p-2 uppercase">check out!</span></div>
             ) : (
-                <div  className='bg-gradient-to-tr m-4 p-2 rounded-md shadow-md flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r justify-center items-center'><Loader /></div>
+                <div  className='bg-gradient-to-tr m-4 p-2 rounded-md shadow-md flex from-blue-300 to-blue-600 duration-500  border-[0] ease-in-out hover:bg-gradient-to-r justify-center items-center'><LoderBtn /></div>
             )}
             <div className="w-full flex justify-center items-center">
                 <p className="text-gray-700 justify-center items-center"> do Not have an count !</p>
