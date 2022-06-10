@@ -1,8 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import * as actionTypes from '../../context/actionTypes'
-import { getCard } from '../../context/Cardactions'
-import { getImage } from '../../server/index'
 import CardCom from './CardCom'
 import EmtyCart from './EmtyCart'
 import Loader from '../tools/Loader'
@@ -11,69 +7,85 @@ import TotalCard from './TotalCard'
 
 
 const Cart = () => {
-    const dispatch: any = useDispatch()
+    const [Cards, setCards] = useState<any>([])
+    const isHAveCart: any = localStorage.getItem('cardItems')
+    const [reRenderTotal, setRerenderToatl] = useState(false)
+    
+    useEffect(() => {
+        setCards(JSON.parse(isHAveCart))
+    }, [])
 
-    useEffect(() => { dispatch(getCard()) }, [dispatch])
-
-    const { cards: Cards, data } = useSelector((state: any) => state.card)
-
-    const [cards, setCards] = useState(Cards)
     const [Total, setTotal] = useState(0)
 
-    useEffect(() => { setCards(Cards) }, [Cards])
-    useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
-
-
     const handelDelet = (id: any) => {
-        const filterd = cards?.filter((item: any) => item._id !== id)
+        const filterd = Cards?.filter((item: any) => item._id !== id)
         setCards(filterd)
         localStorage.setItem('cardItems', JSON.stringify(filterd))
-        dispatch({ type: actionTypes.SET_CARD })
+        setRerenderToatl((re: Boolean) => !re)
     }
 
-    const ahveEleman: any = localStorage.getItem('cardItems') || []
 
-    if (JSON.parse(ahveEleman).length === 0) {
+    if (JSON.parse(isHAveCart).length === 0) {
         localStorage.setItem('total', JSON.stringify(0))
     }
 
-
+    const HandelGetTotalPrice = () => {
+        console.log(Cards)
+        let baby = 0;
+        for (let i = 0; i < Cards.length; i++) {
+            baby += Cards[i].Total
+        }
+        console.log(baby)
+        localStorage.setItem('total', JSON.stringify(baby))
+        return baby
+    }
 
     useEffect(() => {
+        HandelGetTotalPrice()
         const haveTotal = localStorage.getItem('total')
         const total = haveTotal && JSON.parse(haveTotal)
         setTotal(total)
-    }, [Cards, cards])
+    }, [reRenderTotal])
+
+    useEffect(() => {
+        HandelGetTotalPrice()
+        const haveTotal = localStorage.getItem('total')
+        const total = haveTotal && JSON.parse(haveTotal)
+        setTotal(total)
+    })
 
 
-    const isAdmanasc = async (id: string) => await getImage(id).then((item: any) => item.data)
+
+
 
 
     return (
         <section className='w-full h-auto flex justify-center items-center min-h-screen bg-Blur rounded-lg py-2 px-6'>
-            {data ? (
+            {Cards ? (
                 <>
-                
-                    {cards && cards?.length > 0 ? (
+
+                    {Cards && Cards?.length > 0 ? (
                         <div className="w-full h-auto gap-4 grid lg:grid-cols-2 grid-cols-1  min-h-screen">
-                        <div className="w-full h-full gap-4 flex flex-col ">
-                            {data && cards.map((item: any) => {
-                                return (
-                                    <AnimatePresence >
-                                        <CardCom key={item._id} data={item} Cards={cards} item={item._id} handelDelet={handelDelet} isAdmanasc={isAdmanasc} />
-                                    </AnimatePresence >
-                                )
-                            })}
-                            
-                        </div>
-                        <TotalCard key={'total'} Total={Total} />
+                            <div className="w-full h-full gap-4 flex flex-col ">
+                                {Cards && Cards.map((item: any) => {
+                                    return (
+                                        <div key={item._id} className="flex">
+                                            <AnimatePresence >
+                                                <CardCom item={item} setRerenderToatl={setRerenderToatl} Cards={Cards} handelDelet={handelDelet} />
+                                            </AnimatePresence >
+                                        </div>
+                                    )
+                                })}
+
+                            </div>
+                            <TotalCard Total={Total} />
                         </div>
                     ) : (
                         <div className="min-w-[100vh] min-h-[60vh] justify-center items-center w-full h-full gap-4 flex flex-col ">
                             <EmtyCart />
                         </div>
                     )}
-                    
+
                 </>
             ) : (
                 <Loader />

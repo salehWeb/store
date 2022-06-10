@@ -52,6 +52,15 @@ export const getCard = async (req: Request, res: Response) => {
     }
 }
 
+export const getImage = async (req: Request, res: Response) => {
+    const id = req.params.id
+    try {
+        const data = await card.findById(id, {img: 1, _id: 0} )
+        res.status(201).json(data)
+    } catch (error: any) {
+        res.status(201).json({ msg: error.message })
+    }
+}
 
 export const sershQurey = async (req: Request, res: Response) => {
     const serch: any = req.query.qurey

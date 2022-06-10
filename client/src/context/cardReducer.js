@@ -40,6 +40,12 @@ const reducer = (state = {}, action) => {
                 ...state,
                 cards: []
             }
+        case actionTypes.SET_ITEM_PAGE:
+            console.log(action.payload)
+            return {
+                ...state,
+                itemPage: action.payload
+            }
         default: return state
     }
 }

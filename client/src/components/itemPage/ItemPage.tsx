@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Loader } from '../tools';
 import Comments from './Comments';
 import LoderBtn from '../tools/LoderBtn';
+import { useSelector } from 'react-redux';
 
 
 const ItemPage = () => {
@@ -14,7 +15,6 @@ const ItemPage = () => {
     const [data, setData] = useState<any>()
     const isHaveAcount = localStorage.getItem('profile')
     const user = isHaveAcount && JSON.parse(isHaveAcount).user
-    const [image, setImage] = useState("")
     const [likeLength, setLikeLength] = useState(item?.likes?.length || 0)
     const [isLoading, setIsLoading] = useState(false)
     const [isLoadingLike, setIsLoadingLike] = useState(false)
@@ -23,24 +23,15 @@ const ItemPage = () => {
         setLikeLength(item?.likes?.length)
     }, [item])
 
-    const isAdmanasc = async (id: string) => await getImage(id).then((item: any) => item.data)
-
-    const IMAGE = async () => {
-        if (!image && item) {
-            await isAdmanasc(item._id).then((data: any) => {
-                setImage(data)
-            })
-        }
-    }
-
 
     const getItem = async () => {
-        await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
-            setItem(res.data.data[0])
-            if (item) {
-                await IMAGE()
-            }
-        }).catch((error: any) => console.log(error))
+        if (itemPage) {
+            setItem(itemPage)
+        } else {
+            await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
+                setItem(res.data.data[0])
+            }).catch((error: any) => console.log(error))
+        }
     }
 
     const handelCansel = () => {
@@ -48,11 +39,6 @@ const ItemPage = () => {
         setIsUpdata(false)
     }
 
-    useEffect(() => {
-        if (item) {
-            IMAGE()
-        }
-    }, [item])
 
     const handelSubmitComment = async (e: any) => {
         e.preventDefault()
@@ -78,6 +64,10 @@ const ItemPage = () => {
         setIsLoading(false)
     }
 
+    const { itemPage } = useSelector((state: any) => state.card)
+    useEffect(() => {
+        console.log(itemPage)
+    }, [itemPage])
 
     const userEmail: any = `${user.email}`
     const userName: any = `${user.name}`
@@ -119,7 +109,7 @@ const ItemPage = () => {
         }
         const { email, name } = user
         await likesProdectd(item._id, { email, name }).then(res => {
-        setIsLoadingLike(false)
+            setIsLoadingLike(false)
         })
             .catch(error => console.log(error))
         setIsLoadingLike(false)
@@ -141,14 +131,8 @@ const ItemPage = () => {
 
 
                             <div className="w-full flex relative lg:h-[50vh] md:h-[50vh]  sm:h-[50vh] h-[30vh] rounded-lg  bg-white p-4 ">
-                                {image ? (
-                                    <img className=' w-full  h-full object-contain' src={image} alt={item.title} />
 
-                                ) : (
-                                    <div className="justify-center w-full h-full  items-center flex">
-                                        <Loader />
-                                    </div>
-                                )}
+                                    <img className=' w-full  h-full object-contain' src={item.img} alt={item.title} />
 
                                 {item.discount !== 0 && (
                                     <div className="shadow-lg max-w-fit rounded-full  -top-7 left-[5%] drop-shadow-lg absolute h-10 items-center justify-center  z-[4] flex ">
@@ -191,7 +175,7 @@ const ItemPage = () => {
                             <div className={`flex items-center justify-start self-start  mr-3 w-full`}>
                                 {isLoadingLike ? (
                                     <div className={`flex items-center -mr-3 justify-center w-10 h-10 `}>
-                                    <LoderBtn Notext={true} />
+                                        <LoderBtn Notext={true} />
                                     </div>
                                 ) : (
                                     <motion.button
@@ -289,8 +273,8 @@ const ItemPage = () => {
                         </div>
 
                         <div className="flex justify-center  items-center gap-6 flex-col h-auto w-full rounded-lg">
-                            {item.comments && item.comments.map((items: any) => (
-                                <Comments getItem={getItem} item={items} user={user} setData={setData} key={items._id} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
+                            {item.comments && item.comments.map((items: any, index: number) => (
+                                <Comments getItem={getItem} item={items} user={user} setData={setData} key={items._id + index} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
                             ))}
 
                         </div>

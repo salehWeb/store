@@ -9,3 +9,4 @@ export const SET_TOTAL = 'SET_TOTAL'
 export const GET_SEARCH = 'GET_SEARCH'
 export const REST_SAERCH = 'REST_SAERCH'
 export const REST_CARD_ITEMS = 'REST_CARD_ITEMS'
+export const SET_ITEM_PAGE = "SET_ITEM_PAGE"

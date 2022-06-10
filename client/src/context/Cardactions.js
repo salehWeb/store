@@ -10,3 +10,8 @@ export const getCard = () => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const getItemPageData = (item, history) => (dispatch) => {
+    history(`/item?id=${item._id}`)
+    dispatch({ type: actionTypes.SET_ITEM_PAGE, payload: item }) 
+}

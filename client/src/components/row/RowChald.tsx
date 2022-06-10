@@ -1,17 +1,20 @@
 import {  useEffect, useState } from 'react'
-import { getImage } from '../../server'
 import Loader from '../tools/Loader'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getItemPageData } from '../../context/Cardactions';
 
 const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }: any) => {
     const history = useNavigate()
+    const dispatch: any = useDispatch()
 
     useEffect(() => { localStorage.setItem(`cardItems`, JSON.stringify(items)) }, [items])
 
 
     const handelItemModel = () => {
-        history(`/item?id=${item._id}`)
+        dispatch(getItemPageData(item, history))
     }
+    
     useEffect(() => {
         console.log(item)
     }, [item])
