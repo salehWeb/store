@@ -46,7 +46,6 @@ const HistoryPayments = () => {
           active: page === i + 1 ? true : false
         })
 
-        console.log(pageLength)
       }
     }
   }, [allTotal, page, pageLength])

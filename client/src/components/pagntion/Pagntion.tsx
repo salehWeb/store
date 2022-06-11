@@ -1,5 +1,4 @@
 const Pagntion = ({ handelPrevious, handelNext, pageLength, handelPageLength }: any) => {
-    console.log(pageLength)
     return (
         <nav aria-label="Page navigation example" className="mt-4">
             <ul className="flex items-center">

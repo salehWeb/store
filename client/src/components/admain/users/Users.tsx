@@ -9,7 +9,6 @@ const Users = () => {
     const Users = async () => {
         await getAllUSers().then(item => {
             setUsers(item.data)
-            console.log(item.data)
         })
     }
 

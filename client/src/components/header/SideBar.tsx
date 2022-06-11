@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { MdHome, MdOutlinePayment, MdShoppingCart } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { AiOutlineHistory } from 'react-icons/ai'
 import { IoMdCreate } from 'react-icons/io'
 import { BiLogOut } from 'react-icons/bi'
+import { useDispatch } from 'react-redux'
 
 const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout }: any) => {
+    
+    const dispatch = useDispatch()
+
     const [open, setOpen] = useState(false)
     const haveAnacount = localStorage.getItem('profile')
     const isAdman = haveAnacount && JSON.parse(haveAnacount).user?.isAdman
@@ -18,7 +22,9 @@ const SideBar = ({ cards, newPAyment, handelSersh, sersh, setSersh, handelLogout
         }
     }
 
+    useEffect(() => {
 
+    }, [dispatch])
     return (
         <>
 

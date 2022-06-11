@@ -174,7 +174,6 @@ export const deleteComment = async (req: Request, res: Response) => {
     const itemID = req.params.id
     const id = req.body.id;
     const { email, name } = req.body.user
-    console.log(id, email, name);
 
     try {
         const updataed = await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: id, name: name, email: email } } }, { new: true })

@@ -27,7 +27,6 @@ const CreatItem = () => {
       const id: any = window.location.search.split("=")[1]
       async function fetchData() {
         await sesrshQurey(id).then(res => {
-          console.log(res.data.data[0]._id === id);
           if (res.data.data[0]._id === id) {
             setAllState(res.data.data[0])
             setLoading(false)
@@ -58,11 +57,10 @@ const CreatItem = () => {
     setLoadingBtn(true)
 
     if (isUpData) {
-      await upDataCard(isUpData, allState).then(res => console.log(res)).catch(err => console.log(err))
+      await upDataCard(isUpData, allState).catch(err => console.log(err))
     }
     else {
       await postCard(allState).then(async res => {
-        console.log(res);
         if (res.data.message) {
           await Swal.fire({
             icon: 'error',

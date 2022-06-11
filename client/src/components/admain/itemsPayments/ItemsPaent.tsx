@@ -13,7 +13,6 @@ const ItemsPaent = () => {
         if (id) {
             const getPamenttFromServer = async () => {
                 await getPaymentyId(id).then(res => {
-                    console.log(res.data.items)
                     setPayments(res.data.items)
                 }).catch(err => console.log(err))
             }

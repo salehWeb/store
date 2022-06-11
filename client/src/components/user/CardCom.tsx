@@ -31,7 +31,6 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
             await getCartUser(item._id).then((res: any) => {
                 setLikeLength(res.data.likes.length)
                 res.data.likes.map((item: any) => {
-                    console.log(item)
                     if (item.email === userEmail) {
                         setLikes(true)
                     } else {
@@ -55,7 +54,7 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
         } else {
             setLikeLength(likeLength - 1)
         }
-        await likesProdectd(item._id, { email: userEmail, name: userName }).then(res => console.log(res))
+        await likesProdectd(item._id, { email: userEmail, name: userName })
             .catch(error => console.log(error))
         setIsLoadingLike(false)
     }
@@ -95,6 +94,7 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
             initial={{ x: 400, opacity: 0, scale: 0.2 }}
             animate={{ x: 0, opacity: 1, scale: 1 }}
             exit={{ opacity: 0.8, x: -600, scale: 1 }}
+            transition={{ duration: 0.5 }}
             key={item._id} className="w-full my-6 h-fit ease-in-out flex-col duration-100 transition-all drop-shadow-lg flex bg-white rounded-lg">
             <div className="p-8 w-full h-fit flex flex-row flex-wrap lg:grid xl:grid md:grid relative grid-cols-2 rounded-lg">
 
@@ -138,7 +138,7 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
                     </div>
 
                 <div className="flex  h-fit flex-col justify-center items-center rounded-lg">
-                    <p className="text-base  w-fit"><h1 className='text-2xl'>{item.title}</h1>
+                    <p className="text-base  w-fit"><span className='text-2xl'>{item.title}</span>
                         <span className='h-[1px] w-full   bg-gradient-to-tr from-blue-300 to-blue-600  flex flex-row'></span></p>
                     <br />
                     <p className="text-gray-500 flex self-start px-4">{item.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>

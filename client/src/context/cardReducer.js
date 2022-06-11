@@ -10,7 +10,7 @@ const reducer = (state = {}, action) => {
         case actionTypes.GETCARD:
             return {
                 ...state,
-                data: action.payload.data || []
+                data: action.payload.data || [],
             };
         case actionTypes.SET_CARD:
             return {
@@ -24,9 +24,9 @@ const reducer = (state = {}, action) => {
             }
         case actionTypes.GET_SEARCH:
             return {
+                isSearching: true,
                 ...state,
                 search: action.payload,
-                isSearching: true
             }
         case actionTypes.REST_SAERCH:
             return {
@@ -41,7 +41,6 @@ const reducer = (state = {}, action) => {
                 cards: []
             }
         case actionTypes.SET_ITEM_PAGE:
-            console.log(action.payload)
             return {
                 ...state,
                 itemPage: action.payload

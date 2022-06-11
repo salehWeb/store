@@ -1,13 +1,17 @@
 import { useEffect, useState } from 'react'
-import { commentItem, sesrshQurey, likesProdectd, updataComment, getImage, getCartUser } from '../../server'
+import { commentItem, sesrshQurey, likesProdectd, updataComment, getCartUser } from '../../server'
 import { motion } from 'framer-motion';
 import { Loader } from '../tools';
 import Comments from './Comments';
 import LoderBtn from '../tools/LoderBtn';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actionTypes from '../../context/actionTypes';
+import { MdAddTask, MdShoppingCart } from 'react-icons/md';
 
 
 const ItemPage = () => {
+
+
     const [item, setItem] = useState<any>()
     const [comment, setComment] = useState("")
     const [likesC, setLikes] = useState(false)
@@ -19,9 +23,26 @@ const ItemPage = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [isLoadingLike, setIsLoadingLike] = useState(false)
 
+    const dispatch = useDispatch()
+
+
+    useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
+
+    const { cards } = useSelector((state: any) => state.card)
+
+    const [items, setItems] = useState(cards)
+
     useEffect(() => {
         setLikeLength(item?.likes?.length)
     }, [item])
+
+    const handelAdd = (itemey: any) => {
+        items?.length <= 0 ? setItems([itemey]) : setItems([...items, itemey]);
+
+        localStorage.setItem(`cardItems`, JSON.stringify(items))
+
+        dispatch({ type: actionTypes.SET_CARD })
+    }
 
 
     const getItem = async () => {
@@ -47,8 +68,10 @@ const ItemPage = () => {
             if (comment !== "") {
                 const { email, name } = user
                 const data = { comment: comment, user: { email, name } }
-                await commentItem(item._id, data).then(res => {
-                    getItem()
+                await commentItem(item._id, data).then(async res => {
+                    await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
+                        setItem(res.data.data[0])
+                    }).catch((error: any) => console.log(error))
                     setComment("")
                 }).catch(err => console.log(err))
             }
@@ -65,12 +88,9 @@ const ItemPage = () => {
     }
 
     const { itemPage } = useSelector((state: any) => state.card)
-    useEffect(() => {
-        console.log(itemPage)
-    }, [itemPage])
+
 
     const userEmail: any = `${user.email}`
-    const userName: any = `${user.name}`
 
     useEffect(() => {
         if (item) {
@@ -80,7 +100,6 @@ const ItemPage = () => {
                 await getCartUser(item._id).then((res: any) => {
                     setLikeLength(res.data.likes.length)
                     res.data.likes.map((item: any) => {
-                        console.log(item)
                         if (item.email === userEmail) {
                             setLikes(true)
                         } else {
@@ -126,13 +145,13 @@ const ItemPage = () => {
                         initial={{ x: 400, opacity: 0, scale: 0.2 }}
                         animate={{ x: 0, opacity: 1, scale: 1 }}
                         exit={{ opacity: 0.8, x: 700, scale: 1 }}
-                        key={item._id} className="w-full my-6 grid lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-10  ease-in-out duration-100 transition-all min-h-[50vh] rounded-lg">
+                        key={item._id} className="w-full my-6 grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 gap-10  ease-in-out duration-100 transition-all min-h-[50vh] rounded-lg">
                         <div className="flex  w-full flex-row flex-wrap justify-between rounded-lg h-full drop-shadow-lg">
 
 
                             <div className="w-full flex relative lg:h-[50vh] md:h-[50vh]  sm:h-[50vh] h-[30vh] rounded-lg  bg-white p-4 ">
 
-                                    <img className=' w-full  h-full object-contain' src={item.img} alt={item.title} />
+                                <img className=' w-full  h-full object-contain' src={item.img} alt={item.title} />
 
                                 {item.discount !== 0 && (
                                     <div className="shadow-lg max-w-fit rounded-full  -top-7 left-[5%] drop-shadow-lg absolute h-10 items-center justify-center  z-[4] flex ">
@@ -172,7 +191,7 @@ const ItemPage = () => {
 
                         <div className=" w-full h-full flex flex-col rounded-lg drop-shadow-lg bg-white p-4">
 
-                            <div className={`flex items-center justify-start self-start  mr-3 w-full`}>
+                            <div className={`flex items-center justify-between  mr-3 w-full`}>
                                 {isLoadingLike ? (
                                     <div className={`flex items-center -mr-3 justify-center w-10 h-10 `}>
                                         <LoderBtn Notext={true} />
@@ -188,7 +207,16 @@ const ItemPage = () => {
                                         <span className="flex text-xs text-gray-400">{likeLength}</span>
                                     </motion.button>
                                 )}
-
+                                {items && items.find((id: any) => id._id === item._id) ?
+                                    (
+                                        <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8 rounded-full  bg-gradient-to-tr from-blue-300 to-blue-600   flex items-center justify-center cursor-pointer hover:shadow-md ">
+                                            <MdAddTask className='text-white' />
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8  duration-75 rounded-full bg-gradient-to-tr  from-red-300 to-red-600 flex items-center justify-center cursor-pointer hover:shadow-md ">
+                                            <MdShoppingCart onClick={() => handelAdd(item)} className='text-white' />
+                                        </motion.div>
+                                    )}
                             </div>
 
                             <div className="flex items-center justify-center">
@@ -200,28 +228,22 @@ const ItemPage = () => {
 
                             <p className="text-gray-500 flex ">{item.desc} wegewge ebeberberbe ebrebebreb erbreberbreb egrebreberb brebre</p>
 
-                            <hr className="in-h-[1px] min-w-full  bg-gradient-to-tr mt-4 from-blue-300 to-blue-600  flex" />
+                            <hr className="min-h-[1px] min-w-full  bg-gradient-to-tr mt-4 from-blue-300 to-blue-600  flex" />
 
-                            <div className="flex justify-between items-center mt-4">
+                            <div className="flex justify-between items-center flex-row flex-wrap mt-auto">
                                 <p className="text-gray-700 ">
-                                    items left <span className="text-blue-600">
+                                    items left <span className="text-blue-600 font-semibold text-lg">
                                         {item.pieces}
                                     </span>
                                 </p>
                                 <p className="text-gray-700 ">
-                                    item type <span className="text-blue-600">
+                                    item type <span className="text-blue-600 font-semibold text-lg">
                                         {item.type}
                                     </span>
                                 </p>
                             </div>
 
-
-
-
-
                         </div>
-
-
 
                     </motion.div>
 
@@ -233,7 +255,7 @@ const ItemPage = () => {
 
 
 
-                        <div className="w-full flex lg:h-[50vh] justify-center items-center rounded-lg drop-shadow-lg bg-white">
+                        <div className="w-full flex h-[50vh] max-h-fit justify-center items-center rounded-lg drop-shadow-lg bg-white">
                             <form onSubmit={(e) => handelSubmitComment(e)} className="w-full p-4">
                                 <div className="mb-2">
                                     <label htmlFor="comment" className="text-lg text-gray-600">{isUpdata ? "Updata a comment" : "Add a comment"}</label>
@@ -272,7 +294,7 @@ const ItemPage = () => {
                             </form>
                         </div>
 
-                        <div className="flex justify-center  items-center gap-6 flex-col h-auto w-full rounded-lg">
+                        <div className="flex justify-center  items-center gap-6 flex-col h-fit w-full rounded-lg">
                             {item.comments && item.comments.map((items: any, index: number) => (
                                 <Comments getItem={getItem} item={items} user={user} setData={setData} key={items._id + index} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
                             ))}

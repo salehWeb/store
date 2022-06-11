@@ -37,7 +37,6 @@ const Singin = () => {
     let msg: any;
     await SingWithGoogle(userData).then((r) => msg = r.data).catch(async (e) => {
       setDispeldButtton(false)
-      console.log(e)
       return await Swal.fire({
         icon: 'error',
         title: 'filed',
@@ -46,7 +45,6 @@ const Singin = () => {
     })
 
     if (msg.msg === " acount sucssfuly created ") {
-      console.log(msg)
       await Swal.fire({
         icon: 'success',
         title: 'success',
@@ -60,7 +58,6 @@ const Singin = () => {
     }
 
     if (msg.msg === " this account is already exist!. try login.") {
-      console.log(msg)
 
       await Swal.fire({
         icon: 'error',
@@ -69,7 +66,6 @@ const Singin = () => {
       })
 
       setDispeldButtton(false)
-    console.log(user)
     }
   }
 

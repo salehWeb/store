@@ -18,7 +18,6 @@ const CardCon = ({ data }: any) => {
     const getMostLOvedItems = async () => {
       await getLovedItem().then((res) => {
         setLoved(res.data)
-        console.log(loved);
       }
       ).catch((error: any) => console.log(error))
     }
@@ -33,7 +32,6 @@ const CardCon = ({ data }: any) => {
       const HandelGetFilterdData = async () => {
         await sesrshQurey(filter).then((res) => {
           setFilterdata(res.data.data)
-          console.log(res.data);
           setLoadingFilter(false)
         }
         ).catch((error: any) => {

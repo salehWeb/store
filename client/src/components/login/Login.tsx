@@ -36,7 +36,6 @@ const Login = () => {
 
     const { profileObj } = await res
 
-    console.log(profileObj.email)
 
     await loginWithGoogle({ email: profileObj.email }).then((r) => {
       msg = r.data.msg

@@ -58,7 +58,6 @@ const TotalCard = ({ Total }: any) => {
             }
 
             await postPayments({ items, user }).then(async res => {
-                console.log("fuck u");
                 if (res.data.msg === "sucses created") {
                     await Swal.fire({
                         title: 'Payment Successful',

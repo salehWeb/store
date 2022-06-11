@@ -26,6 +26,7 @@ function App() {
   return (
     <AnimatePresence exitBeforeEnter>
       <div className="w-screen h-screen flex flex-col bg-slate-50 overflow-y-auto">
+        <div className="absolute top-0 left-[50%]" id="top"></div>
         <React.Suspense fallback={<Loader />}>
           <Header />
         </React.Suspense>

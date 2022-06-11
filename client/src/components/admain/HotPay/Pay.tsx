@@ -50,7 +50,6 @@ const Pay = ({ item, index, setPayments }: any) => {
                 confirmButtonText: 'OK',
                 showConfirmButton: true
             })
-            console.log(data)
             setPayments((items: any) => items.filter((THISitem: any) => THISitem._id !== item._id))
             setLoadingSe(false)
         }).catch(err => console.log(err))

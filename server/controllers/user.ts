@@ -15,7 +15,6 @@ export const loginGoogle = async (req: Request, res: Response) => {
 
 
         if (isHaveAcount) {
-            console.log(' this account is already exist!. try login.');
             return res.status(201).json({ msg: " this account is already exist!. try login." })
         }
 
@@ -55,7 +54,6 @@ export const login = async (req: Request, res: Response) => {
 
 
         if (isHaveAcount) {
-            console.log(' this account is already exist!. try login.');
             return res.status(201).json({ msg: " this account is already exist!. try login." })
         }
 
@@ -94,7 +92,6 @@ export const login = async (req: Request, res: Response) => {
 
 export const reggstarGoogle = async (req: Request, res: Response) => {
     const { email }: any = await req.body
-    console.log(email)
     const isHaveAcount: any = await user.findOne({ email: email })
 
     try {
@@ -142,7 +139,6 @@ export const reggstar = async (req: Request, res: Response, next: any) => {
     } catch (error: any) {
 
         if (!isHaveAcount) {
-            console.log('wrong');
             return res.status(201).json({ msg: " the email is wrong try agin!. or sing in if do not have an account " })
         }
 
@@ -198,7 +194,6 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const deletUser = async (req: Request, res: Response) => {
     const id = req.params.id
-    console.log(id)
     try {
         await user.findByIdAndDelete(id)
         res.status(201).json({msg: 'delete it sucses'})

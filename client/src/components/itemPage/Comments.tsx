@@ -19,7 +19,6 @@ const Comments = ({ item, setData, user, setIsUpdata, setComment, id, getItem }:
         setIsVasbl(false)
         const { email, name} = user
         const commentId = item._id
-        console.log(commentId)
         await deleteComment(id, { id: commentId, user: { email, name } }).then(res => {
             getItem()
         }).catch(err => console.log(err))

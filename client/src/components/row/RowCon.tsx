@@ -16,12 +16,9 @@ const RowCon = ({ flag, data, loved }: any) => {
 
     const [items, setItems] = useState(cards)
 
+
     useEffect(() => { setItems(cards) }, [cards])
 
-
-    useEffect(() => {
-        console.log(data)
-    }, [])
 
 
     const handelAdd = async (itemey: any) => {

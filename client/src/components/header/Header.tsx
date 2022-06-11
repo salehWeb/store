@@ -17,7 +17,7 @@ const Header = () => {
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
 
-    useEffect(() => { setCards(Cards?.length) }, [Cards])
+    useEffect(() => { setCards(Cards?.length) }, [Cards, dispatch])
 
     const [sersh, setSersh] = useState('')
 
@@ -53,12 +53,11 @@ const Header = () => {
             const getNewPayment = async () => {
                 await getNewPAymentsSendat().then(res => {
                     setNewPayment(res.data)
-                    console.log(res.data)
                 }).catch(err => console.log(err))
             }
             getNewPayment()
         }
-    }, [])
+    }, [dispatch, user])
 
 
     const classes = {
@@ -70,7 +69,7 @@ const Header = () => {
 
 
     return (
-        <header id='top' className={` px-4  md:px-16 w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
+        <header className={` px-4  md:px-16 w-screen p-[11px] ease-in-out duration-100 transition-all shadow-md shadow-blue-300  fixed z-50 bg-Blur`} >
             <div className="hidden h-full w-full md:flex justify-center ">
                 <Link to='/' className="flex items-center gap-2">
                     <img src={logo} alt='logo' className='w-9 cursor-pointer object-cover' />
@@ -124,7 +123,7 @@ const Header = () => {
 
                 <li className={classes.li}>
                     <motion.img className='w-10 rounded-full ease-in-out cursor-pointer drop-shadow-xl h-10 min-w-[40px] min-h-[40px]'
-                        whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user}.svg`} alt='profile' />
+                        whileTap={{ scale: 0.6, rotate: 180 }} src={`https://avatars.dicebear.com/api/bottts/${user?.name || "hello world"}.svg`} alt='profile' />
                 </li>
 
                 <li className='text-base text-gray-600 duration-100 transition-all cursor-pointer ease-in-out'>

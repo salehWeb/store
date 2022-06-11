@@ -13,7 +13,6 @@ export const auth = async (req: any, res: any, next: any) => {
         if (token) {
             decodedData = jwt.verify(token, seacrtJwt)
             req.userId = decodedData?.id
-            console.log('hello world from auth');
             next()
         }
 
@@ -29,9 +28,7 @@ export const isAdman = async (req: any, res: any, next: any) => {
 
         if (token) {
             decodedData = jwt.verify(token, seacrtJwt)
-            console.log(decodedData)
             if (decodedData.email !== 'salehwebdev2004@gmail.com') return res.status(200).json({ msg: "user not athorstion" })
-            console.log('hello world from admain');
             next()
         }
 

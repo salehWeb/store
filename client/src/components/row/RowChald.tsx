@@ -1,4 +1,4 @@
-import {  useEffect, useState } from 'react'
+import {  useEffect } from 'react'
 import Loader from '../tools/Loader'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -14,14 +14,16 @@ const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }:
     const handelItemModel = () => {
         dispatch(getItemPageData(item, history))
     }
-    
-    useEffect(() => {
-        console.log(item)
-    }, [item])
 
     return (
 
-        <div key={item._id} className={`bg-Blur h-[270px]  min-w-[180px] md:min-w-[220px] flex flex-col   rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg shadow-xl relative`}>
+        <motion.div
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: -100, opacity: 0 }}
+        transition={{ duration: 0.8 }}
+        key={item._id}
+        className={`bg-Blur h-[270px]  min-w-[180px] md:min-w-[220px] flex flex-col   rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg shadow-xl relative`}>
             <div className="w-full flex flex-col items-center justify-between -p-2">
                 <div className="w-full flex justify-between items-center mb-16">
                     {item.discount !== 0 ?
@@ -58,17 +60,17 @@ const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }:
             <div className="w-full flex flex-wrap items-center justify-between ">
                 {items && items.find((id: any) => id._id === item._id) ?
                     (
-                        <motion.div whileTap={{ scale: 0.6, options: 0.6 }} className="w-8 h-8 rounded-full  bg-gradient-to-tr from-blue-300 to-blue-600   flex items-center justify-center cursor-pointer hover:shadow-md ">
+                        <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8 rounded-full  bg-gradient-to-tr from-blue-300 to-blue-600   flex items-center justify-center cursor-pointer hover:shadow-md ">
                             <MdAddTask className='text-white' />
                         </motion.div>
                     ) : (
-                        <div className="w-8 h-8  duration-75 rounded-full bg-gradient-to-tr  from-red-300 to-red-600 flex items-center justify-center cursor-pointer hover:shadow-md ">
-                            <MdShoppingCart onClick={() => handelAdd(item)} className='text-white' />
-                        </div>
+                        <motion.div whileTap={{ scale: 0.6 }} className="w-8 h-8  duration-75 rounded-full bg-gradient-to-tr  from-red-300 to-red-600 flex items-center justify-center cursor-pointer hover:shadow-md ">
+                            <MdShoppingCart  onClick={() => handelAdd(item)} className='text-white' />
+                        </motion.div>
                     )}
                 <p className="text-gray-700 md:text-lg flex justify-between text-semibold text-base">{item.title}</p>
             </div>
-        </div >
+        </motion.div >
     )
 }
 

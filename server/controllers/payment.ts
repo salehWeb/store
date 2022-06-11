@@ -12,11 +12,9 @@ export const getPayemanet = async (req: any, res: Response) => {
         for (let i = 0; i < items.length; i++) {
             total += data[i].price * items[i].q - data[i].price * items[i].discount * items[i].q
         }
-        console.log(total)
         return total
     }
 
-    console.log(data)
 
     try {
         const newPament = new payment({ items, total: total(), user: { email: user.email, name: user.name, _id: req.userId }, sendAt: new Date().toISOString() })
@@ -52,7 +50,6 @@ export const getPayment = async (req: Request, res: Response) => {
 
         const data = await payment.findById(id, { items: 1 })
         res.status(201).json(data)
-        console.log(id);
     }
     catch (error: any) {
         console.log(error);
@@ -98,8 +95,6 @@ export const canselPayment = async (req: Request, res: Response) => {
 export const getHistoryPayments = async (req: Request, res: Response) => {
     const pagetion = req?.query?.pagetion
     const clientTotal = req?.query?.total
-    console.log(pagetion)
-    console.log(clientTotal)
 
     try {
 
