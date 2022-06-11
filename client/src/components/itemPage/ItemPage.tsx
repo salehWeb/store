@@ -36,14 +36,17 @@ const ItemPage = () => {
         setLikeLength(item?.likes?.length)
     }, [item])
 
-    const handelAdd = (itemey: any) => {
-        items?.length <= 0 ? setItems([itemey]) : setItems([...items, itemey]);
+    const handelAdd = async (itemey: any) => {
+        cards?.length <= 0 ? setItems([itemey]) : setItems([...cards, itemey]);
 
-        localStorage.setItem(`cardItems`, JSON.stringify(items))
+        await localStorage.setItem(`cardItems`, JSON.stringify(items))
 
         dispatch({ type: actionTypes.SET_CARD })
     }
 
+    useEffect(() => {
+        localStorage.setItem(`cardItems`, JSON.stringify(items))
+    }, [items])
 
     const getItem = async () => {
         if (itemPage) {

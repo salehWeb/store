@@ -44,6 +44,7 @@ const CreatItem = () => {
 
   const handelCansel = () => {
     setAllState(defaulValue)
+    setLoadingBtn(false)
   }
 
 
@@ -51,13 +52,33 @@ const CreatItem = () => {
     setAllState({ ...allState, img: '' })
   }
 
-
   const handelSaveData = async (e: any) => {
     e.preventDefault()
     setLoadingBtn(true)
 
     if (isUpData) {
-      await upDataCard(isUpData, allState).catch(err => console.log(err))
+      await upDataCard(isUpData, allState)
+      .then(async (res) => {
+        if (res.data.msg === "susses updated") {
+          await Swal.fire({
+            icon: 'success',
+            title: 'success',
+            text: `${res.data.msg}`
+          })
+          setLoadingBtn(false)
+          setIsUpData(false)
+        } else {
+          await Swal.fire({
+            icon: 'error',
+            title: 'Filed',
+            text: `${res.data.msg}`
+          })
+          setLoadingBtn(false)
+          setIsUpData(false)
+        }
+      })
+      .catch(err => console.log(err))
+      setLoadingBtn(false)
     }
     else {
       await postCard(allState).then(async res => {
@@ -132,7 +153,7 @@ const CreatItem = () => {
               value={allState.discount}
               onChange={(e) => setAllState({ ...allState, discount: e.target.value })}
               className="flex p-2 mb-6 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 ">
-              <option selected value="0">none</option>
+              <option value="0">none</option>
               <option value={`0.10`}>10%</option>
               <option value={`0.20`}>20%</option>
               <option value={`0.30`}>30%</option>
@@ -162,7 +183,7 @@ const CreatItem = () => {
               <option value="chicken">Chicken</option>
               <option value="purger">Burger</option>
               <option value="Pizza">Pizza</option>
-              <option selected value="Other">Other</option>
+              <option value="Other">Other</option>
             </select>
           </div>
         </div>
@@ -255,7 +276,7 @@ const CreatItem = () => {
 
         <div className="flex items-center justify-between w-full">
           {isLoadingBtn ? (
-            <div className="ml-0  w-24   border-none outline-none flex justify-center items-center bg-emerald-500 px-2 py-2 rounded-lg text-lg text-white font-semibold" >
+            <div className="ml-0  w-24  max-h-10 border-none outline-none flex justify-center items-center bg-emerald-500 px-2 py-2 rounded-lg text-lg text-white font-semibold" >
               <Loader />
             </div>
           ) : (

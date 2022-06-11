@@ -4,9 +4,12 @@ import EmtyCart from './EmtyCart'
 import Loader from '../tools/Loader'
 import { AnimatePresence } from 'framer-motion'
 import TotalCard from './TotalCard'
+import * as actionTypes from '../../context/actionTypes'
+import { useDispatch } from 'react-redux'
 
 
 const Cart = () => {
+    const dispatch = useDispatch()
     const [Cards, setCards] = useState<any>([])
     const isHAveCart: any = localStorage.getItem('cardItems')
     const [reRenderTotal, setRerenderToatl] = useState(false)
@@ -19,9 +22,9 @@ const Cart = () => {
 
     const handelDelet = (id: any) => {
         const filterd = Cards?.filter((item: any) => item._id !== id)
-        setCards(filterd)
         localStorage.setItem('cardItems', JSON.stringify(filterd))
-        setRerenderToatl((re: Boolean) => !re)
+        dispatch({type: actionTypes.SET_CARD})
+        setCards(filterd)
     }
 
 
@@ -66,11 +69,11 @@ const Cart = () => {
                             <div className="w-full h-full gap-4 flex flex-col ">
                                 {Cards && Cards.map((item: any) => {
                                     return (
-                                        <div key={item._id} className="flex">
-                                            <AnimatePresence >
+                                        <>
+                                            <AnimatePresence key={item._id}>
                                                 <CardCom item={item} setRerenderToatl={setRerenderToatl} Cards={Cards} handelDelet={handelDelet} />
                                             </AnimatePresence >
-                                        </div>
+                                        </>
                                     )
                                 })}
                             </div>

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { setUser, SingWithGoogle } from '../../server'
 import GoogleLogin from 'react-google-login'
 import { Link, useNavigate } from 'react-router-dom'
+import {motion} from 'framer-motion'
 import LoderBtn from '../tools/LoderBtn'
 
 const Singin = () => {
@@ -14,7 +15,7 @@ const Singin = () => {
     password: '',
     email: ''
   }
-  
+
   const Client_ID = process.env.REACT_APP_VAR_ClEINT_ID === undefined ? '' : process.env.REACT_APP_VAR_ClEINT_ID;
 
   const [forms, setForms] = useState(DefultFormVaule)
@@ -99,7 +100,7 @@ const Singin = () => {
         title: 'filed',
         text: `${e.message}`
       })
-      
+
     })
 
     if (msg === " acount sucssfuly created ") {
@@ -135,7 +136,11 @@ const Singin = () => {
       <section className="h-screen w-full ">
         <div className="container px-6 py-12 w-full h-full">
           <div className="flex justify-center items-center w-full h-full text-gray-800 ">
-            <form onSubmit={(e) => handelSubmit(e)} className='lg:min-w-[66%] min-w-[80%] bg-white rounded-md shadow-lg p-4'>
+            <motion.form
+              initial={{ opacity: 0, y: -200 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              onSubmit={(e) => handelSubmit(e)} className='w-[30rem] h-auto bg-white rounded-md shadow-lg p-4'>
 
               <h1 className='text-2xl mb-4'>Sing in <hr className='mt-2' /></h1>
 
@@ -222,21 +227,21 @@ const Singin = () => {
               <GoogleLogin
                 clientId={Client_ID}
                 render={(prop: any) => (
-                  <div
-                    className="px-7 font-medium bg-gray-300 text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center  items-center"
-                    role="button"
+                  <button
+                    type="button"
                     data-mdb-ripple="true"
                     data-mdb-ripple-color="light"
                     onClick={prop.onClick}
-                  >
-                    <FcGoogle className=' flex w-10 h-8 lg:w-16 md:w-14 p-[2px] rounded-sm min-h-full  ' />
-                  </div>
+                    className="text-white bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-md flex justify-center items-center text-md px-5 py-2.5 text-center min-w-full mb-2">
+                    <FcGoogle className="w-6 h-6 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" />
+                    Sing in with Google
+                  </button>
                 )}
                 onSuccess={handelSuccess}
                 onFailure={handelFailure}
               />
 
-            </form>
+            </motion.form>
           </div>
         </div>
       </section>

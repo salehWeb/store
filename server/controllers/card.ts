@@ -45,7 +45,7 @@ export const postCard = async (req: Request, res: Response) => {
 
 export const getCard = async (req: Request, res: Response) => {
     try {
-        const data: any = await card.find()
+        const data: any = await card.find({}, { likes: 1, _id: 1, discount: 1, title: 1, price: 1, createdAt: 1, type: 1, pieces: 1 })
         res.status(201).json(data)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
@@ -118,13 +118,13 @@ export const getMostLOvedItems = async (req: Request, res: Response) => {
 export const upDataProdectd = async (req: Request, res: Response) => {
     const id = req.params.id
     const data = await req.body
-    try {
-        const result = await card.findByIdAndUpdate(id, { ...data, createdAt: new Date().toISOString() })
-        res.status(201).json(result)
-    } catch (error: any) {
-        res.status(201).json({ msg: error.message })
-        console.log(error)
-    }
+    
+        await card.findByIdAndUpdate(id, { ...data }).then(() => {
+            res.status(201).json({ msg: 'susses updated' })
+        }).catch(error => {
+            res.status(201).json({ msg: error.message })
+            console.log(error)
+        })
 }
 
 export const deletItem = async (req: Request, res: Response) => {

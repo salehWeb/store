@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { deletItem } from '../../../server/index'
 import moment from 'moment'
 import Swal from 'sweetalert2'
@@ -71,12 +71,18 @@ const Item = ({ item, index, card, setCard }: any) => {
             <td className="px-5 py-[10px]">
                 {item.likes.length}
             </td>
+
+            <td className="px-5 py-[10px] text-right">
+            {String(item.discount).split(".")[1] ? String(item.discount).split(".")[1] + "0%" : "none"}
+            </td>
+
             <td className="px-5 py-[10px] text-right">
                 <Link to={`/adman/CreatItem?id=${item._id}`} className="font-medium cursor-pointer text-blue-600 hover:underline">Edit</Link>
             </td>
+
             {isLoading ? (
                 <td className="px-5 py-[10px] text-right">
-                    <Loader />
+                    <div className="font-medium text-gray-600 hover:underline">Delete</div>
                 </td>
             ) : (
                 <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">

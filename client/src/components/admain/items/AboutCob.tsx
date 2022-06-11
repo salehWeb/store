@@ -19,8 +19,8 @@ const AboutCob = () => {
   return (
     <div className="min-h-[60vh]  flex justify-center items-center my-10">
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-300 uppercase bg-gray-700">
+        <table className="w-full text-sm text-left text-gray-500">
+          <thead className="text-xs text-gray-100 uppercase bg-gray-700">
             <tr>
               <th scope="col" className="px-5 py-[10px]">
                 Product name
@@ -43,11 +43,17 @@ const AboutCob = () => {
               </th>
 
               <th scope="col" className="px-5 py-[10px]">
+                discount
+              </th>
+
+              <th scope="col" className="px-5 py-[10px]">
                 <span className="sr-only">Edit</span>
               </th>
+
               <th scope="col" className="px-5 py-[10px]">
                 <span className="sr-only">Delete</span>
               </th>
+              
             </tr>
           </thead>
           <tbody>

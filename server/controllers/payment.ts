@@ -1,7 +1,6 @@
 import payment from '../models/payments'
 import card from '../models/card'
 import { Request, Response } from 'express'
-import { truncate } from 'fs/promises'
 
 export const getPayemanet = async (req: any, res: Response) => {
     const { user, items } = req.body

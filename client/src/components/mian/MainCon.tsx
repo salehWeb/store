@@ -1,5 +1,4 @@
 import { motion } from 'framer-motion'
-import { MdChevronLeft, MdChevronRight } from 'react-icons/md'
 import { RowCon, CardCon, Loader } from '../tools/index'
 import { useEffect, useState, useTransition } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -22,18 +21,20 @@ const MainCon = () => {
 
   useEffect(() => {
     setSershLoaction(window.location.search.split('=')[1])
-    isPending(() => {
-      const getSerch = async () => {
-        if (!search && serch) {
-          const { data } = await sesrshQurey(serch.split(' ').join(''))
-          dispatch({ type: actionTypes.GET_SEARCH, payload: data.data })
-          setSerch(data.data)
-        } else {
-          setSerch(search)
+    if (serch) {
+      isPending(() => {
+        const getSerch = async () => {
+          if (!search && serch) {
+            const { data } = await sesrshQurey(serch.split(' ').join(''))
+            dispatch({ type: actionTypes.GET_SEARCH, payload: data.data })
+            setSerch(data.data)
+          } else {
+            setSerch(search)
+          }
         }
-      }
-      getSerch()
-    })
+        getSerch()
+      })
+    }
   }, [dispatch, search, serch, isSearching])
 
 
@@ -60,7 +61,7 @@ const MainCon = () => {
               </div>
             </div>
             {startTransition ? (
-              <div className='flex justify-center items-center w-full min-h-[50vh]'>
+              <div className='flex justify-center items-center w-full max-h-[40vh]'>
                 <Loader />
               </div>
             ) : (

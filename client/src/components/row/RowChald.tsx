@@ -1,10 +1,9 @@
 import {  useEffect } from 'react'
-import Loader from '../tools/Loader'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { getItemPageData } from '../../context/Cardactions';
 
-const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }: any) => {
+const RowChald = ({ item, items, MdShoppingCart, index, MdAddTask, handelAdd, motion }: any) => {
     const history = useNavigate()
     const dispatch: any = useDispatch()
 
@@ -14,13 +13,14 @@ const RowChald = ({ item, items, MdShoppingCart, MdAddTask, handelAdd, motion }:
     const handelItemModel = () => {
         dispatch(getItemPageData(item, history))
     }
+    
+    const Anmatan = -(index * 100)
 
     return (
 
         <motion.div
-        initial={{ y: -100, opacity: 0 }}
+        initial={{ y: Anmatan, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        exit={{ y: -100, opacity: 0 }}
         transition={{ duration: 0.8 }}
         key={item._id}
         className={`bg-Blur h-[270px]  min-w-[180px] md:min-w-[220px] flex flex-col   rounded-lg py-2 px-4  my-12 backdrop-blur-lg hover:drop-shadow-lg shadow-xl relative`}>

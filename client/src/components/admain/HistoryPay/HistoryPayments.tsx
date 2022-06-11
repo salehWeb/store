@@ -60,8 +60,8 @@ const HistoryPayments = () => {
           <>
             <div className="min-h-[60vh] w-full flex  justify-center items-center my-10">
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
-                <table className="w-full text-sm text-left text-gray-500">
-                  <thead className="text-xs text-gray-300 uppercase bg-gray-700">
+                <table className="w-full text-sm text-left">
+                <thead className="text-xs text-gray-100 uppercase bg-gray-700">
                     <tr>
                       <th scope="col" className="px-5 py-[10px]">
                         Status

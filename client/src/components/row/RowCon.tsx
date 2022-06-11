@@ -48,13 +48,13 @@ const RowCon = ({ flag, data, loved }: any) => {
                     whileTap={{ cursor: "grabbing" }}
                     dragConstraints={{ right: 0, left: -scrollWidth }}
                     className="w-full flex gap-4 cursor-grab flex-row items-center justify-between">
-                    {!data ? <Loader /> : data.map((item: any) => (
-                        <RowChald loved={loved} items={items} key={item._id} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
+                    {!data ? <Loader /> : data.map((item: any, index: number) => (
+                        <RowChald loved={loved} items={items} index={index} key={item._id} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
                     ))}
                 </motion.div>
             ) : (
-                !data ? <Loader /> : data.map((item: any) => (
-                    <RowChald loved={loved} items={items} key={item._id} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
+                !data ? <Loader /> : data.map((item: any, index: number) => (
+                    <RowChald loved={loved} items={items}  key={item._id} index={index} item={item} MdShoppingCart={MdShoppingCart} cards={cards} MdAddTask={MdAddTask} handelAdd={handelAdd} motion={motion} />
                 ))
             )}
 
