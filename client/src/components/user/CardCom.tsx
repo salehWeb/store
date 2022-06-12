@@ -1,15 +1,28 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { getCartUser, likesProdectd } from '../../server'
+import { getCartUser, getImage, likesProdectd } from '../../server'
 import { MdOutlineCancelPresentation } from 'react-icons/md'
 import LoderBtn from '../tools/LoderBtn'
+import { Loader } from '../tools'
+import Swal from 'sweetalert2'
+import { useNavigate } from 'react-router-dom'
 
 const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
+    const history = useNavigate()
     const [Total, setTotal] = useState(1)
     const [likesC, setLikes] = useState(false)
     const [likeLength, setLikeLength] = useState(item?.likes?.length)
     const [isLoadingLike, setIsLoadingLike] = useState(false)
+    const [image, setImage] = useState('')
 
+
+    useEffect(() => {
+        const getImageServer = async () => {
+            const { data } = await getImage(item._id)
+            setImage(data.img)
+        }
+        getImageServer()
+    }, [])
 
 
     const haveAnacount = localStorage.getItem('profile')
@@ -20,11 +33,10 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
         }
     }, [])
 
+    const user = haveAnacount && JSON.parse(haveAnacount)?.user
 
-    const { user } = haveAnacount && JSON.parse(haveAnacount)
-
-    const userEmail: any = `${user.email}`
-    const userName: any = `${user.name}`
+    const userEmail: any = `${user?.email}`
+    const userName: any = `${user?.name}`
 
 
     useEffect(() => {
@@ -48,17 +60,40 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
 
 
     const handelLikes = async () => {
-        setIsLoadingLike(true)
-        setLikes(!likesC)
-        if (!likesC) {
-
-            setLikeLength(likeLength + 1)
+        if (haveAnacount) {
+            setIsLoadingLike(true)
+            setLikes(!likesC)
+            if (!likesC) {
+    
+                setLikeLength(likeLength + 1)
+            } else {
+                setLikeLength(likeLength - 1)
+            }
+            await likesProdectd(item._id, { email: userEmail, name: userName })
+                .catch(error => console.log(error))
+            setIsLoadingLike(false)
         } else {
-            setLikeLength(likeLength - 1)
+            Swal.fire({
+                title: 'You must login to like',
+                icon: 'warning',
+                confirmButtonText: 'Login',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#3085d6',
+                reverseButtons: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                focusConfirm: false,
+                focusCancel: false,
+                preConfirm: () => {
+                    history('/login')
+                }
+            })
+
         }
-        await likesProdectd(item._id, { email: userEmail, name: userName })
-            .catch(error => console.log(error))
-        setIsLoadingLike(false)
+
     }
 
 
@@ -136,9 +171,15 @@ const CardCom = ({ handelDelet, item, setRerenderToatl, Cards }: any) => {
                             )}
                     </div>
 
-                    <div className="h-32 flex rounded-lg justify-center items-center w-full bg-white ">
-                        <img className=' w-full  h-full object-contain' src={item.img} alt={item.title} />
-                    </div>
+                    {image ? (
+                        <div className="h-32 flex rounded-lg justify-center items-center w-full bg-white ">
+                            <img className=' w-full  h-full object-contain' src={image} alt={item.title} />
+                        </div>
+                    ) : (
+                        <div className="h-32 flex rounded-lg justify-center items-center w-full bg-white ">
+                            <Loader />
+                        </div>
+                    )}
 
                     <div className="flex  h-fit flex-col justify-center items-center rounded-lg">
                         <p className="text-base  w-fit"><span className='text-2xl'>{item.title}</span>

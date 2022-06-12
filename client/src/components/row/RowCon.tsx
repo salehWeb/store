@@ -22,7 +22,10 @@ const RowCon = ({ flag, data, loved }: any) => {
 
 
     const handelAdd = async (itemey: any) => {
-        items?.length <= 0 ? setItems([itemey]) : setItems([...items, itemey]);
+        const {_id, title, type, likes, price, discount, desc, pieces} = itemey;
+        const data = { _id, title, type, likes, price, discount, desc, pieces };
+        
+        cards?.length <= 0 ? setItems([data]) : setItems([...cards, data]);
 
         await localStorage.setItem(`cardItems`, JSON.stringify(items))
 

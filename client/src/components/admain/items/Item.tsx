@@ -4,6 +4,8 @@ import moment from 'moment'
 import Swal from 'sweetalert2'
 import { Loader } from '../../tools'
 import { Link, useNavigate } from 'react-router-dom'
+import { FiDelete } from 'react-icons/fi'
+import { MdEditOff } from 'react-icons/md'
 
 const Item = ({ item, index, card, setCard }: any) => {
 
@@ -77,16 +79,16 @@ const Item = ({ item, index, card, setCard }: any) => {
             </td>
 
             <td className="px-5 py-[10px] text-right">
-                <Link to={`/adman/CreatItem?id=${item._id}`} className="font-medium cursor-pointer text-blue-600 hover:underline">Edit</Link>
+                <Link to={`/adman/CreatItem?id=${item._id}`} className="font-medium cursor-pointer  hover:text-blue-500 text-blue-600 text-lg"><MdEditOff /></Link>
             </td>
 
             {isLoading ? (
                 <td className="px-5 py-[10px] text-right">
-                    <div className="font-medium text-gray-600 hover:underline">Delete</div>
+                    <FiDelete className="font-medium hover:text-gray-500 text-gray-500 text-lg "></FiDelete>
                 </td>
             ) : (
                 <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">
-                    <div className="font-medium cursor-pointer text-red-600 hover:underline">Delete</div>
+                    <FiDelete className="font-medium cursor-pointer hover:text-red-500 text-red-500 text-lg "></FiDelete>
                 </td>
             )}
         </tr>

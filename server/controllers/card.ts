@@ -146,7 +146,7 @@ export const commentItem = async (req: Request, res: Response) => {
     const comment = req.body.comment
     try {
         const result = await card.findByIdAndUpdate(itemID, { $push: { comments: { email: email, name: name, _id: id, comment: comment } } }, { new: true })
-        res.status(201).json(result)
+        res.status(201).json(result.comments)
     } catch (error: any) {
         res.status(201).json({ msg: error.message })
         console.log(error)
@@ -161,7 +161,7 @@ export const upDataComment = async (req: Request, res: Response) => {
     try {
         await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: commentId, name: name, email: email } } }, { new: true }).then(async () => {
             const result = await card.findByIdAndUpdate(itemID, { $push: { comments: { email: email, name: name, _id: commentId, comment: newComment } } }, { new: true })
-            res.status(201).json(result)
+            res.status(201).json(result.comments)
         })
 
     } catch (error: any) {
@@ -176,8 +176,7 @@ export const deleteComment = async (req: Request, res: Response) => {
     const { email, name } = req.body.user
 
     try {
-        const updataed = await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: id, name: name, email: email } } }, { new: true })
-        res.status(202).json(updataed)
+        await card.findByIdAndUpdate(itemID, { $pull: { comments: { _id: id, name: name, email: email } } }, { comments: 1, _id: 0 })
     }
     catch (error: any) {
         res.status(202).json(error.message)

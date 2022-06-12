@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Loader } from './components/tools/index'
 import { AnimatePresence } from 'framer-motion'
+import Swal from 'sweetalert2';
 const MainCon = React.lazy(() => import('./components/mian/MainCon'))
 const Cart = React.lazy(() => import('./components/user/Cart'))
 const ItemPage = React.lazy(() => import('./components/itemPage/ItemPage'))
@@ -19,6 +20,28 @@ const Header = React.lazy(() => import('./components/header/Header'))
 const Footer = React.lazy(() => import('./components/footer/Footer'))
 
 function App() {
+
+  window.addEventListener('offline', () => {
+    Swal.fire({
+      title: 'You are offline',
+      text: 'Please check your internet connection',
+      icon: 'error',
+      confirmButtonText: 'Ok',
+      confirmButtonColor: '#f44336',
+      showCancelButton: false,
+      showConfirmButton: true,
+      cancelButtonText: 'Cancel',
+      cancelButtonColor: '#f44336',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      allowEnterKey: false,
+      reverseButtons: true,
+      focusConfirm: false,
+      focusCancel: false,
+      timer: 5000,
+      timerProgressBar: true
+  })
+})
 
   const isHaveAcount = localStorage.getItem('profile')
   const isAdman = isHaveAcount && JSON.parse(isHaveAcount).user?.isAdman

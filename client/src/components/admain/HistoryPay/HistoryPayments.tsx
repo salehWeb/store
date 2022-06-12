@@ -1,5 +1,4 @@
-import moment from 'moment'
-import React, { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getHistoryPayments } from '../../../server'
 import Pagntion from '../../pagntion/Pagntion'
 import { Loader } from '../../tools'
@@ -25,30 +24,41 @@ const HistoryPayments = () => {
   }, [page])
 
   const handelNext = () => {
-    setPage(page + 1)
+    if (page + 1 > Math.ceil(allTotal / 8)) {
+      setPage(1)
+    } else {
+      setPage(page + 1)
+    }
   }
+
   const handelPrevious = () => {
-    setPage(page - 1)
+    if (page === 1) {
+      setPage(Math.ceil(allTotal / 8))
+    } else {
+      setPage(page - 1)
+    }
   }
+
   const handelPageLength = (pageLength: number) => {
-    setPage(pageLength)
+    setPage(pageLength + 1)
   }
 
 
-  let pageLength: any = useMemo(() => { return [] }, [])
+  const [pageLength, setpageLength] = useState<any>()
 
   useEffect(() => {
     if (allTotal) {
+      const data = []
       for (let i = 0; i <= allTotal / 8; i++) {
-
-        pageLength.push({
+        data.push({
           page: i + 1,
           active: page === i + 1 ? true : false
         })
-
       }
+      setpageLength(data)
+      console.log(pageLength)
     }
-  }, [allTotal, page, pageLength])
+  }, [allTotal, page])
 
 
   return (
@@ -61,7 +71,7 @@ const HistoryPayments = () => {
             <div className="min-h-[60vh] w-full flex  justify-center items-center my-10">
               <div className="relative overflow-x-auto shadow-md sm:rounded-lg ">
                 <table className="w-full text-sm text-left">
-                <thead className="text-xs text-gray-100 uppercase bg-gray-700">
+                  <thead className="text-xs text-gray-100 uppercase bg-gray-700">
                     <tr>
                       <th scope="col" className="px-5 py-[10px]">
                         Status
@@ -92,10 +102,11 @@ const HistoryPayments = () => {
                 </table>
               </div>
             </div>
-
-            <div className="flex w-full justify-center items-center">
-              <Pagntion pageLength={pageLength} handelNext={handelNext} handelPrevious={handelPrevious} handelPageLength={handelPageLength} />
-            </div>
+            {pageLength && (
+              <div className="flex w-full justify-center items-center">
+                <Pagntion pageLength={pageLength} handelNext={handelNext} handelPrevious={handelPrevious} handelPageLength={handelPageLength} />
+              </div>
+            )}
           </>
         ) : (
           <div className="flex justify-center items-center">

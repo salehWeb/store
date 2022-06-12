@@ -7,24 +7,32 @@ import LoderBtn from '../tools/LoderBtn';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionTypes from '../../context/actionTypes';
 import { MdAddTask, MdShoppingCart } from 'react-icons/md';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 
 const ItemPage = () => {
-
+    const history = useNavigate()
 
     const [item, setItem] = useState<any>()
     const [comment, setComment] = useState("")
     const [likesC, setLikes] = useState(false)
     const [isUpdata, setIsUpdata] = useState(false)
     const [data, setData] = useState<any>()
-    const isHaveAcount = localStorage.getItem('profile')
-    const user = isHaveAcount && JSON.parse(isHaveAcount).user
     const [likeLength, setLikeLength] = useState(item?.likes?.length || 0)
     const [isLoading, setIsLoading] = useState(false)
     const [isLoadingLike, setIsLoadingLike] = useState(false)
+    const [commentsData, setCommentsData] = useState([])
+
+
+    const isHaveAcount = localStorage.getItem('profile')
+    const user = isHaveAcount && JSON.parse(isHaveAcount)?.user
 
     const dispatch = useDispatch()
 
+    useEffect(() => {
+        setCommentsData(item?.comments || [])
+    }, [item])
 
     useEffect(() => { dispatch({ type: actionTypes.SET_CARD }) }, [dispatch])
 
@@ -37,7 +45,10 @@ const ItemPage = () => {
     }, [item])
 
     const handelAdd = async (itemey: any) => {
-        cards?.length <= 0 ? setItems([itemey]) : setItems([...cards, itemey]);
+        const {_id, title, type, likes, price, discount, desc, pieces} = itemey;
+        const data = { _id, title, type, likes, price, discount, desc, pieces };
+        
+        cards?.length <= 0 ? setItems([data]) : setItems([...cards, data]);
 
         await localStorage.setItem(`cardItems`, JSON.stringify(items))
 
@@ -66,34 +77,55 @@ const ItemPage = () => {
 
     const handelSubmitComment = async (e: any) => {
         e.preventDefault()
-        setIsLoading(true)
-        if (!isUpdata) {
-            if (comment !== "") {
+        if (isHaveAcount) {
+            setIsLoading(true)
+            if (!isUpdata) {
+                if (comment !== "") {
+                    const { email, name } = user
+                    const data = { comment: comment, user: { email, name } }
+                    await commentItem(item._id, data).then(async res => {
+                        console.log(res);
+                        setComment("")
+                        setCommentsData(res.data)
+                    }).catch(err => console.log(err))
+                }
+            } else {
                 const { email, name } = user
-                const data = { comment: comment, user: { email, name } }
-                await commentItem(item._id, data).then(async res => {
-                    await sesrshQurey(window.location.search.split("=")[1]).then(async res => {
-                        setItem(res.data.data[0])
-                    }).catch((error: any) => console.log(error))
-                    setComment("")
+                const id = data._id
+                const endData = { comment, id, user: { email, name } }
+                await updataComment(item._id, endData).then(res => {
+                    handelCansel()
+                    console.log(res);
+                    setCommentsData(res.data)
                 }).catch(err => console.log(err))
             }
-        } else {
-            const { email, name } = user
-            const id = data._id
-            const endData = { comment, id, user: { email, name } }
-            await updataComment(item._id, endData).then(res => {
-                handelCansel()
-                getItem()
-            }).catch(err => console.log(err))
+            setIsLoading(false)
+        } 
+        
+        else {
+            Swal.fire({
+                title: 'You must be logged in to comment',
+                icon: 'warning',
+                confirmButtonText: 'Login',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                reverseButtons: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                showLoaderOnConfirm: true,
+                preConfirm: () => {
+                    history("/login")
+                }
+            })
         }
-        setIsLoading(false)
+
     }
 
     const { itemPage } = useSelector((state: any) => state.card)
 
 
-    const userEmail: any = `${user.email}`
+    const userEmail: any = `${user?.email}`
 
     useEffect(() => {
         if (item) {
@@ -122,19 +154,41 @@ const ItemPage = () => {
     }, [])
 
     const handelLikes = async () => {
-        setIsLoadingLike(true)
-        setLikes(!likesC)
-        if (!likesC) {
-            setLikeLength(likeLength + 1)
-        } else {
-            setLikeLength(likeLength - 1)
-        }
-        const { email, name } = user
-        await likesProdectd(item._id, { email, name }).then(res => {
+        if (isHaveAcount) {
+            setIsLoadingLike(true)
+            setLikes(!likesC)
+            if (!likesC) {
+                setLikeLength(likeLength + 1)
+            } else {
+                setLikeLength(likeLength - 1)
+            }
+            const { email, name } = user
+            await likesProdectd(item._id, { email, name }).then(res => {
+                setIsLoadingLike(false)
+            })
+                .catch(error => console.log(error))
             setIsLoadingLike(false)
-        })
-            .catch(error => console.log(error))
-        setIsLoadingLike(false)
+        } else {
+            Swal.fire({
+                title: 'You must be logged in to like this item',
+                icon: 'warning',
+                confirmButtonText: 'Login',
+                showCancelButton: true,
+                cancelButtonText: 'Cancel',
+                cancelButtonColor: '#d33',
+                confirmButtonColor: '#3085d6',
+                reverseButtons: true,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                focusConfirm: false,
+                focusCancel: false,
+                preConfirm: () => {
+                    history("/login")
+                }
+            })
+        }
+
     }
 
 
@@ -298,8 +352,8 @@ const ItemPage = () => {
                         </div>
 
                         <div className="flex justify-center  items-center gap-6 flex-col h-fit w-full rounded-lg">
-                            {item.comments && item.comments.map((items: any, index: number) => (
-                                <Comments getItem={getItem} item={items} user={user} setData={setData} key={items._id + index} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
+                            {commentsData && commentsData.map((items: any, index: number) => (
+                                <Comments getItem={getItem} commentsData={commentsData} setCommentsData={setCommentsData} item={items} user={user} setData={setData} key={items._id + index} id={item._id} setIsUpdata={setIsUpdata} setComment={setComment} />
                             ))}
 
                         </div>

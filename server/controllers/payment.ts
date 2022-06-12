@@ -100,15 +100,16 @@ export const getHistoryPayments = async (req: Request, res: Response) => {
 
         if (!clientTotal) {
             const total = await payment.countDocuments({ $or: [{ isSendIt: true }, { isCancel: true }] })
-            const data = await payment.find({ $or: [{ isCancel: true }, { isSendIt: true }] }).limit(8)
+            const data = await payment.find({ $or: [{ isCancel: true }, { isSendIt: true }] }).limit(8).skip((Number(pagetion) - 1) * 8)
             res.status(201).json({ data: data, total: total })
         }
 
         else {
-            const data = await payment.find({ $or: [{ isCancel: true }, { isSendIt: true }] }).limit(8)
+            const data = await payment.find({ $or: [{ isCancel: true }, { isSendIt: true }] }).limit(8).skip((Number(pagetion) - 1) * 8)
             res.status(201).json(data)
         }
 
+        console.log(pagetion)
     }
     catch (error: any) {
         console.log(error);

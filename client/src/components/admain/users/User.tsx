@@ -1,8 +1,9 @@
 import moment from 'moment'
 import Swal from 'sweetalert2'
-import Loader from '../../tools/Loader'
+
 import { useState } from 'react'
 import { deletUser } from '../../../server/index'
+import { FiDelete } from 'react-icons/fi'
 
 
 
@@ -57,12 +58,12 @@ const User = ({ item, index, setUsers, users }: any) => {
                 {moment(item.createdAt).fromNow()}
             </td>
             {isLoading ? (
-                <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">
-                    <Loader />
+                    <td onClick={() => handelDelet(item._id)} className=" px-5 py-[10px] text-lg text-right">
+                    <FiDelete className="font-medium text-gray-600 hover:underline"></FiDelete>
                 </td>
             ) : (
-                <td onClick={() => handelDelet(item._id)} className="px-5 py-[10px] text-right">
-                    <div className="font-medium cursor-pointer text-red-600 hover:underline">Delete</div>
+                <td onClick={() => handelDelet(item._id)} className=" px-5 py-[10px] text-lg text-right">
+                    <FiDelete className="font-medium cursor-pointer text-red-600  hover:text-red-500"></FiDelete>
                 </td>
             )}
         </tr>

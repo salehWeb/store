@@ -60,7 +60,9 @@ const CardCon = ({ data }: any) => {
         {loved.length >= 1 ? (
           <RowCon loved={true} flag={true} data={loved} />
         ) : (
-          <Loader />
+          <div className="flex justify-center items-center w-full max-h-[30vh]">
+            <Loader />
+          </div>
         )}
 
         <p className="text-2xl mt-40 font-semibold mb-4 capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-16 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-blue-400 to-blue-600 mr-auto">

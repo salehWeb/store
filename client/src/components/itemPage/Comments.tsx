@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { deleteComment } from '../../server/index'
 
 
-const Comments = ({ item, setData, user, setIsUpdata, setComment, id, getItem }: any) => {
+const Comments = ({ item, setData, user, setIsUpdata, commentsData, setComment, setCommentsData, id, getItem }: any) => {
     const [isVasbl, setIsVasbl] = useState(false)
 
 
@@ -16,12 +16,13 @@ const Comments = ({ item, setData, user, setIsUpdata, setComment, id, getItem }:
     }
 
     const handelDelete = async () => {
+        console.log("handelDelete")
         setIsVasbl(false)
         const { email, name} = user
         const commentId = item._id
-        await deleteComment(id, { id: commentId, user: { email, name } }).then(res => {
-            getItem()
-        }).catch(err => console.log(err))
+        const filterdComments = commentsData.filter((item: any) => item._id !== commentId)
+        setCommentsData(filterdComments)
+        await deleteComment(id, { id: commentId, user: { email, name } })
     }
 
     const handelUpdata = () => {
@@ -34,7 +35,7 @@ const Comments = ({ item, setData, user, setIsUpdata, setComment, id, getItem }:
         <>
             <section key={item._id} className="justify-center w-full flex flex-col items-center rounded-lg drop-shadow-lg bg-white px-4 p-2">
                 <div className="flex cursor-pointer relative w-full items-center">
-                    {item.email === user.email && (
+                    {item.email === user?.email && (
 
                         <FiMoreVertical onClick={handelVasbel} />
 

@@ -64,7 +64,7 @@ const Payments = () => {
             )}
             {reqSuccses && payment.length === 0 && (
                 <div className="text-center flex justify-center items-center w-full">
-                    <h1 className="text-2xl">No payment found</h1>
+                    <h1 className="text-2xl">No Orders Found</h1>
                 </div>
             )}
 
