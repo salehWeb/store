@@ -1,12 +1,10 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "homepage": "https://gitname.github.io/Selexome",
   "private": true,
   "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
     "@fvilers/disable-react-devtools": "^1.3.0",
-    "@mui/material": "^5.7.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
@@ -34,6 +32,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -60,6 +60,7 @@
   "devDependencies": {
     "@types/jsonwebtoken": "^8.5.8",
     "autoprefixer": "^10.4.5",
+    "gh-pages": "^4.0.0",
     "postcss": "^8.4.12",
     "tailwindcss": "^3.0.24"
   }
